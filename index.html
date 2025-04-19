@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IP INGENIERÍA - Sistema Web</title>
+  <meta charset="UTF-8">
+  <title>Dashboard IP INGENIERÍA</title>
 </head>
 <body>
-  <h1>Bienvenido a IP INGENIERÍA</h1>
-  <p id="mensaje">Cargando mensaje del backend...</p>
-
-  <script>
-    fetch("https://ipingenieria-backend.onrender.com")
-      .then(response => response.text())
-      .then(text => {
-        document.getElementById("mensaje").innerText = text;
-      })
-      .catch(err => {
-        document.getElementById("mensaje").innerText = "Error al conectar con el backend.";
-      });
-  </script>
+  <h1>Bienvenido al sistema IP INGENIERÍA</h1>
+  <ul>
+    <li>Clientes</li>
+    <li>Cotizaciones</li>
+    <li>Facturación</li>
+    <li>Proyectos</li>
+    <li>Actividades</li>
+    <li>Inventario</li>
+    <li>Flujo de dinero</li>
+    <li>Agenda técnica</li>
+  </ul>
+  <p>Panel base para conectar con backend real.</p>
 </body>
 </html>
