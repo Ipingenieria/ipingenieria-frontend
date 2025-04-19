@@ -2,15 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Login IP INGENIERÍA</title>
+  <title>Login - IP INGENIERIA</title>
 </head>
 <body>
   <h1>Login</h1>
-  <form>
-    <label>Usuario: <input type="email" /></label><br />
-    <label>Contraseña: <input type="password" /></label><br />
+  <form id="loginForm">
+    <label>Correo: <input type="email" id="email" required /></label><br />
+    <label>Contraseña: <input type="password" id="password" required /></label><br />
     <button type="submit">Ingresar</button>
   </form>
-  <p>Simulación del sistema completo con módulos empresariales.</p>
+  <p id="mensaje"></p>
+  <script src="login.js"></script>
 </body>
 </html>
