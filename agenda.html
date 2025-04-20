@@ -1,1 +1,79 @@
-<!DOCTYPE html><html><head><title>ipingenieria_agenda</title></head><body><h1>ipingenieria_agenda funcionando correctamente</h1></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agenda Técnica</title>
+  <style>
+    body { font-family: Arial; background: #f7f7f7; padding: 20px; }
+    h1 { color: #1E3A8A; }
+    .visita { margin-top: 20px; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 0 5px #ccc; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Crear Visita Técnica</h1>
+  <div>
+    <label>Cliente:
+      <input type="text" id="cliente" placeholder="Nombre del cliente">
+    </label><br><br>
+    <label>Dirección:
+      <input type="text" id="direccion" placeholder="Ej: Calle 123 #45-67">
+    </label><br><br>
+    <label>Fecha y hora:
+      <input type="datetime-local" id="fecha">
+    </label><br><br>
+    <label>Técnico asignado:
+      <input type="text" id="tecnico" placeholder="Nombre del técnico">
+    </label><br><br>
+    <label>Servicio:
+      <select id="servicio">
+        <option>CCTV</option>
+        <option>Citofonía</option>
+        <option>Controles de acceso</option>
+        <option>Alarma</option>
+        <option>Otro</option>
+      </select>
+    </label><br><br>
+    <button onclick="crearVisita()">Crear visita</button>
+    <p class="error" id="errorMsg"></p>
+  </div>
+
+  <div id="resultado" class="visita" style="display:none;">
+    <h2>Visita registrada</h2>
+    <p id="detalle"></p>
+  </div>
+
+  <script>
+    function crearVisita() {
+      const cliente = document.getElementById("cliente").value;
+      const direccion = document.getElementById("direccion").value;
+      const fecha = document.getElementById("fecha").value;
+      const tecnico = document.getElementById("tecnico").value;
+      const servicio = document.getElementById("servicio").value;
+      const errorMsg = document.getElementById("errorMsg");
+      const resultado = document.getElementById("resultado");
+      const detalle = document.getElementById("detalle");
+
+      if (!cliente) {
+        errorMsg.textContent = "⚠️ Debe ingresar un cliente existente.";
+        resultado.style.display = "none";
+        return;
+      }
+
+      if (!direccion || !fecha || !tecnico) {
+        errorMsg.textContent = "⚠️ Todos los campos son obligatorios.";
+        resultado.style.display = "none";
+        return;
+      }
+
+      errorMsg.textContent = "";
+      detalle.innerHTML = `<strong>Cliente:</strong> ${cliente}<br>
+                           <strong>Dirección:</strong> ${direccion}<br>
+                           <strong>Fecha:</strong> ${fecha}<br>
+                           <strong>Técnico:</strong> ${tecnico}<br>
+                           <strong>Servicio:</strong> ${servicio}`;
+      resultado.style.display = "block";
+    }
+  </script>
+</body>
+</html>
