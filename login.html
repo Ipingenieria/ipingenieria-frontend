@@ -2,16 +2,37 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Login - IP INGENIERIA</title>
+  <title>Login IP Ingeniería</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #eef1f5; }
+    input, button { padding: 8px; margin: 5px; }
+  </style>
 </head>
 <body>
-  <h1>Login</h1>
-  <form id="loginForm">
-    <label>Correo: <input type="email" id="email" required /></label><br />
-    <label>Contraseña: <input type="password" id="password" required /></label><br />
-    <button type="submit">Ingresar</button>
-  </form>
-  <p id="mensaje"></p>
-  <script src="login.js"></script>
+  <h1>🔐 Iniciar Sesión</h1>
+  <input type="text" id="correo" placeholder="Correo"><br>
+  <input type="password" id="contrasena" placeholder="Contraseña"><br>
+  <button onclick="iniciarSesion()">Ingresar</button>
+  <p id="error" style="color:red;"></p>
+
+  <script>
+    // Leer destino original si fue redireccionado
+    const destino = localStorage.getItem("redirigir_a") || "index.html";
+
+    function iniciarSesion() {
+      const correo = document.getElementById("correo").value;
+      const contrasena = document.getElementById("contrasena").value;
+      const error = document.getElementById("error");
+
+      if (correo && contrasena) {
+        const usuario = { correo, rol: "admin" };
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+        error.textContent = "";
+        window.location.href = destino;
+      } else {
+        error.textContent = "⚠️ Debes ingresar todos los campos.";
+      }
+    }
+  </script>
 </body>
 </html>
