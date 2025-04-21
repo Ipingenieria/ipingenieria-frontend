@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Registro de Clientes - Debug</title>
+  <title>Registro de Clientes (Depuración)</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -54,31 +54,21 @@
   <script>
     async function guardarCliente() {
       try {
-        const nombre = document.getElementById('nombre').value;
-        const tipo = document.getElementById('tipo').value;
-        const telefono = document.getElementById('telefono').value;
-        const correo = document.getElementById('correo').value;
-        const direccion = document.getElementById('direccion').value;
-        const ciudad = document.getElementById('ciudad').value;
-        const nit = document.getElementById('nit').value;
-        const contacto = document.getElementById('contacto').value;
-        const observaciones = document.getElementById('observaciones').value;
-
         const data = {
-          nombre,
-          tipo,
-          telefono,
-          correo,
-          direccion,
-          ciudad,
-          nit,
-          contacto,
-          observaciones
+          nombre: document.getElementById('nombre').value,
+          tipo: document.getElementById('tipo').value,
+          telefono: document.getElementById('telefono').value,
+          correo: document.getElementById('correo').value,
+          direccion: document.getElementById('direccion').value,
+          ciudad: document.getElementById('ciudad').value,
+          nit: document.getElementById('nit').value,
+          contacto: document.getElementById('contacto').value,
+          observaciones: document.getElementById('observaciones').value
         };
 
-        console.log("📤 Enviando datos a Supabase:", data);
+        console.log("Enviando datos:", data);
 
-        const respuesta = await fetch("https://uyobgstmfukqncebtoli.supabase.co/rest/v1/clientes", {
+        const res = await fetch("https://uyobgstmfukqncebtoli.supabase.co/rest/v1/clientes", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -89,19 +79,18 @@
           body: JSON.stringify(data)
         });
 
-        const resultado = await respuesta.json();
-        console.log("✅ Respuesta de Supabase:", respuesta.status, resultado);
+        const resultado = await res.json();
+        console.log("Respuesta Supabase:", res.status, resultado);
 
-        if (respuesta.ok) {
-          alert("✅ Cliente registrado correctamente");
+        if (res.ok) {
+          alert("✅ Cliente registrado correctamente.");
           document.getElementById("formulario").reset();
         } else {
           alert("❌ Error al registrar el cliente. Revisa la consola.");
         }
-
-      } catch (error) {
-        console.error("❌ Error inesperado:", error);
-        alert("❌ Error inesperado. Revisa la consola del navegador.");
+      } catch (err) {
+        console.error("❌ Error inesperado:", err);
+        alert("❌ Error inesperado. Revisa la consola.");
       }
     }
   </script>
@@ -112,25 +101,34 @@
     <form id="formulario" onsubmit="event.preventDefault(); guardarCliente();">
       <label>🏢 Nombre o Razón Social</label>
       <input type="text" id="nombre" required>
+
       <label>👥 Tipo de Cliente</label>
       <select id="tipo">
         <option>Persona Natural</option>
         <option>Persona Jurídica</option>
       </select>
+
       <label>📞 Teléfono</label>
       <input type="text" id="telefono">
+
       <label>📧 Correo Electrónico</label>
       <input type="email" id="correo">
+
       <label>📍 Dirección</label>
       <input type="text" id="direccion">
+
       <label>🌆 Ciudad</label>
       <input type="text" id="ciudad">
+
       <label>🧾 NIT o Cédula</label>
       <input type="text" id="nit">
+
       <label>🙋 Contacto Responsable</label>
       <input type="text" id="contacto">
+
       <label>🗒️ Observaciones</label>
       <textarea id="observaciones" rows="3"></textarea>
+
       <button type="submit">💾 Guardar Cliente</button>
     </form>
   </div>
