@@ -2,78 +2,97 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Agenda Técnica</title>
+  <title>Agenda Técnica - IP INGENIERÍA</title>
   <style>
-    body { font-family: Arial; background: #f7f7f7; padding: 20px; }
-    h1 { color: #1E3A8A; }
-    .visita { margin-top: 20px; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 0 5px #ccc; }
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; background-color: #f0f2f5; }
+    label, input, select, textarea, button { display: block; width: 100%; margin-bottom: 10px; padding: 8px; }
+    h1 { text-align: center; }
+    .success { color: green; }
     .error { color: red; }
   </style>
 </head>
 <body>
-  <h1>Crear Visita Técnica</h1>
-  <div>
-    <label>Cliente:
-      <input type="text" id="cliente" placeholder="Nombre del cliente">
-    </label><br><br>
-    <label>Dirección:
-      <input type="text" id="direccion" placeholder="Ej: Calle 123 #45-67">
-    </label><br><br>
-    <label>Fecha y hora:
-      <input type="datetime-local" id="fecha">
-    </label><br><br>
-    <label>Técnico asignado:
-      <input type="text" id="tecnico" placeholder="Nombre del técnico">
-    </label><br><br>
-    <label>Servicio:
-      <select id="servicio">
-        <option>CCTV</option>
-        <option>Citofonía</option>
-        <option>Controles de acceso</option>
-        <option>Alarma</option>
-        <option>Otro</option>
-      </select>
-    </label><br><br>
-    <button onclick="crearVisita()">Crear visita</button>
-    <p class="error" id="errorMsg"></p>
-  </div>
+  <h1>📋 Crear Visita Técnica</h1>
+  <form id="agendaForm">
+    <label>Cliente (ID):</label>
+    <input type="number" id="cliente_id" required>
 
-  <div id="resultado" class="visita" style="display:none;">
-    <h2>Visita registrada</h2>
-    <p id="detalle"></p>
-  </div>
+    <label>Dirección:</label>
+    <input type="text" id="direccion" required>
+
+    <label>Técnico Asignado:</label>
+    <input type="text" id="tecnico" required>
+
+    <label>Servicio:</label>
+    <input type="text" id="servicio" required>
+
+    <label>Prioridad:</label>
+    <select id="prioridad">
+      <option value="Alta">Alta</option>
+      <option value="Media">Media</option>
+      <option value="Baja">Baja</option>
+    </select>
+
+    <label>Estado:</label>
+    <select id="estado">
+      <option value="Pendiente">Pendiente</option>
+      <option value="En proceso">En proceso</option>
+      <option value="Finalizado">Finalizado</option>
+    </select>
+
+    <label>Fecha y Hora:</label>
+    <input type="datetime-local" id="fecha_hora" required>
+
+    <label>Observaciones:</label>
+    <textarea id="observaciones"></textarea>
+
+    <button type="submit">💾 Guardar Visita</button>
+    <p id="respuesta" class=""></p>
+  </form>
 
   <script>
-    function crearVisita() {
-      const cliente = document.getElementById("cliente").value;
-      const direccion = document.getElementById("direccion").value;
-      const fecha = document.getElementById("fecha").value;
-      const tecnico = document.getElementById("tecnico").value;
-      const servicio = document.getElementById("servicio").value;
-      const errorMsg = document.getElementById("errorMsg");
-      const resultado = document.getElementById("resultado");
-      const detalle = document.getElementById("detalle");
+    const form = document.getElementById("agendaForm");
+    const respuesta = document.getElementById("respuesta");
 
-      if (!cliente) {
-        errorMsg.textContent = "⚠️ Debe ingresar un cliente existente.";
-        resultado.style.display = "none";
-        return;
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        cliente_id: parseInt(document.getElementById("cliente_id").value),
+        direccion: document.getElementById("direccion").value,
+        tecnico: document.getElementById("tecnico").value,
+        servicio: document.getElementById("servicio").value,
+        prioridad: document.getElementById("prioridad").value,
+        estado: document.getElementById("estado").value,
+        fecha_hora: document.getElementById("fecha_hora").value,
+        observaciones: document.getElementById("observaciones").value
+      };
+
+      try {
+        const res = await fetch("https://db.uyobgstmfukqncebtoli.supabase.co/rest/v1/agenda", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo"
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          respuesta.textContent = "✅ Visita registrada con éxito.";
+          respuesta.className = "success";
+          form.reset();
+        } else {
+          const error = await res.text();
+          respuesta.textContent = "❌ Error al guardar: " + error;
+          respuesta.className = "error";
+        }
+      } catch (error) {
+        respuesta.textContent = "❌ Error al conectar con Supabase.";
+        respuesta.className = "error";
       }
-
-      if (!direccion || !fecha || !tecnico) {
-        errorMsg.textContent = "⚠️ Todos los campos son obligatorios.";
-        resultado.style.display = "none";
-        return;
-      }
-
-      errorMsg.textContent = "";
-      detalle.innerHTML = `<strong>Cliente:</strong> ${cliente}<br>
-                           <strong>Dirección:</strong> ${direccion}<br>
-                           <strong>Fecha:</strong> ${fecha}<br>
-                           <strong>Técnico:</strong> ${tecnico}<br>
-                           <strong>Servicio:</strong> ${servicio}`;
-      resultado.style.display = "block";
-    }
+    });
   </script>
 </body>
 </html>
