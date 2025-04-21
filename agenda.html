@@ -3,19 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <title>Agendar Visita Técnica</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f5f8;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      background: white;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #143D4F;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #143D4F;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .hint {
+      font-size: 12px;
+      color: #555;
+      margin-top: 2px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #143D4F;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1d5a72;
+    }
+  </style>
 </head>
 <body>
-  <h1>Formulario de Agenda</h1>
-  <form>
-    <label>Cliente:</label><select><option>Cliente A</option><option>Cliente B</option></select><br>
-    <label>Servicio:</label><input type="text"><br>
-    <label>Fecha:</label><input type="date"><br>
-    <label>Hora:</label><input type="time"><br>
-    <label>Técnico:</label><input type="text"><br>
-    <label>Prioridad:</label><select><option>Alta</option><option>Media</option><option>Baja</option></select><br>
-    <label>Estado:</label><select><option>Pendiente</option><option>En proceso</option><option>Finalizado</option></select><br>
-    <label>Observaciones:</label><textarea></textarea><br>
-    <button>Guardar Visita</button>
-  </form>
+  <div class="container">
+    <h1>📝 Agendar Visita Técnica</h1>
+    <form>
+      <label>👤 Cliente</label>
+      <select required>
+        <option>Seleccione un cliente</option>
+        <option>Cliente A</option>
+        <option>Cliente B</option>
+      </select>
+      <div class="hint">Seleccione el cliente al que se le realizará la visita.</div>
+
+      <label>🛠 Servicio</label>
+      <input type="text" placeholder="Ej: Revisión de CCTV" required>
+      <div class="hint">Describa el servicio específico a realizar.</div>
+
+      <label>📅 Fecha</label>
+      <input type="date" required>
+      <div class="hint">Seleccione la fecha programada para la visita.</div>
+
+      <label>🕐 Hora</label>
+      <input type="time" required>
+      <div class="hint">Hora de inicio estimada para la visita.</div>
+
+      <label>🔧 Técnico Asignado</label>
+      <input type="text" placeholder="Nombre del técnico" required>
+      <div class="hint">Persona encargada de realizar la visita.</div>
+
+      <label>🚦 Prioridad</label>
+      <select>
+        <option>Alta</option>
+        <option>Media</option>
+        <option>Baja</option>
+      </select>
+      <div class="hint">Establezca la prioridad de atención para esta actividad.</div>
+
+      <label>📌 Estado</label>
+      <select>
+        <option>Pendiente</option>
+        <option>En proceso</option>
+        <option>Finalizado</option>
+      </select>
+      <div class="hint">Estado actual de la visita técnica.</div>
+
+      <label>📝 Observaciones</label>
+      <textarea rows="3" placeholder="Detalles adicionales..."></textarea>
+      <div class="hint">Información complementaria que se deba tener en cuenta.</div>
+
+      <button type="submit">💾 Guardar Visita</button>
+    </form>
+  </div>
 </body>
 </html>
