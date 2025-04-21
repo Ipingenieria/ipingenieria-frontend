@@ -2,35 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Facturacion</title>
-  <style>
-    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
-    header { display: flex; justify-content: space-between; margin-bottom: 20px; }
-    button { margin-left: 10px; }
-  </style>
+  <title>Facturación</title>
 </head>
 <body>
-  <header>
-    <h1>Facturacion</h1>
-    <div>
-      <button onclick="location.href='index.html'">🏠 Menú Principal</button>
-      <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
-    </div>
-  </header>
-
-  <p>Contenido de la página de Facturacion.</p>
-
-  <script>
-    // Protección de acceso
-    if (!localStorage.getItem("usuario")) {
-      window.location.href = "login.html";
-    }
-
-    // Cierre de sesión
-    function cerrarSesion() {
-      localStorage.removeItem("usuario");
-      window.location.href = "login.html";
-    }
-  </script>
+  <h1>Gestión de Facturas y Cuentas de Cobro</h1>
+  <p>Estado de pagos, retenciones e impuestos.</p>
 </body>
 </html>
