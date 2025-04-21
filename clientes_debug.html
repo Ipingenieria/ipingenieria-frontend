@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Clientes - Debug</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f5f8;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      background: white;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #143D4F;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #143D4F;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .hint {
+      font-size: 12px;
+      color: #555;
+      margin-top: 2px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #143D4F;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1d5a72;
+    }
+  </style>
+  <script>
+    async function guardarCliente() {
+      try {
+        const nombre = document.getElementById('nombre').value;
+        const tipo = document.getElementById('tipo').value;
+        const telefono = document.getElementById('telefono').value;
+        const correo = document.getElementById('correo').value;
+        const direccion = document.getElementById('direccion').value;
+        const ciudad = document.getElementById('ciudad').value;
+        const nit = document.getElementById('nit').value;
+        const contacto = document.getElementById('contacto').value;
+        const observaciones = document.getElementById('observaciones').value;
+
+        const data = {
+          nombre,
+          tipo,
+          telefono,
+          correo,
+          direccion,
+          ciudad,
+          nit,
+          contacto,
+          observaciones
+        };
+
+        console.log("Enviando datos a Supabase:", data);
+
+        const respuesta = await fetch("https://db.uyobgstmfukqncebtoli.supabase.co/rest/v1/clientes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo",
+            "Prefer": "return=representation"
+          },
+          body: JSON.stringify(data)
+        });
+
+        const respuestaJson = await respuesta.json();
+        console.log("Respuesta de Supabase:", respuesta.status, respuestaJson);
+
+        if (respuesta.ok) {
+          alert("✅ Cliente registrado correctamente");
+          document.getElementById("formulario").reset();
+        } else {
+          alert("❌ Error al registrar el cliente. Revisa la consola para más detalles.");
+        }
+
+      } catch (error) {
+        console.error("❌ Error en la función guardarCliente:", error);
+        alert("❌ Error inesperado. Revisa la consola del navegador.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>👤 Registro de Cliente (Debug)</h1>
+    <form id="formulario" onsubmit="event.preventDefault(); guardarCliente();">
+      <label>🏢 Nombre o Razón Social</label>
+      <input type="text" id="nombre" required>
+
+      <label>👥 Tipo de Cliente</label>
+      <select id="tipo">
+        <option>Persona Natural</option>
+        <option>Persona Jurídica</option>
+      </select>
+
+      <label>📞 Teléfono</label>
+      <input type="text" id="telefono">
+
+      <label>📧 Correo Electrónico</label>
+      <input type="email" id="correo">
+
+      <label>📍 Dirección</label>
+      <input type="text" id="direccion">
+
+      <label>🌆 Ciudad</label>
+      <input type="text" id="ciudad">
+
+      <label>🧾 NIT o Cédula</label>
+      <input type="text" id="nit">
+
+      <label>🙋 Contacto Responsable</label>
+      <input type="text" id="contacto">
+
+      <label>🗒️ Observaciones</label>
+      <textarea id="observaciones" rows="3"></textarea>
+
+      <button type="submit">💾 Guardar Cliente</button>
+    </form>
+  </div>
+</body>
+</html>
