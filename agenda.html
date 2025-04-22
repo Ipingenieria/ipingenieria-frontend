@@ -2,92 +2,100 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Agenda Técnica - IP Ingeniería</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agenda Técnica - IP INGENIERÍA Y AUTOMATISMO SAS</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
       margin: 0;
-      background: #f0f2f5;
+      padding: 20px;
       color: #333;
     }
-    header {
-      background-color: #0d3b56;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
     h1 {
-      margin: 0;
-    }
-    form {
-      background-color: white;
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      color: #004578;
     }
     label {
-      display: block;
-      margin-top: 15px;
       font-weight: bold;
+      display: block;
+      margin-top: 10px;
     }
     input, select, textarea {
       width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border-radius: 6px;
+      padding: 8px;
+      margin-top: 4px;
       border: 1px solid #ccc;
-      font-size: 14px;
+      border-radius: 4px;
     }
     button {
-      background-color: #0d3b56;
-      color: white;
-      padding: 12px 20px;
+      padding: 10px 15px;
+      background-color: #004578;
+      color: #fff;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      margin-top: 20px;
+      border-radius: 4px;
       cursor: pointer;
+      margin-top: 15px;
     }
     button:hover {
-      background-color: #14527a;
+      background-color: #003b6f;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 120px;
     }
   </style>
 </head>
 <body>
+  <div class="form-container">
+    <div class="logo">
+      <img src="logo_empresa.png" alt="Logo IP INGENIERÍA" />
+    </div>
+    <h1>🛠️ Agendar Visita Técnica</h1>
 
-<header>
-  <h1>📋 Agendar Visita Técnica</h1>
-</header>
+    <form id="formAgenda">
+      <label for="cliente_id">👤 Cliente</label>
+      <select id="cliente_id" required>
+        <option value="">Seleccione un cliente</option>
+      </select>
 
-<form id="agendaForm">
-  <label for="cliente_id">👤 Cliente</label>
-  <select id="cliente_id" required>
-    <option value="">Seleccione un cliente</option>
-  </select>
+      <label for="servicio">🧰 Servicio a realizar</label>
+      <input type="text" id="servicio" required />
 
-  <label for="fecha">📅 Fecha</label>
-  <input type="date" id="fecha" required>
+      <label for="fecha">📅 Fecha</label>
+      <input type="date" id="fecha" required />
 
-  <label for="hora">⏰ Hora</label>
-  <input type="time" id="hora" required>
+      <label for="hora">⏰ Hora</label>
+      <input type="time" id="hora" required />
 
-  <label for="servicio">🛠️ Servicio</label>
-  <input type="text" id="servicio" required>
+      <label for="prioridad">⚠️ Prioridad</label>
+      <select id="prioridad">
+        <option value="Alta">Alta</option>
+        <option value="Media">Media</option>
+        <option value="Baja">Baja</option>
+      </select>
 
-  <label for="descripcion">📄 Descripción</label>
-  <textarea id="descripcion" rows="4"></textarea>
+      <label for="observaciones">📝 Observaciones</label>
+      <textarea id="observaciones"></textarea>
 
-  <label for="tecnico_asignado">👷 Técnico Asignado</label>
-  <input type="text" id="tecnico_asignado" required>
+      <button type="submit">📌 Registrar Visita</button>
+    </form>
+  </div>
 
-  <button type="submit">💾 Guardar Visita</button>
-</form>
-
-<script src="agenda_supabase.js"></script>
-
+  <!-- Script corregido -->
+  <script type="module" src="agenda_supabase.js"></script>
 </body>
 </html>
