@@ -1,144 +1,102 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-
+// Configuración de Supabase
 const supabaseUrl = 'https://uyobgstmfukqncebtoli.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('[Cotización] Script cargado correctamente');
-
-  cargarClientes();
-
-  const form = document.getElementById('formCotizacion');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const cliente_id = document.getElementById('cliente_id').value;
-    const encabezado_tipo = document.getElementById('encabezado_tipo').value;
-    const forma_pago = document.getElementById('forma_pago').value;
-    const vigencia_dias = parseInt(document.getElementById('vigencia_dias').value);
-    const observaciones_generales = document.getElementById('observaciones_generales').value;
-    const total_general = parseFloat(document.getElementById('totalGeneral').textContent) || 0;
-
-    console.log('[Cotización] Enviando datos:', { cliente_id, encabezado_tipo, forma_pago, total_general });
-
-    const { data: cotizacion, error: errorCotizacion } = await supabase.from('cotizaciones').insert([{
-      cliente_id,
-      encabezado_tipo,
-      forma_pago,
-      vigencia_dias,
-      observaciones_generales,
-      valor_total: total_general,
-      fecha_creacion: new Date().toISOString()
-    }]).select().single();
-
-    if (errorCotizacion) {
-      console.error('[Cotización] Error al guardar cotización:', errorCotizacion);
-      alert('Error al guardar cotización: ' + errorCotizacion.message);
-      return;
-    }
-
-    const cotizacion_id = cotizacion.id;
-    const filas = document.querySelectorAll('#tablaItems tbody tr');
-
-    
-for (const fila of filas) {
-  const descripcion = fila.querySelector('.descripcion').value.trim();
-  const unidad = fila.querySelector('.unidad').value.trim();
-  const cantidadRaw = fila.querySelector('.cantidad').value;
-  const valorUnitarioRaw = fila.querySelector('.valor_unitario').value;
-  const ivaRaw = fila.querySelector('.iva').value;
-
-  const cantidad = parseFloat(cantidadRaw.replace(',', '.'));
-  const valor_unitario = parseFloat(valorUnitarioRaw.replace(',', '.'));
-  const iva = parseFloat(ivaRaw.replace(',', '.'));
-
-  if (!descripcion || !unidad) {
-    console.error('[Cotización] Descripción o unidad vacía:', { descripcion, unidad });
-    alert("❌ Todos los ítems deben tener descripción y unidad.");
-    return;
-  }
-
-  if (
-    isNaN(cantidad) || cantidad < 0 ||
-    isNaN(valor_unitario) || valor_unitario < 0 ||
-    isNaN(iva) || iva < 0
-  ) {
-    console.error('[Cotización] Valor numérico inválido en ítem:', {
-      cantidadRaw, valorUnitarioRaw, ivaRaw, cantidad, valor_unitario, iva
-    });
-    alert("❌ Uno o más valores numéricos son inválidos o están vacíos. Revisa los ítems.");
-    return;
-  }
-
-      const descripcion = fila.querySelector('.descripcion').value;
-      const unidad = fila.querySelector('.unidad').value;
-      const cantidad = parseFloat(fila.querySelector('.cantidad').value) || 0;
-      const valor_unitario = parseFloat(fila.querySelector('.valor_unitario').value) || 0;
-      const iva = parseFloat(fila.querySelector('.iva').value) || 0;
-
-      const subtotal = cantidad * valor_unitario;
-      const valor_total_item = subtotal + (subtotal * iva / 100);
-
-      await supabase.from('cotizaciones_detalle').insert([{
-        cotizacion_id,
-        descripcion,
-        unidad,
-        cantidad,
-        valor_unitario,
-        iva_porcentaje: iva,
-        valor_total_item
-      }]);
-    }
-
-    alert('✅ Cotización guardada exitosamente');
-    form.reset();
-    document.querySelector('#tablaItems tbody').innerHTML = '';
-    document.getElementById('totalGeneral').textContent = '0.00';
+// Al cargar, llenar lista de clientes
+document.addEventListener('DOMContentLoaded', async () => {
+  const { data: clientes } = await supabase.from('clientes').select('*');
+  const select = document.getElementById('cliente_id');
+  clientes.forEach(cliente => {
+    const option = document.createElement('option');
+    option.value = cliente.id;
+    option.textContent = cliente.nombre;
+    select.appendChild(option);
   });
+
+  document.getElementById('btn-agregar-item').addEventListener('click', agregarItem);
+  document.getElementById('formulario-cotizacion').addEventListener('submit', guardarCotizacion);
 });
 
-async function cargarClientes() {
-  const { data, error } = await supabase.from('clientes').select('*').order('nombre', { ascending: true });
-  const clienteSelect = document.getElementById('cliente_id');
-  clienteSelect.innerHTML = '<option value="">Seleccione un cliente</option>';
-  if (data) {
-    data.forEach(cliente => {
-      const option = document.createElement('option');
-      option.value = cliente.id;
-      option.textContent = cliente.nombre;
-      clienteSelect.appendChild(option);
+// Agregar ítem al DOM
+function agregarItem() {
+  const contenedor = document.getElementById('contenedor-items');
+  const itemHTML = `
+    <div class="row mb-2 item">
+      <div class="col-md-2"><input type="number" class="form-control cantidad" placeholder="Cantidad" required></div>
+      <div class="col-md-2"><input type="text" class="form-control unidad" placeholder="Unidad" required></div>
+      <div class="col-md-3"><input type="text" class="form-control descripcion" placeholder="Descripción" required></div>
+      <div class="col-md-2"><input type="number" class="form-control valor_unitario" placeholder="Valor Unitario" required></div>
+      <div class="col-md-1"><input type="number" class="form-control iva_porcentaje" placeholder="IVA %" required></div>
+      <div class="col-md-2"><input type="number" class="form-control valor_total_item" placeholder="Total $" readonly></div>
+    </div>`;
+  contenedor.insertAdjacentHTML('beforeend', itemHTML);
+}
+
+// Guardar cotización
+async function guardarCotizacion(e) {
+  e.preventDefault();
+
+  const cliente_id = document.getElementById('cliente_id').value;
+  const encabezado_tipo = document.getElementById('encabezado_tipo').value;
+  const forma_pago = document.getElementById('forma_pago').value;
+  const items = Array.from(document.querySelectorAll('.item'));
+
+  let total_general = 0;
+  const detalles = [];
+
+  items.forEach(item => {
+    const cantidad = parseFloat(item.querySelector('.cantidad').value) || 0;
+    const unidad = item.querySelector('.unidad').value;
+    const descripcion = item.querySelector('.descripcion').value;
+    const valor_unitario = parseFloat(item.querySelector('.valor_unitario').value) || 0;
+    const iva_porcentaje = parseFloat(item.querySelector('.iva_porcentaje').value) || 0;
+
+    const valor_total_item = Math.round(cantidad * valor_unitario * (1 + iva_porcentaje / 100));
+    item.querySelector('.valor_total_item').value = valor_total_item;
+    total_general += valor_total_item;
+
+    detalles.push({
+      cantidad,
+      unidad,
+      descripcion,
+      valor_unitario,
+      iva_porcentaje,
+      valor_total_item,
     });
-  }
-  if (error) console.error('[Clientes] Error al cargar:', error);
-}
-
-window.agregarItem = function () {
-  const tbody = document.querySelector('#tablaItems tbody');
-  const fila = document.createElement('tr');
-  fila.innerHTML = `
-    <td><input type="text" class="descripcion" required /></td>
-    <td><input type="text" class="unidad" /></td>
-    <td><input type="number" class="cantidad" value="1" min="1" onchange="calcularTotales()" /></td>
-    <td><input type="number" class="valor_unitario" value="0" min="0" onchange="calcularTotales()" /></td>
-    <td><input type="number" class="iva" value="0" min="0" max="100" onchange="calcularTotales()" /></td>
-    <td class="valor_total_item">$0.00</td>
-    <td><button type="button" onclick="this.parentElement.parentElement.remove(); calcularTotales();">🗑️</button></td>
-  `;
-  tbody.appendChild(fila);
-}
-
-window.calcularTotales = function () {
-  let total = 0;
-  document.querySelectorAll('#tablaItems tbody tr').forEach(row => {
-    const cantidad = parseFloat(row.querySelector('.cantidad').value) || 0;
-    const valor = parseFloat(row.querySelector('.valor_unitario').value) || 0;
-    const iva = parseFloat(row.querySelector('.iva').value) || 0;
-    const subtotal = cantidad * valor;
-    const totalItem = subtotal + (subtotal * iva / 100);
-    row.querySelector('.valor_total_item').textContent = '$' + totalItem.toFixed(2);
-    total += totalItem;
   });
-  document.getElementById('totalGeneral').textContent = total.toFixed(2);
+
+  document.getElementById('valor_total').value = total_general;
+
+  // Crear cotización principal
+  const { data: cotizacion, error } = await supabase.from('cotizaciones').insert([{
+    cliente_id,
+    encabezado_tipo,
+    forma_pago,
+    valor_total: total_general
+  }]).select().single();
+
+  if (error) {
+    console.error('Error creando cotización:', error);
+    alert('❌ Error al guardar la cotización.');
+    return;
+  }
+
+  // Insertar detalle
+  const detalleData = detalles.map(d => ({
+    ...d,
+    cotizacion_id: cotizacion.id
+  }));
+
+  const { error: errorDetalle } = await supabase.from('cotizaciones_detalle').insert(detalleData);
+  if (errorDetalle) {
+    console.error('Error guardando detalle:', errorDetalle);
+    alert('❌ Cotización creada, pero error en los ítems.');
+    return;
+  }
+
+  alert('✅ Cotización guardada exitosamente.');
+  window.location.reload();
 }
