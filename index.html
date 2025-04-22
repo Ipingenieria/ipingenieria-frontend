@@ -1,94 +1,99 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>IP INGENIERÍA Y AUTOMATISMO SAS</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menú Principal - IP INGENIERÍA Y AUTOMATISMO SAS</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f7fa;
       margin: 0;
-      padding: 0;
-      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #f5f6fa;
     }
     header {
-      background-color: #143D4F;
-      color: white;
+      background-color: #0d3b56;
       padding: 20px;
+      color: white;
+      text-align: center;
+      position: relative;
     }
     header img {
-      height: 80px;
+      height: 40px;
+      vertical-align: middle;
     }
     header h1 {
-      margin: 10px 0 0 0;
+      margin: 10px 0 0;
       font-size: 24px;
     }
     .logout-btn {
       position: absolute;
       right: 20px;
       top: 20px;
-      padding: 8px 16px;
-      background-color: #d9534f;
+      background-color: #e74c3c;
       color: white;
       border: none;
-      border-radius: 5px;
+      padding: 10px 15px;
+      border-radius: 6px;
       cursor: pointer;
+      font-weight: bold;
     }
-    .menu-grid {
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+    h2 {
+      text-align: center;
+      margin: 30px 0 10px;
+    }
+    .menu {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      margin: 30px 0;
       gap: 20px;
+      padding: 30px;
     }
-    .menu-btn {
-      background-color: #143D4F;
+    .menu a {
+      background-color: #0d3b56;
       color: white;
-      padding: 20px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
+      padding: 15px 25px;
       text-decoration: none;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: background 0.3s;
+      border-radius: 10px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s ease;
     }
-    .menu-btn:hover {
-      background-color: #1d5a72;
-    }
-    footer {
-      background-color: #f0f0f0;
-      padding: 10px;
-      color: #777;
-      font-size: 14px;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
+    .menu a:hover {
+      background-color: #14527a;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.jpg" alt="Logo Empresa">
-    <h1>IP INGENIERÍA Y AUTOMATISMO SAS</h1>
-    <button onclick="cerrarSesion()" class="logout-btn">🔒 Cerrar sesión</button>
-  </header>
 
-  <main>
-    <h2 style="margin-top: 30px;">📂 Menú Principal</h2>
-    <div class="menu-grid">
-      <a href="clientes.html" class="menu-btn">👤 Clientes</a>
-      <a href="agenda.html" class="menu-btn">📝 Agendar Visita</a>
-      <a href="ver_agenda.html" class="menu-btn">📅 Ver Agenda</a>
-      <a href="inventario.html" class="menu-btn">📦 Inventario</a>
-      <a href="facturacion.html" class="menu-btn">💳 Facturación</a>
-      <a href="flujo.html" class="menu-btn">📊 Flujo de Dinero</a>
-    </div>
-  </main>
+<header>
+  <img src="logo.png" alt="Logo Empresa" />
+  <h1>IP INGENIERÍA Y AUTOMATISMO SAS</h1>
+  <button class="logout-btn" onclick="cerrarSesion()">🔒 Cerrar sesión</button>
+</header>
 
-  <footer>
-    © 2025 IP INGENIERÍA Y AUTOMATISMO SAS - Todos los derechos reservados
-  </footer>
+<h2>📁 <strong>Menú Principal</strong></h2>
+<div class="menu">
+  <a href="clientes.html">👤 Clientes</a>
+  <a href="agenda.html">🗓️ Agendar Visita</a>
+  <a href="ver_agenda.html">📅 Ver Agenda</a>
+  <a href="inventario.html">📦 Inventario</a>
+  <a href="facturacion.html">💳 Facturación</a>
+  <a href="flujo.html">💰 Flujo de Dinero</a>
+  <a href="cotizaciones.html">🧾 Cotizaciones</a>
+</div>
+
+<script>
+  function cerrarSesion() {
+    localStorage.removeItem("usuario");
+    window.location.href = "login.html";
+  }
+</script>
+
 </body>
 </html>
