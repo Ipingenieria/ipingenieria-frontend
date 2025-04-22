@@ -14,7 +14,7 @@ async function cargarClientes() {
     return;
   }
 
-  const clienteSelect = document.getElementById('cliente_id');
+  const clienteSelect = document.getElementById('cliente');
   data.forEach(cliente => {
     const option = document.createElement('option');
     option.value = cliente.id;
