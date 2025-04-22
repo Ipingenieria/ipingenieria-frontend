@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         valor_unitario,
         iva_porcentaje: iva,
         valor_total_item,
+        tipo_item: 'personalizado',
         nota_item: '',
         imagen_url: null
       }]);
