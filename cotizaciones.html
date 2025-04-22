@@ -110,6 +110,7 @@
           <th>Valor Unitario</th>
           <th>IVA (%)</th>
           <th>Total</th>
+          <th>Imagen</th>
           <th>Acción</th>
         </tr>
       </thead>
@@ -145,7 +146,7 @@
     if (error) console.error('Error al cargar clientes:', error);
   }
 
-  function agregarItem() {
+  window.agregarItem = function () {
     const tbody = document.querySelector('#tablaItems tbody');
     const fila = document.createElement('tr');
     fila.innerHTML = `
@@ -155,6 +156,7 @@
       <td><input type="number" class="valor_unitario" value="0" min="0" onchange="calcularTotales()" /></td>
       <td><input type="number" class="iva" value="0" min="0" max="100" onchange="calcularTotales()" /></td>
       <td class="total_item">$0.00</td>
+      <td><input type="file" class="imagen" accept="image/*" /></td>
       <td><button type="button" onclick="this.parentElement.parentElement.remove(); calcularTotales();">🗑️</button></td>
     `;
     tbody.appendChild(fila);
