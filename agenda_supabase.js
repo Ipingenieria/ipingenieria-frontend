@@ -1,23 +1,29 @@
+// agenda_supabase.js
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-const supabase = supabase.createClient(
-  'https://uyobgstmfukqncebtoli.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
-);
+const supabaseUrl = 'https://uyobgstmfukqncebtoli.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const { data, error } = await supabase.from("clientes").select("id, nombre");
+// Función para cargar clientes
+async function cargarClientes() {
+  const { data, error } = await supabase.from('clientes').select('*').order('nombre', { ascending: true });
 
   if (error) {
-    console.error("❌ Error al cargar clientes:", error);
-    alert("Error al cargar la lista de clientes.");
+    console.error('Error al cargar clientes:', error);
     return;
   }
 
-  const select = document.getElementById("cliente_id");
+  const clienteSelect = document.getElementById('cliente_id');
   data.forEach(cliente => {
-    const option = document.createElement("option");
+    const option = document.createElement('option');
     option.value = cliente.id;
     option.textContent = cliente.nombre;
-    select.appendChild(option);
+    clienteSelect.appendChild(option);
   });
+}
+
+// Cargar clientes al iniciar
+document.addEventListener('DOMContentLoaded', () => {
+  cargarClientes();
 });
