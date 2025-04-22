@@ -2,13 +2,95 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Ver Agenda</title>
+  <title>Agenda Programada</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #eef3f8;
+      padding: 30px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #143D4F;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #143D4F;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+  </style>
+  <script>
+    const SUPABASE_URL = "https://uyobgstmfukqncebtoli.supabase.co";
+    const SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo";
+
+    async function cargarAgenda() {
+      const res = await fetch(SUPABASE_URL + "/rest/v1/agenda?select=*,clientes(nombre)", {
+        method: "GET",
+        headers: {
+          apikey: SUPABASE_API_KEY,
+          Authorization: "Bearer " + SUPABASE_API_KEY
+        }
+      });
+      const data = await res.json();
+      const tabla = document.getElementById("tabla-agenda");
+      tabla.innerHTML = "";
+
+      data.forEach(registro => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${registro.clientes?.nombre || "Sin nombre"}</td>
+          <td>${registro.fecha}</td>
+          <td>${registro.hora}</td>
+          <td>${registro.servicio}</td>
+          <td>${registro.tecnico}</td>
+          <td>${registro.observaciones || "-"}</td>
+        `;
+        tabla.appendChild(fila);
+      });
+    }
+
+    window.onload = cargarAgenda;
+  </script>
 </head>
 <body>
-  <h1>Agenda Técnica del Usuario</h1>
-  <table border="1">
-    <tr><th>Cliente</th><th>Servicio</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr>
-    <tr><td>Cliente A</td><td>CCTV</td><td>2025-04-25</td><td>10:00</td><td>Pendiente</td></tr>
-  </table>
+  <div class="container">
+    <h2>📋 Visitas Técnicas Programadas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>🏢 Cliente</th>
+          <th>📅 Fecha</th>
+          <th>⏰ Hora</th>
+          <th>🔧 Servicio</th>
+          <th>👨‍🔧 Técnico</th>
+          <th>📝 Observaciones</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-agenda">
+        <!-- Se llena dinámicamente -->
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
