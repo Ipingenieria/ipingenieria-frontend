@@ -124,60 +124,7 @@
   </form>
 </div>
 
-<script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-
-  const supabaseUrl = 'https://uyobgstmfukqncebtoli.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo';
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  async function cargarClientes() {
-    const { data, error } = await supabase.from('clientes').select('*').order('nombre', { ascending: true });
-    const clienteSelect = document.getElementById('cliente_id');
-    clienteSelect.innerHTML = '<option value="">Seleccione un cliente</option>';
-    if (data) {
-      data.forEach(cliente => {
-        const option = document.createElement('option');
-        option.value = cliente.id;
-        option.textContent = cliente.nombre;
-        clienteSelect.appendChild(option);
-      });
-    }
-    if (error) console.error('Error al cargar clientes:', error);
-  }
-
-  window.agregarItem = function () {
-    const tbody = document.querySelector('#tablaItems tbody');
-    const fila = document.createElement('tr');
-    fila.innerHTML = `
-      <td><input type="text" class="descripcion" required /></td>
-      <td><input type="text" class="unidad" /></td>
-      <td><input type="number" class="cantidad" value="1" min="1" onchange="calcularTotales()" /></td>
-      <td><input type="number" class="valor_unitario" value="0" min="0" onchange="calcularTotales()" /></td>
-      <td><input type="number" class="iva" value="0" min="0" max="100" onchange="calcularTotales()" /></td>
-      <td class="total_item">$0.00</td>
-      <td><input type="file" class="imagen" accept="image/*" /></td>
-      <td><button type="button" onclick="this.parentElement.parentElement.remove(); calcularTotales();">🗑️</button></td>
-    `;
-    tbody.appendChild(fila);
-  }
-
-  window.calcularTotales = function () {
-    let total = 0;
-    document.querySelectorAll('#tablaItems tbody tr').forEach(row => {
-      const cantidad = parseFloat(row.querySelector('.cantidad').value) || 0;
-      const valor = parseFloat(row.querySelector('.valor_unitario').value) || 0;
-      const iva = parseFloat(row.querySelector('.iva').value) || 0;
-      const subtotal = cantidad * valor;
-      const totalItem = subtotal + (subtotal * iva / 100);
-      row.querySelector('.total_item').textContent = '$' + totalItem.toFixed(2);
-      total += totalItem;
-    });
-    document.getElementById('totalGeneral').textContent = total.toFixed(2);
-  }
-
-  document.addEventListener('DOMContentLoaded', cargarClientes);
-</script>
+<script type="module" src="guardarCotizacion.js"></script>
 
 </body>
 </html>
