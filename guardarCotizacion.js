@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const iva = parseFloat(fila.querySelector('.iva').value) || 0;
 
       const subtotal = cantidad * valor_unitario;
-      const total_item = subtotal + (subtotal * iva / 100);
+      const valor_total_item = subtotal + (subtotal * iva / 100);
 
       await supabase.from('cotizaciones_detalle').insert([{
         cotizacion_id,
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         unidad,
         cantidad,
         valor_unitario,
-        iva,
-        total_item
+        iva_porcentaje: iva,
+        valor_total_item
       }]);
     }
 
@@ -94,7 +94,7 @@ window.agregarItem = function () {
     <td><input type="number" class="cantidad" value="1" min="1" onchange="calcularTotales()" /></td>
     <td><input type="number" class="valor_unitario" value="0" min="0" onchange="calcularTotales()" /></td>
     <td><input type="number" class="iva" value="0" min="0" max="100" onchange="calcularTotales()" /></td>
-    <td class="total_item">$0.00</td>
+    <td class="valor_total_item">$0.00</td>
     <td><button type="button" onclick="this.parentElement.parentElement.remove(); calcularTotales();">🗑️</button></td>
   `;
   tbody.appendChild(fila);
@@ -108,7 +108,7 @@ window.calcularTotales = function () {
     const iva = parseFloat(row.querySelector('.iva').value) || 0;
     const subtotal = cantidad * valor;
     const totalItem = subtotal + (subtotal * iva / 100);
-    row.querySelector('.total_item').textContent = '$' + totalItem.toFixed(2);
+    row.querySelector('.valor_total_item').textContent = '$' + totalItem.toFixed(2);
     total += totalItem;
   });
   document.getElementById('totalGeneral').textContent = total.toFixed(2);
