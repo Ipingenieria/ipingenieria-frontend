@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       forma_pago,
       vigencia_dias,
       observaciones_generales,
-      total: total_general,
+      valor_total: total_general,
       fecha_creacion: new Date().toISOString()
     }]).select().single();
 
