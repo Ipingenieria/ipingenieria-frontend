@@ -7,6 +7,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('[Cotización] Script cargado correctamente');
+
+  cargarClientes();
+
   const form = document.getElementById('formCotizacion');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -17,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const vigencia_dias = parseInt(document.getElementById('vigencia_dias').value);
     const observaciones_generales = document.getElementById('observaciones_generales').value;
 
-    console.log('[Cotización] Enviando datos de cabecera:', { cliente_id, encabezado_tipo, forma_pago, vigencia_dias, observaciones_generales });
+    console.log('[Cotización] Enviando datos:', { cliente_id, encabezado_tipo, forma_pago });
 
     const { data: cotizacion, error: errorCotizacion } = await supabase.from('cotizaciones').insert([{
       cliente_id,
@@ -34,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    console.log('[Cotización] Cotización guardada con ID:', cotizacion.id);
     const cotizacion_id = cotizacion.id;
     const filas = document.querySelectorAll('#tablaItems tbody tr');
 
@@ -60,9 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .from('imagenes')
             .getPublicUrl(nombreUnico);
           imagen_url = urlData.publicUrl;
-          console.log('[Cotización] Imagen subida:', imagen_url);
-        } else {
-          console.warn('[Cotización] No se pudo subir la imagen:', imgError.message);
         }
       }
 
@@ -83,3 +82,48 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('totalGeneral').textContent = '0.00';
   });
 });
+
+async function cargarClientes() {
+  const { data, error } = await supabase.from('clientes').select('*').order('nombre', { ascending: true });
+  const clienteSelect = document.getElementById('cliente_id');
+  clienteSelect.innerHTML = '<option value="">Seleccione un cliente</option>';
+  if (data) {
+    data.forEach(cliente => {
+      const option = document.createElement('option');
+      option.value = cliente.id;
+      option.textContent = cliente.nombre;
+      clienteSelect.appendChild(option);
+    });
+  }
+  if (error) console.error('[Clientes] Error al cargar:', error);
+}
+
+window.agregarItem = function () {
+  const tbody = document.querySelector('#tablaItems tbody');
+  const fila = document.createElement('tr');
+  fila.innerHTML = `
+    <td><input type="text" class="descripcion" required /></td>
+    <td><input type="text" class="unidad" /></td>
+    <td><input type="number" class="cantidad" value="1" min="1" onchange="calcularTotales()" /></td>
+    <td><input type="number" class="valor_unitario" value="0" min="0" onchange="calcularTotales()" /></td>
+    <td><input type="number" class="iva" value="0" min="0" max="100" onchange="calcularTotales()" /></td>
+    <td class="total_item">$0.00</td>
+    <td><input type="file" class="imagen" accept="image/*" /></td>
+    <td><button type="button" onclick="this.parentElement.parentElement.remove(); calcularTotales();">🗑️</button></td>
+  `;
+  tbody.appendChild(fila);
+}
+
+window.calcularTotales = function () {
+  let total = 0;
+  document.querySelectorAll('#tablaItems tbody tr').forEach(row => {
+    const cantidad = parseFloat(row.querySelector('.cantidad').value) || 0;
+    const valor = parseFloat(row.querySelector('.valor_unitario').value) || 0;
+    const iva = parseFloat(row.querySelector('.iva').value) || 0;
+    const subtotal = cantidad * valor;
+    const totalItem = subtotal + (subtotal * iva / 100);
+    row.querySelector('.total_item').textContent = '$' + totalItem.toFixed(2);
+    total += totalItem;
+  });
+  document.getElementById('totalGeneral').textContent = total.toFixed(2);
+}
