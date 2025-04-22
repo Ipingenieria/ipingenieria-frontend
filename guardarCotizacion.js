@@ -42,7 +42,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const cotizacion_id = cotizacion.id;
     const filas = document.querySelectorAll('#tablaItems tbody tr');
 
-    for (const fila of filas) {
+    
+for (const fila of filas) {
+  const descripcion = fila.querySelector('.descripcion').value.trim();
+  const unidad = fila.querySelector('.unidad').value.trim();
+  const cantidadRaw = fila.querySelector('.cantidad').value;
+  const valorUnitarioRaw = fila.querySelector('.valor_unitario').value;
+  const ivaRaw = fila.querySelector('.iva').value;
+
+  const cantidad = parseFloat(cantidadRaw.replace(',', '.'));
+  const valor_unitario = parseFloat(valorUnitarioRaw.replace(',', '.'));
+  const iva = parseFloat(ivaRaw.replace(',', '.'));
+
+  if (!descripcion || !unidad) {
+    console.error('[Cotización] Descripción o unidad vacía:', { descripcion, unidad });
+    alert("❌ Todos los ítems deben tener descripción y unidad.");
+    return;
+  }
+
+  if (
+    isNaN(cantidad) || cantidad < 0 ||
+    isNaN(valor_unitario) || valor_unitario < 0 ||
+    isNaN(iva) || iva < 0
+  ) {
+    console.error('[Cotización] Valor numérico inválido en ítem:', {
+      cantidadRaw, valorUnitarioRaw, ivaRaw, cantidad, valor_unitario, iva
+    });
+    alert("❌ Uno o más valores numéricos son inválidos o están vacíos. Revisa los ítems.");
+    return;
+  }
+
       const descripcion = fila.querySelector('.descripcion').value;
       const unidad = fila.querySelector('.unidad').value;
       const cantidad = parseFloat(fila.querySelector('.cantidad').value) || 0;
