@@ -4,95 +4,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crear Cotización - IP INGENIERÍA Y AUTOMATISMO SAS</title>
+  <title>Depuración Cotizaciones - IP INGENIERÍA</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f8f8f8; }
-    h1 { text-align: center; }
-    label { font-weight: bold; display: block; margin-top: 10px; }
-    input, select, textarea { width: 100%; padding: 6px; margin-top: 4px; }
-    table { width: 100%; margin-top: 20px; border-collapse: collapse; background: #fff; }
-    th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
-    button { padding: 10px 15px; margin-top: 15px; cursor: pointer; }
-    .add-item { background-color: #4CAF50; color: white; border: none; }
-    .save { background-color: #2196F3; color: white; border: none; }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    select, input, textarea { width: 100%; padding: 8px; margin: 10px 0; }
+    .log-box { background: #000; color: #0f0; padding: 10px; font-family: monospace; height: 200px; overflow: auto; }
   </style>
 </head>
 <body>
 
-<h1>🧾 Crear Cotización</h1>
+<h2>🧪 Depuración de Cotizaciones</h2>
 
-<form id="formCotizacion">
-  <label for="cliente_id">Cliente</label>
-  <select id="cliente_id" required>
-    <option value="">Seleccione un cliente</option>
-  </select>
+<label for="cliente_id">Cliente</label>
+<select id="cliente_id">
+  <option value="">Cargando...</option>
+</select>
 
-  <label for="encabezado_tipo">Tipo de encabezado</label>
-  <select id="encabezado_tipo">
-    <option>Cotización técnica</option>
-    <option>Propuesta económica</option>
-    <option>Oferta comercial</option>
-  </select>
+<div class="log-box" id="consoleLog">Consola activa...</div>
 
-  <label for="forma_pago">Forma de pago</label>
-  <input type="text" id="forma_pago" />
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-  <label for="vigencia_dias">Vigencia (días)</label>
-  <input type="number" id="vigencia_dias" value="15"/>
+  const log = (msg) => {
+    const logBox = document.getElementById('consoleLog');
+    logBox.textContent += '\n' + msg;
+    console.log(msg);
+  }
 
-  <label for="observaciones_generales">Observaciones generales</label>
-  <textarea id="observaciones_generales"></textarea>
+  const supabaseUrl = 'https://uyobgstmfukqncebtoli.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo';
+  const supabase = createClient(supabaseUrl, supabaseKey);
 
-  <h2>📦 Ítems de la cotización</h2>
-  <table id="tablaItems">
-    <thead>
-      <tr>
-        <th>Descripción</th>
-        <th>Unidad</th>
-        <th>Cant.</th>
-        <th>Valor Unitario</th>
-        <th>IVA (%)</th>
-        <th>Total</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-  <button type="button" class="add-item" onclick="agregarItem()">➕ Agregar Ítem</button>
+  async function cargarClientes() {
+    log('Consultando clientes...');
+    const { data, error } = await supabase.from('clientes').select('*').order('nombre', { ascending: true });
+    if (error) {
+      log('❌ Error: ' + JSON.stringify(error));
+      return;
+    }
+    log('✅ Clientes cargados: ' + data.length);
+    const clienteSelect = document.getElementById('cliente_id');
+    clienteSelect.innerHTML = '';
+    data.forEach(cliente => {
+      const option = document.createElement('option');
+      option.value = cliente.id;
+      option.textContent = cliente.nombre;
+      clienteSelect.appendChild(option);
+    });
+  }
 
-  <h3>Total: $<span id="totalGeneral">0.00</span></h3>
-  <button type="submit" class="save">💾 Guardar Cotización</button>
-</form>
-
-<script>
-// Script básico que será conectado con Supabase y cálculo de totales
-function agregarItem() {
-  const fila = document.createElement("tr");
-  fila.innerHTML = `
-    <td><input type="text" class="descripcion" required /></td>
-    <td><input type="text" class="unidad" /></td>
-    <td><input type="number" class="cantidad" value="1" min="1" onchange="calcularTotales()" /></td>
-    <td><input type="number" class="valor_unitario" value="0" min="0" onchange="calcularTotales()" /></td>
-    <td><input type="number" class="iva" value="0" min="0" max="100" onchange="calcularTotales()" /></td>
-    <td class="total_item">$0.00</td>
-    <td><button type="button" onclick="this.parentElement.parentElement.remove(); calcularTotales();">🗑️</button></td>
-  `;
-  document.querySelector("#tablaItems tbody").appendChild(fila);
-}
-
-function calcularTotales() {
-  let total = 0;
-  document.querySelectorAll("#tablaItems tbody tr").forEach(row => {
-    const cantidad = parseFloat(row.querySelector(".cantidad").value) || 0;
-    const valor = parseFloat(row.querySelector(".valor_unitario").value) || 0;
-    const iva = parseFloat(row.querySelector(".iva").value) || 0;
-    const subtotal = cantidad * valor;
-    const totalItem = subtotal + (subtotal * iva / 100);
-    row.querySelector(".total_item").textContent = "$" + totalItem.toFixed(2);
-    total += totalItem;
+  document.addEventListener('DOMContentLoaded', () => {
+    cargarClientes();
   });
-  document.getElementById("totalGeneral").textContent = total.toFixed(2);
-}
 </script>
 
 </body>
