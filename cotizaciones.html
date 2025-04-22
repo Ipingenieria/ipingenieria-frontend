@@ -1,36 +1,99 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Cotizaciones</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crear Cotización - IP INGENIERÍA Y AUTOMATISMO SAS</title>
   <style>
-    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
-    header { display: flex; justify-content: space-between; margin-bottom: 20px; }
-    button { margin-left: 10px; }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f8f8f8; }
+    h1 { text-align: center; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    input, select, textarea { width: 100%; padding: 6px; margin-top: 4px; }
+    table { width: 100%; margin-top: 20px; border-collapse: collapse; background: #fff; }
+    th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+    button { padding: 10px 15px; margin-top: 15px; cursor: pointer; }
+    .add-item { background-color: #4CAF50; color: white; border: none; }
+    .save { background-color: #2196F3; color: white; border: none; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Cotizaciones</h1>
-    <div>
-      <button onclick="location.href='index.html'">🏠 Menú Principal</button>
-      <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
-    </div>
-  </header>
 
-  <p>Contenido de la página de Cotizaciones.</p>
+<h1>🧾 Crear Cotización</h1>
 
-  <script>
-    // Protección de acceso
-    if (!localStorage.getItem("usuario")) {
-      window.location.href = "login.html";
-    }
+<form id="formCotizacion">
+  <label for="cliente_id">Cliente</label>
+  <select id="cliente_id" required>
+    <option value="">Seleccione un cliente</option>
+  </select>
 
-    // Cierre de sesión
-    function cerrarSesion() {
-      localStorage.removeItem("usuario");
-      window.location.href = "login.html";
-    }
-  </script>
+  <label for="encabezado_tipo">Tipo de encabezado</label>
+  <select id="encabezado_tipo">
+    <option>Cotización técnica</option>
+    <option>Propuesta económica</option>
+    <option>Oferta comercial</option>
+  </select>
+
+  <label for="forma_pago">Forma de pago</label>
+  <input type="text" id="forma_pago" />
+
+  <label for="vigencia_dias">Vigencia (días)</label>
+  <input type="number" id="vigencia_dias" value="15"/>
+
+  <label for="observaciones_generales">Observaciones generales</label>
+  <textarea id="observaciones_generales"></textarea>
+
+  <h2>📦 Ítems de la cotización</h2>
+  <table id="tablaItems">
+    <thead>
+      <tr>
+        <th>Descripción</th>
+        <th>Unidad</th>
+        <th>Cant.</th>
+        <th>Valor Unitario</th>
+        <th>IVA (%)</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <button type="button" class="add-item" onclick="agregarItem()">➕ Agregar Ítem</button>
+
+  <h3>Total: $<span id="totalGeneral">0.00</span></h3>
+  <button type="submit" class="save">💾 Guardar Cotización</button>
+</form>
+
+<script>
+// Script básico que será conectado con Supabase y cálculo de totales
+function agregarItem() {
+  const fila = document.createElement("tr");
+  fila.innerHTML = `
+    <td><input type="text" class="descripcion" required /></td>
+    <td><input type="text" class="unidad" /></td>
+    <td><input type="number" class="cantidad" value="1" min="1" onchange="calcularTotales()" /></td>
+    <td><input type="number" class="valor_unitario" value="0" min="0" onchange="calcularTotales()" /></td>
+    <td><input type="number" class="iva" value="0" min="0" max="100" onchange="calcularTotales()" /></td>
+    <td class="total_item">$0.00</td>
+    <td><button type="button" onclick="this.parentElement.parentElement.remove(); calcularTotales();">🗑️</button></td>
+  `;
+  document.querySelector("#tablaItems tbody").appendChild(fila);
+}
+
+function calcularTotales() {
+  let total = 0;
+  document.querySelectorAll("#tablaItems tbody tr").forEach(row => {
+    const cantidad = parseFloat(row.querySelector(".cantidad").value) || 0;
+    const valor = parseFloat(row.querySelector(".valor_unitario").value) || 0;
+    const iva = parseFloat(row.querySelector(".iva").value) || 0;
+    const subtotal = cantidad * valor;
+    const totalItem = subtotal + (subtotal * iva / 100);
+    row.querySelector(".total_item").textContent = "$" + totalItem.toFixed(2);
+    total += totalItem;
+  });
+  document.getElementById("totalGeneral").textContent = total.toFixed(2);
+}
+</script>
+
 </body>
 </html>
