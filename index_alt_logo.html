@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menú Principal - IP INGENIERÍA Y AUTOMATISMO SAS</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f6fa;
+    }
+    header {
+      background-color: #0d3b56;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+    header img {
+      height: 50px;
+      vertical-align: middle;
+    }
+    header h1 {
+      margin: 10px 0 0;
+      font-size: 24px;
+    }
+    .logout-btn {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+    h2 {
+      text-align: center;
+      margin: 30px 0 10px;
+    }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+    }
+    .menu a {
+      background-color: #0d3b56;
+      color: white;
+      padding: 15px 25px;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s ease;
+    }
+    .menu a:hover {
+      background-color: #14527a;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="ip logo.jpg" alt="Logo Empresa" />
+  <h1>IP INGENIERÍA Y AUTOMATISMO SAS</h1>
+  <button class="logout-btn" onclick="cerrarSesion()">🔒 Cerrar sesión</button>
+</header>
+
+<h2>📁 <strong>Menú Principal</strong></h2>
+<div class="menu">
+  <a href="clientes.html">👤 Clientes</a>
+  <a href="agenda.html">🗓️ Agendar Visita</a>
+  <a href="ver_agenda.html">📅 Ver Agenda</a>
+  <a href="inventario.html">📦 Inventario</a>
+  <a href="facturacion.html">💳 Facturación</a>
+  <a href="flujo.html">💰 Flujo de Dinero</a>
+  <a href="cotizaciones.html">🧾 Cotizaciones</a>
+</div>
+
+<script>
+  function cerrarSesion() {
+    localStorage.removeItem("usuario");
+    window.location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>
