@@ -19,8 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const forma_pago = document.getElementById('forma_pago').value;
     const vigencia_dias = parseInt(document.getElementById('vigencia_dias').value);
     const observaciones_generales = document.getElementById('observaciones_generales').value;
+    const total_general = parseFloat(document.getElementById('totalGeneral').textContent) || 0;
 
-    console.log('[Cotización] Enviando datos:', { cliente_id, encabezado_tipo, forma_pago });
+    console.log('[Cotización] Enviando datos:', { cliente_id, encabezado_tipo, forma_pago, total_general });
 
     const { data: cotizacion, error: errorCotizacion } = await supabase.from('cotizaciones').insert([{
       cliente_id,
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       forma_pago,
       vigencia_dias,
       observaciones_generales,
+      total: total_general,
       fecha_creacion: new Date().toISOString()
     }]).select().single();
 
@@ -47,32 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const valor_unitario = parseFloat(fila.querySelector('.valor_unitario').value) || 0;
       const iva = parseFloat(fila.querySelector('.iva').value) || 0;
 
-      let imagen_url = null;
-      const fileInput = fila.querySelector('.imagen');
-      const archivo = fileInput?.files?.[0];
+      const subtotal = cantidad * valor_unitario;
+      const total_item = subtotal + (subtotal * iva / 100);
 
-      if (archivo) {
-        const nombreUnico = `img_${Date.now()}_${archivo.name}`;
-        const { data: imgData, error: imgError } = await supabase.storage
-          .from('imagenes')
-          .upload(nombreUnico, archivo);
-
-        if (!imgError) {
-          const { data: urlData } = supabase.storage
-            .from('imagenes')
-            .getPublicUrl(nombreUnico);
-          imagen_url = urlData.publicUrl;
-        }
-      }
-
-      await supabase.from('items_cotizacion').insert([{
+      await supabase.from('cotizaciones_detalle').insert([{
         cotizacion_id,
         descripcion,
         unidad,
         cantidad,
         valor_unitario,
         iva,
-        imagen_url
+        total_item
       }]);
     }
 
@@ -108,7 +95,6 @@ window.agregarItem = function () {
     <td><input type="number" class="valor_unitario" value="0" min="0" onchange="calcularTotales()" /></td>
     <td><input type="number" class="iva" value="0" min="0" max="100" onchange="calcularTotales()" /></td>
     <td class="total_item">$0.00</td>
-    <td><input type="file" class="imagen" accept="image/*" /></td>
     <td><button type="button" onclick="this.parentElement.parentElement.remove(); calcularTotales();">🗑️</button></td>
   `;
   tbody.appendChild(fila);
