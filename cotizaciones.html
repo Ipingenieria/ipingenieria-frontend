@@ -5,7 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crear Cotización</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/uuid@9.0.0/dist/umd/uuidv4.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    h1 {
+      color: #003366;
+      font-weight: 700;
+    }
+    .form-label::before {
+      margin-right: 5px;
+    }
+    .form-label[for="cliente_id"]::before { content: '👤'; }
+    .form-label[for="encabezado_tipo"]::before { content: '🧾'; }
+    .form-label[for="forma_pago"]::before { content: '💰'; }
+    .form-label[for="valor_total"]::before { content: '📊'; }
+    h4::before { content: '📋'; margin-right: 5px; }
+    .btn-success { background-color: #006400; }
+    .btn-secondary { background-color: #6c757d; }
+  </style>
 </head>
 <body class="bg-light text-dark">
   <div class="container py-4">
@@ -15,11 +34,13 @@
     <form id="formulario-cotizacion">
       <div class="row mb-3">
         <div class="col-md-6">
-          <label for="cliente_id" class="form-label">👤 Cliente</label>
-          <select id="cliente_id" class="form-select" required></select>
+          <label for="cliente_id" class="form-label">Cliente</label>
+          <select id="cliente_id" class="form-select" required>
+            <option selected disabled>Seleccione un cliente...</option>
+          </select>
         </div>
         <div class="col-md-6">
-          <label for="encabezado_tipo" class="form-label">🧾 Encabezado</label>
+          <label for="encabezado_tipo" class="form-label">Encabezado</label>
           <select id="encabezado_tipo" class="form-select" required>
             <option value="Propuesta económica">Propuesta económica</option>
             <option value="Cotización formal">Cotización formal</option>
@@ -29,7 +50,7 @@
 
       <div class="row mb-3">
         <div class="col-md-6">
-          <label for="forma_pago" class="form-label">💰 Forma de Pago</label>
+          <label for="forma_pago" class="form-label">Forma de Pago</label>
           <select id="forma_pago" class="form-select" required>
             <option value="TRANSFERENCIA">TRANSFERENCIA</option>
             <option value="EFECTIVO">EFECTIVO</option>
@@ -37,29 +58,26 @@
           </select>
         </div>
         <div class="col-md-6">
-          <label for="valor_total" class="form-label">📊 Total General</label>
-          <input type="text" id="valor_total" class="form-control" readonly />
+          <label for="valor_total" class="form-label">Total General</label>
+          <input type="text" id="valor_total" class="form-control" readonly placeholder="Automático..." />
         </div>
       </div>
 
       <hr />
-      <h4>🧮 Ítems de la Cotización</h4>
-      <div id="contenedor-items"></div>
+      <h4>Ítems de la Cotización</h4>
+      <div id="contenedor-items" class="mb-3"></div>
 
-      <div class="row my-3">
-        <div class="col-md-12 text-end">
-          <button type="button" id="btn-agregar-item" class="btn btn-secondary">➕ Agregar Ítem</button>
-        </div>
+      <div class="text-end mb-3">
+        <button type="button" id="btn-agregar-item" class="btn btn-secondary">➕ Agregar Ítem</button>
       </div>
 
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <button type="submit" class="btn btn-success">💾 Guardar Cotización</button>
-        </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-success">💾 Guardar Cotización</button>
       </div>
     </form>
   </div>
 
-  <script src="guardarCotizacion.js"></script>
+  <!-- CORREGIDO: script como módulo -->
+  <script type="module" src="guardarCotizacion.js"></script>
 </body>
 </html>
