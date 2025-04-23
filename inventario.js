@@ -1,6 +1,4 @@
 
-// Requiere incluir Supabase en tu HTML antes de este script
-
 const form = document.getElementById('formInventario');
 
 form.addEventListener('submit', async (e) => {
