@@ -1,11 +1,80 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Inventario</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #eef3f8;
+      padding: 30px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #143D4F;
+    }
+    form input, form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #143D4F;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1a566f;
+    }
+    .productos {
+      margin-top: 40px;
+    }
+    .producto {
+      background: #f8f9fa;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-left: 5px solid #143D4F;
+      border-radius: 5px;
+    }
+    .producto img {
+      max-width: 100px;
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+  <script type="module" src="inventario.js"></script>
 </head>
 <body>
-  <h1>Gestión de Inventario</h1>
-  <p>Registro de entradas, salidas y vinculación con proyectos.</p>
+  <div class="container">
+    <h2>📋 Registro de Inventario</h2>
+    <form id="formulario-inventario">
+      <input type="text" id="nombre" placeholder="Nombre del producto" required />
+      <input type="text" id="categoria" placeholder="Categoría (Producto, Servicio, Mano de Obra)" required />
+      <input type="text" id="unidad" placeholder="Unidad (ej: unidad, paquete, metro)" required />
+      <input type="number" id="cantidad" placeholder="Cantidad" required />
+      <input type="number" id="valor_compra" placeholder="Valor de compra" required />
+      <input type="number" id="valor_venta" placeholder="Valor de venta" required />
+      <select id="proyecto_id">
+        <option value="">(Opcional) Asociar a un proyecto</option>
+      </select>
+      <input type="url" id="imagen_url" placeholder="URL de la imagen (opcional)" />
+      <button type="submit">Guardar</button>
+    </form>
+
+    <div class="productos" id="lista-productos"></div>
+  </div>
 </body>
 </html>
