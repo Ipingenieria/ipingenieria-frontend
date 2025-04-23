@@ -45,9 +45,45 @@ async function cargarCotizaciones() {
       <p><strong>📅 Fecha:</strong> ${new Date(c.fecha_creacion).toLocaleDateString()}</p>
       <p><strong>📄 Estado:</strong> ${c.estado || 'pendiente'}</p>
       <button onclick="verDetalle('${c.id}')">👁 Ver Detalle</button>
+      ${generarBotonesEstado(c.id, c.estado)}
     `;
     contenedor.appendChild(card);
   }
+}
+
+function generarBotonesEstado(id, estado) {
+  if (estado === 'aprobada') {
+    return `<button onclick="agendarVisita('${id}')">📅 Agendar Visita</button>`;
+  } else if (estado === 'rechazada') {
+    return `<p style="color: red;"><strong>❌ Cotización Rechazada</strong></p>`;
+  } else {
+    return `
+      <button onclick="actualizarEstado('${id}', 'aprobada')">✅ Aprobar</button>
+      <button onclick="actualizarEstado('${id}', 'rechazada')">❌ Rechazar</button>
+    `;
+  }
+}
+
+async function actualizarEstado(id, nuevoEstado) {
+  const { error } = await supabase
+    .from('cotizaciones')
+    .update({ estado: nuevoEstado })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error al actualizar estado:', error);
+    alert('❌ Error al actualizar el estado');
+    return;
+  }
+
+  alert(`✔️ Cotización actualizada a "${nuevoEstado}"`);
+  cargarCotizaciones();
+}
+
+async function agendarVisita(cotizacionId) {
+  alert('📅 Aquí conectamos con el formulario de agenda, usando ID: ' + cotizacionId);
+  // Aquí puedes redirigir a agenda.html y pasar el ID por URL si lo deseas
+  // window.location.href = `agenda.html?cotizacion_id=${cotizacionId}`;
 }
 
 window.verDetalle = async function (cotizacionId) {
