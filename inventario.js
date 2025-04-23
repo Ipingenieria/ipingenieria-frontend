@@ -1,48 +1,43 @@
 
-document.getElementById("formulario-inventario").addEventListener("submit", async (e) => {
+// Requiere incluir Supabase en tu HTML antes de este script
+
+const form = document.getElementById('formInventario');
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const supabaseUrl = 'https://uyobgstmfukqncebtoli.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
-  const client = supabase.createClient(supabaseUrl, supabaseKey);
+  const nombre = document.getElementById('nombre').value;
+  const referencia = document.getElementById('referencia').value;
+  const categoria = document.getElementById('categoria').value;
+  const cantidad = parseInt(document.getElementById('cantidad').value);
+  const valor_unitario = parseFloat(document.getElementById('valor_unitario').value);
+  const tiene_iva = document.getElementById('tiene_iva').value === 'true';
+  const porcentaje_iva = parseFloat(document.getElementById('porcentaje_iva').value || 0);
+  const tipo_movimiento = document.getElementById('tipo_movimiento').value;
+  const observaciones = document.getElementById('observaciones').value;
 
-  const nombre = document.getElementById("nombre").value;
-  const categoria = document.getElementById("categoria").value;
-  const cantidad = parseInt(document.getElementById("cantidad").value);
-  const valor_unitario = parseFloat(document.getElementById("valor_unitario").value);
-  const archivoImagen = document.getElementById("imagen").files[0];
-
+  const imagenInput = document.getElementById('imagen');
   let imagen_url = "";
 
-  if (archivoImagen) {
-    const nombreArchivo = `${Date.now()}_${archivoImagen.name}`;
-    const { data: storageData, error: storageError } = await client.storage
-      .from("imagenes")
-      .upload(nombreArchivo, archivoImagen);
-
-    if (storageError) {
-      console.error("Error subiendo imagen:", storageError.message);
-      alert("Error al subir la imagen.");
+  if (imagenInput.files.length > 0) {
+    const file = imagenInput.files[0];
+    const { data, error } = await supabase.storage.from('imagenes').upload(`inventario/${Date.now()}_${file.name}`, file);
+    if (error) {
+      alert("Error al subir imagen: " + error.message);
       return;
     }
-
-    const { data: publicUrlData } = client.storage.from("imagenes").getPublicUrl(nombreArchivo);
-    imagen_url = publicUrlData.publicUrl;
+    imagen_url = supabase.storage.from('imagenes').getPublicUrl(data.path).publicUrl;
   }
 
-  const { data, error } = await client.from("inventario").insert([{
-    nombre,
-    categoria,
-    cantidad,
-    valor_unitario,
-    imagen_url
+  const { data, error } = await supabase.from('inventario').insert([{
+    nombre, referencia, categoria, cantidad, valor_unitario,
+    tiene_iva, porcentaje_iva, tipo_movimiento, observaciones, imagen_url
   }]);
 
   if (error) {
-    console.error("Error al registrar producto:", error.message);
-    alert("Error al registrar el producto.");
+    alert("Error al guardar: " + error.message);
   } else {
-    alert("Producto registrado con éxito.");
-    document.getElementById("formulario-inventario").reset();
+    alert("Producto guardado correctamente");
+    form.reset();
   }
 });
