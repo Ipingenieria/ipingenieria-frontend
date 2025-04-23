@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ver Agenda</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #eef3f8;
+      padding: 30px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #143D4F;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #143D4F;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+    .alta { background-color: #ffdddd; }
+    .media { background-color: #fff3cd; }
+    .baja { background-color: #d4edda; }
+    .realizada { font-weight: bold; color: green; }
+    .pendiente { font-weight: bold; color: red; }
+    button {
+      padding: 6px 10px;
+      background-color: #143D4F;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1d5a72;
+    }
+  </style>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+    const supabase = createClient(
+      'https://uyobgstmfukqncebtoli.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
+    );
+
+    async function cargarAgenda() {
+      const { data: agenda, error: errorAgenda } = await supabase.from("agenda").select("*");
+      const { data: clientes, error: errorClientes } = await supabase.from("clientes").select("id,nombre,direccion");
+
+      if (errorAgenda || errorClientes) {
+        console.error("❌ Error cargando datos:", errorAgenda || errorClientes);
+        return;
+      }
+
+      const tabla = document.getElementById("tabla-agenda");
+      tabla.innerHTML = "";
+
+      agenda.forEach(registro => {
+        const cliente = clientes.find(c => c.id === registro.cliente_id);
+        const fila = document.createElement("tr");
+        const clase = (registro.prioridad || "media").toLowerCase();
+        const estado = registro.realizada ? "✅ Realizada" : "⏳ Pendiente";
+
+        fila.classList.add(clase);
+
+        fila.innerHTML = `
+          <td>${cliente?.nombre || "Desconocido"}</td>
+          <td>${cliente?.direccion || "-"}</td>
+          <td>${registro.fecha}</td>
+          <td>${registro.hora}</td>
+          <td>${registro.servicio}</td>
+          <td>${registro.tecnico_asignado || "-"}</td>
+          <td>${registro.observaciones || "-"}</td>
+          <td class="${registro.realizada ? 'realizada' : 'pendiente'}">${estado}</td>
+          <td>${registro.prioridad || 'Media'}</td>
+          <td>${!registro.realizada ? `<button onclick="confirmarVisita('${registro.id}')">Confirmar</button>` : ''}</td>
+        `;
+        tabla.appendChild(fila);
+      });
+    }
+
+    async function confirmarVisita(id) {
+      const confirmar = confirm("¿Confirmas que esta visita fue realizada?");
+      if (!confirmar) return;
+
+      const res = await supabase
+        .from("agenda")
+        .update({ realizada: true })
+        .eq("id", id);
+
+      if (res.error) {
+        alert("❌ Error al confirmar visita.");
+      } else {
+        alert("✅ Visita confirmada.");
+        cargarAgenda();
+      }
+    }
+
+    window.onload = cargarAgenda;
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>📋 Visitas Técnicas Programadas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>🏢 Cliente</th>
+          <th>📍 Dirección</th>
+          <th>📅 Fecha</th>
+          <th>⏰ Hora</th>
+          <th>🔧 Servicio</th>
+          <th>👨‍🔧 Técnico</th>
+          <th>📝 Observaciones</th>
+          <th>📌 Estado</th>
+          <th>⚡ Prioridad</th>
+          <th>✔️ Acción</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-agenda"></tbody>
+    </table>
+  </div>
+</body>
+</html>
