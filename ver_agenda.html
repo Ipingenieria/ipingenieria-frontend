@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -75,7 +76,7 @@
 
       data.forEach(registro => {
         const fila = document.createElement("tr");
-        const clase = (registro.prioridad || "Media").toLowerCase();
+        const clase = (registro.prioridad || "media").toLowerCase();
         const estado = registro.realizada ? "✅ Realizada" : "⏳ Pendiente";
 
         fila.classList.add(clase);
@@ -86,7 +87,7 @@
           <td>${registro.fecha}</td>
           <td>${registro.hora}</td>
           <td>${registro.servicio}</td>
-          <td>${registro.tecnico}</td>
+          <td>${registro.tecnico_asignado || "-"}</td>
           <td>${registro.observaciones || "-"}</td>
           <td class="${registro.realizada ? 'realizada' : 'pendiente'}">${estado}</td>
           <td>${registro.prioridad || 'Media'}</td>
