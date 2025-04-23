@@ -57,24 +57,28 @@
       background-color: #1d5a72;
     }
   </style>
-  <script>
-    const SUPABASE_URL = "https://uyobgstmfukqncebtoli.supabase.co";
-    const SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo";
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+    const supabase = createClient(
+      'https://uyobgstmfukqncebtoli.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
+    );
 
     async function cargarAgenda() {
-      const res = await fetch(SUPABASE_URL + "/rest/v1/agenda?select=id,cliente_id,fecha,hora,servicio,tecnico_asignado,estado,prioridad,observaciones,realizada,agenda_cliente_id_fkey(nombre,direccion)", {
-        method: "GET",
-        headers: {
-          apikey: SUPABASE_API_KEY,
-          Authorization: "Bearer " + SUPABASE_API_KEY
-        }
-      });
+      const { data: agenda, error: errorAgenda } = await supabase.from("agenda").select("*");
+      const { data: clientes, error: errorClientes } = await supabase.from("clientes").select("id,nombre,direccion");
 
-      const data = await res.json();
+      if (errorAgenda || errorClientes) {
+        console.error("❌ Error cargando datos:", errorAgenda || errorClientes);
+        return;
+      }
+
       const tabla = document.getElementById("tabla-agenda");
       tabla.innerHTML = "";
 
-      data.forEach(registro => {
+      agenda.forEach(registro => {
+        const cliente = clientes.find(c => c.id === registro.cliente_id);
         const fila = document.createElement("tr");
         const clase = (registro.prioridad || "media").toLowerCase();
         const estado = registro.realizada ? "✅ Realizada" : "⏳ Pendiente";
@@ -82,8 +86,8 @@
         fila.classList.add(clase);
 
         fila.innerHTML = `
-          <td>${registro.clientes?.nombre || "Sin nombre"}</td>
-          <td>${registro.clientes?.direccion || "-"}</td>
+          <td>${cliente?.nombre || "Desconocido"}</td>
+          <td>${cliente?.direccion || "-"}</td>
           <td>${registro.fecha}</td>
           <td>${registro.hora}</td>
           <td>${registro.servicio}</td>
@@ -101,21 +105,16 @@
       const confirmar = confirm("¿Confirmas que esta visita fue realizada?");
       if (!confirmar) return;
 
-      const res = await fetch(SUPABASE_URL + "/rest/v1/agenda?id=eq." + id, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: SUPABASE_API_KEY,
-          Authorization: "Bearer " + SUPABASE_API_KEY
-        },
-        body: JSON.stringify({ realizada: true })
-      });
+      const res = await supabase
+        .from("agenda")
+        .update({ realizada: true })
+        .eq("id", id);
 
-      if (res.ok) {
-        alert("✅ Visita confirmada como realizada.");
-        cargarAgenda();
-      } else {
+      if (res.error) {
         alert("❌ Error al confirmar visita.");
+      } else {
+        alert("✅ Visita confirmada.");
+        cargarAgenda();
       }
     }
 
