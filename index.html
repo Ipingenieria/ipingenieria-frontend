@@ -3,18 +3,17 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Panel Principal - Sistema Empresarial</title>
+  <title>Menú Principal - Sistema Empresarial</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #eef1f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
       padding: 40px;
+      text-align: center;
     }
 
     h1 {
+      font-size: 28px;
       color: #333;
     }
 
@@ -22,33 +21,40 @@
       margin-top: 40px;
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
     }
 
     .boton {
-      background-color: #007BFF;
+      background-color: #0066cc;
       color: white;
+      padding: 15px 25px;
       border: none;
-      padding: 15px 30px;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
+      border-radius: 10px;
       text-decoration: none;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
       transition: background-color 0.3s;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .boton:hover {
-      background-color: #0056b3;
+      background-color: #004d99;
     }
   </style>
 </head>
 <body>
-  <h1>📊 Panel Principal del Sistema Empresarial</h1>
+  <h1>📂 Panel Principal del Sistema Empresarial</h1>
 
   <div class="menu">
+    <a href="clientes.html" class="boton">👥 Clientes</a>
+    <a href="cotizaciones.html" class="boton">🧾 Cotizaciones</a>
+    <a href="agenda.html" class="boton">📅 Agenda Técnica</a>
+    <a href="inventario.html" class="boton">📦 Inventario</a>
+    <a href="facturacion.html" class="boton">💼 Facturación</a>
+    <a href="flujo_dinero.html" class="boton">💰 Flujo de Dinero</a>
     <a href="registro_movimiento.html" class="boton">🔁 Registro de Movimiento</a>
-    <!-- Aquí puedes agregar más botones a futuro -->
   </div>
 </body>
 </html>
