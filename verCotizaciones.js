@@ -9,7 +9,18 @@ const supabase = createClient(
 async function cargarCotizaciones() {
   const { data: cotizaciones, error } = await supabase
     .from('cotizaciones')
-    .select('id, cliente_id, encabezado_tipo, forma_pago, valor_total, estado, fecha_creacion')
+    .select(`
+      id,
+      cliente_id,
+      encabezado_tipo,
+      forma_pago,
+      valor_total,
+      estado,
+      fecha_creacion,
+      clientes (
+        nombre
+      )
+    `)
     .order('fecha_creacion', { ascending: false });
 
   if (error) {
@@ -21,11 +32,14 @@ async function cargarCotizaciones() {
   contenedor.innerHTML = '';
 
   for (const c of cotizaciones) {
+    const nombreCliente = c.clientes?.nombre || 'Sin nombre';
+
     const card = document.createElement('div');
     card.classList.add('cotizacion-card');
 
     card.innerHTML = `
       <h3>📌 ${c.encabezado_tipo}</h3>
+      <p><strong>🏢 Cliente:</strong> ${nombreCliente}</p>
       <p><strong>💰 Total:</strong> $${Number(c.valor_total).toLocaleString()}</p>
       <p><strong>💳 Forma de pago:</strong> ${c.forma_pago}</p>
       <p><strong>📅 Fecha:</strong> ${new Date(c.fecha_creacion).toLocaleDateString()}</p>
