@@ -1,5 +1,7 @@
 
-const supabase = supabase.createClient(
+// Inicializar cliente Supabase correctamente
+const { createClient } = supabase;
+const supabase = createClient(
   'https://uyobgstmfukqncebtoli.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
 );
