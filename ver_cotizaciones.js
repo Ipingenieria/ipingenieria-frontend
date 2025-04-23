@@ -85,7 +85,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${nombreCliente}</td>
+      
+    <td>
+      ${cotizacion.id.slice(0, 4)}...${cotizacion.id.slice(-4)}
+      <button onclick="copiarID('${cotizacion.id}')" title="Copiar ID" style="margin-left:5px;">📋</button>
+    </td>
+    <td>${nombreCliente}</td>
       <td>${formatearFecha(cotizacion.fecha_creacion)}</td>
       <td>${cotizacion.encabezado_tipo || '-'}</td>
       <td>${formatearValor(cotizacion.valor_total)}</td>
@@ -103,3 +108,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     tbody.appendChild(row);
   });
 });
+
+function copiarID(id) {
+  navigator.clipboard.writeText(id).then(() => {
+    alert("ID copiado al portapapeles: " + id);
+  }).catch(err => {
+    console.error('Error al copiar el ID: ', err);
+  });
+}
