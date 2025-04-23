@@ -1,37 +1,54 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Panel Empresarial - IP Ingeniería</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Panel Principal - Sistema Empresarial</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef1f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .menu {
+      margin-top: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .boton {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+    }
+
+    .boton:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <aside class="sidebar">
-    <div class="logo">IP Ingeniería</div>
-    <nav>
-      <ul>
-        <li class="section">🧾 Gestión General</li>
-        <li><a href="clientes.html">👥 Clientes</a></li>
-        <li><a href="usuarios.html">🧑‍💼 Usuarios</a></li>
-        <li class="section">📆 Agenda y Visitas</li>
-        <li><a href="agenda.html">🗓️ Agendar Visita</a></li>
-        <li><a href="ver_agenda.html">📋 Ver Agenda</a></li>
-        <li class="section">💰 Finanzas</li>
-        <li><a href="flujo_dinero.html">💵 Flujo de Dinero</a></li>
-        <li><a href="facturacion.html">🧾 Facturación</a></li>
-        <li class="section">⚙️ Operaciones</li>
-        <li><a href="inventario.html">📦 Inventario</a></li>
-        <li><a href="cotizaciones.html">📝 Cotizaciones</a></li>
-        <li><a href="ver_cotizaciones.html">📑 Ver Cotizaciones</a></li>
-      </ul>
-    </nav>
-    <button class="logout">🔒 Cerrar sesión</button>
-  </aside>
-  <main>
-    <h1>Bienvenido al Panel de Control Empresarial</h1>
-    <p>Selecciona una opción del menú para comenzar.</p>
-  </main>
-  <script src="menu.js"></script>
+  <h1>📊 Panel Principal del Sistema Empresarial</h1>
+
+  <div class="menu">
+    <a href="registro_movimiento.html" class="boton">🔁 Registro de Movimiento</a>
+    <!-- Aquí puedes agregar más botones a futuro -->
+  </div>
 </body>
 </html>
