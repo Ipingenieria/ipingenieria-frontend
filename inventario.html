@@ -3,94 +3,68 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventario | IP INGENIERÍA Y AUTOMATISMO SAS</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="inventario.js" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <title>Inventario</title>
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f4f6f8;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 480px;
-    }
-    h1 {
-      text-align: center;
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      color: #1a202c;
-    }
-    label {
-      display: flex;
-      align-items: center;
-      font-weight: 600;
-      color: #4a5568;
-      margin-bottom: 0.3rem;
-    }
-    label i {
-      margin-right: 0.5rem;
-      color: #2b6cb0;
-    }
-    input[type="text"], input[type="number"], input[type="file"] {
-      width: 100%;
-      padding: 0.6rem;
-      border-radius: 8px;
-      border: 1px solid #cbd5e0;
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-    button {
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #2b6cb0;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #2c5282;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; }
+    form { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; }
+    .iva-group, .movimiento-group { margin-top: 15px; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1><i class="fas fa-boxes"></i> Registro de Inventario</h1>
-    <form id="formulario-inventario">
-      <label for="nombre"><i class="fas fa-tag"></i> Nombre del producto</label>
-      <input type="text" id="nombre" required>
+  <form id="formInventario">
+    <h2>📦 Registro de Inventario</h2>
 
-      <label for="categoria"><i class="fas fa-layer-group"></i> Categoría</label>
-      <input type="text" id="categoria" required>
+    <label>Nombre del producto</label>
+    <input type="text" id="nombre" required>
 
-      <label for="cantidad"><i class="fas fa-sort-numeric-up-alt"></i> Cantidad</label>
-      <input type="number" id="cantidad" required>
+    <label>Referencia / Descripción</label>
+    <input type="text" id="referencia" required>
 
-      <label for="valor_unitario"><i class="fas fa-dollar-sign"></i> Valor unitario</label>
-      <input type="number" id="valor_unitario" required>
+    <label>Categoría</label>
+    <select id="categoria" required>
+      <option value="">Selecciona una categoría</option>
+      <option value="CCTV">📷 CCTV</option>
+      <option value="CITOFONIA">📞 Citofonía</option>
+      <option value="HERRAMIENTAS">🛠️ Herramientas</option>
+      <option value="ALARMAS">🚨 Alarmas</option>
+      <option value="VARIOS">📦 Varios</option>
+    </select>
 
-      <label for="imagen"><i class="fas fa-image"></i> Imagen (opcional)</label>
-      <input type="file" id="imagen" accept="image/*">
+    <label>Cantidad</label>
+    <input type="number" id="cantidad" required>
 
-      <button type="submit"><i class="fas fa-plus-circle"></i> Registrar</button>
-    </form>
-  </div>
+    <label>Valor unitario</label>
+    <input type="number" id="valor_unitario" required>
+
+    <div class="iva-group">
+      <label>¿Tiene IVA?</label>
+      <select id="tiene_iva">
+        <option value="false">❌ No</option>
+        <option value="true">✅ Sí</option>
+      </select>
+
+      <label>Porcentaje de IVA (%)</label>
+      <input type="number" id="porcentaje_iva" placeholder="Ej: 19" min="0" max="100">
+    </div>
+
+    <div class="movimiento-group">
+      <label>Tipo de Movimiento</label>
+      <select id="tipo_movimiento" required>
+        <option value="Entrada">⬆️ Entrada</option>
+        <option value="Salida">⬇️ Salida</option>
+      </select>
+    </div>
+
+    <label>Observaciones</label>
+    <input type="text" id="observaciones">
+
+    <label>Subir imagen del producto</label>
+    <input type="file" id="imagen">
+
+    <br><br>
+    <button type="submit">Guardar Producto</button>
+  </form>
 </body>
 </html>
