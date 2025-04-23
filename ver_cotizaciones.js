@@ -27,7 +27,30 @@ async function actualizarEstado(cotizacionId, nuevoEstado) {
     }
 
     alert('Estado actualizado correctamente.');
-    location.reload(); // Refrescar para reflejar el cambio
+
+    const estadoTd = document.querySelector(`#estado-valor-${cotizacionId}`);
+    const contenedorAcciones = document.querySelector(`#estado-contenedor-${cotizacionId}`);
+
+    if (estadoTd) {
+      estadoTd.textContent = nuevoEstado;
+      estadoTd.className = nuevoEstado === 'aprobada' ? 'estado-aprobada' :
+                           nuevoEstado === 'rechazada' ? 'estado-rechazada' :
+                           'estado-pendiente';
+    }
+
+    if (contenedorAcciones) {
+      contenedorAcciones.innerHTML = '';
+
+      if (nuevoEstado === 'aprobada') {
+        const botonAgendar = document.createElement('button');
+        botonAgendar.className = 'agendar';
+        botonAgendar.textContent = '📅 Agendar Visita';
+        botonAgendar.onclick = () => {
+          window.location.href = `agenda.html?cotizacion_id=${cotizacionId}`;
+        };
+        contenedorAcciones.appendChild(botonAgendar);
+      }
+    }
   } catch (err) {
     console.error('Excepción al actualizar estado:', err);
     alert('Ocurrió un error inesperado.');
@@ -57,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       <td>${formatearFecha(cotizacion.fecha_creacion)}</td>
       <td>${cotizacion.encabezado_tipo || '-'}</td>
       <td>${formatearValor(cotizacion.valor_total)}</td>
-      <td class="${estadoClass}">${cotizacion.estado}</td>
+      <td id="estado-valor-${cotizacion.id}" class="${estadoClass}">${cotizacion.estado}</td>
       <td id="estado-contenedor-${cotizacion.id}">
         ${cotizacion.estado === 'pendiente' ? `
           <button class="aprobar" onclick="actualizarEstado('${cotizacion.id}', 'aprobada')">✅ Aprobar</button>
