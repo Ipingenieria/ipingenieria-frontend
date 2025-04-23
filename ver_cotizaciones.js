@@ -40,19 +40,23 @@ async function actualizarEstado(cotizacionId, nuevoEstado) {
   }
 }
 
-// Simulación de cotizaciones (solo para pruebas visuales, puedes quitar esto si usas datos reales)
+// Cargar cotizaciones reales desde Supabase
 document.addEventListener("DOMContentLoaded", async () => {
-  const cotizaciones = [
-    { id: '1', cliente: 'Edificio A', servicio: 'CCTV', estado: 'Pendiente' },
-    { id: '2', cliente: 'Conjunto B', servicio: 'Citofonía', estado: 'Pendiente' }
-  ];
+  const { data: cotizaciones, error } = await supabase
+    .from('cotizaciones')
+    .select('*');
+
+  if (error) {
+    console.error('Error cargando cotizaciones:', error);
+    return;
+  }
 
   const tbody = document.getElementById('cotizaciones-body');
   cotizaciones.forEach(cotizacion => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${cotizacion.cliente}</td>
-      <td>${cotizacion.servicio}</td>
+      <td>${cotizacion.cliente_nombre || '-'}</td>
+      <td>${cotizacion.servicio || '-'}</td>
       <td id="estado-contenedor-${cotizacion.id}">
         <button onclick="actualizarEstado('${cotizacion.id}', 'Aprobada')">✅ Aprobar</button>
         <button onclick="actualizarEstado('${cotizacion.id}', 'Rechazada')">❌ Rechazar</button>
