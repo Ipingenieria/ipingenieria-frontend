@@ -1,64 +1,48 @@
 
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-const supabase = createClient(
-  'https://uyobgstmfukqncebtoli.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
-);
-
-const formulario = document.getElementById("formulario-inventario");
-const lista = document.getElementById("lista-productos");
-const selectProyecto = document.getElementById("proyecto_id");
-
-formulario.addEventListener("submit", async (e) => {
+document.getElementById("formulario-inventario").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const nuevo = {
-    nombre: formulario.nombre.value,
-    categoria: formulario.categoria.value,
-    unidad: formulario.unidad.value,
-    cantidad: parseInt(formulario.cantidad.value),
-    valor_compra: parseFloat(formulario.valor_compra.value),
-    valor_venta: parseFloat(formulario.valor_venta.value),
-    proyecto_id: formulario.proyecto_id.value || null,
-    imagen_url: formulario.imagen_url.value || null,
-  };
 
-  const { error } = await supabase.from("inventario").insert(nuevo);
-  if (error) return alert("Error al guardar el producto");
-  alert("Producto guardado correctamente");
-  formulario.reset();
-  cargarProductos();
-});
+  const supabaseUrl = 'https://uyobgstmfukqncebtoli.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
+  const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-async function cargarProductos() {
-  const { data, error } = await supabase.from("inventario").select("*");
-  lista.innerHTML = "";
-  if (error) return alert("Error cargando productos");
+  const nombre = document.getElementById("nombre").value;
+  const categoria = document.getElementById("categoria").value;
+  const cantidad = parseInt(document.getElementById("cantidad").value);
+  const valor_unitario = parseFloat(document.getElementById("valor_unitario").value);
+  const archivoImagen = document.getElementById("imagen").files[0];
 
-  data.forEach(p => {
-    const div = document.createElement("div");
-    div.className = "producto";
-    div.innerHTML = `
-      <strong>${p.nombre}</strong><br/>
-      Categoría: ${p.categoria} | Unidad: ${p.unidad}<br/>
-      Cantidad: ${p.cantidad} | Compra: $${p.valor_compra} | Venta: $${p.valor_venta}<br/>
-      ${p.imagen_url ? `<img src="${p.imagen_url}" alt="imagen" />` : ""}
-    `;
-    lista.appendChild(div);
-  });
-}
+  let imagen_url = "";
 
-async function cargarProyectos() {
-  const { data, error } = await supabase.from("proyectos").select("id, nombre");
-  if (!error && data) {
-    data.forEach(p => {
-      const option = document.createElement("option");
-      option.value = p.id;
-      option.textContent = p.nombre;
-      selectProyecto.appendChild(option);
-    });
+  if (archivoImagen) {
+    const nombreArchivo = `${Date.now()}_${archivoImagen.name}`;
+    const { data: storageData, error: storageError } = await client.storage
+      .from("imagenes")
+      .upload(nombreArchivo, archivoImagen);
+
+    if (storageError) {
+      console.error("Error subiendo imagen:", storageError.message);
+      alert("Error al subir la imagen.");
+      return;
+    }
+
+    const { data: publicUrlData } = client.storage.from("imagenes").getPublicUrl(nombreArchivo);
+    imagen_url = publicUrlData.publicUrl;
   }
-}
 
-cargarProyectos();
-cargarProductos();
+  const { data, error } = await client.from("inventario").insert([{
+    nombre,
+    categoria,
+    cantidad,
+    valor_unitario,
+    imagen_url
+  }]);
+
+  if (error) {
+    console.error("Error al registrar producto:", error.message);
+    alert("Error al registrar el producto.");
+  } else {
+    alert("Producto registrado con éxito.");
+    document.getElementById("formulario-inventario").reset();
+  }
+});
