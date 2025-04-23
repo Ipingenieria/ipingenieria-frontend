@@ -107,3 +107,8 @@ window.verDetalle = async function (cotizacionId) {
 };
 
 document.addEventListener('DOMContentLoaded', cargarCotizaciones);
+
+
+// Exponer funciones al scope global para que funcionen los botones dinámicos
+window.actualizarEstado = actualizarEstado;
+window.agendarVisita = agendarVisita;
