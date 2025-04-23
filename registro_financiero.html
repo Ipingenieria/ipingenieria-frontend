@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><title>Registro Financiero</title></head>
+<body>
+  <h2>💰 Registro Financiero General</h2>
+  <form id="formFinanciero">
+    <label>Tipo:</label>
+    <select id="tipo"><option value="Ingreso">Ingreso</option><option value="Egreso">Egreso</option></select><br>
+    <label>Categoría:</label><input type="text" id="categoria"><br>
+    <label>Descripción:</label><input type="text" id="descripcion"><br>
+    <label>Valor:</label><input type="number" id="valor" required><br>
+    <label>Observaciones:</label><input type="text" id="observaciones"><br>
+    <label>Registrado por:</label><input type="text" id="registrado_por"><br>
+    <button type="submit">Registrar</button>
+  </form>
+  <script src="registro_financiero.js"></script>
+</body></html>
