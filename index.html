@@ -1,46 +1,44 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Panel Empresarial - IP Ingeniería</title>
-  <link rel="stylesheet" href="estilos.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Empresarial</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <nav class="sidebar">
+  <div class="sidebar">
     <h2>IP Ingeniería</h2>
-    <ul>
-      <li><a href="#">📂 Gestión General</a>
-        <ul>
-          <li><a href="clientes.html">👥 Clientes</a></li>
-          <li><a href="usuarios.html">🔐 Usuarios</a></li>
-        </ul>
-      </li>
-      <li><a href="#">📅 Agenda y Visitas</a>
-        <ul>
-          <li><a href="agenda.html">🗓️ Agendar Visita</a></li>
-          <li><a href="ver_agenda.html">📋 Ver Agenda</a></li>
-        </ul>
-      </li>
-      <li><a href="#">💰 Finanzas</a>
-        <ul>
-          <li><a href="flujo_dinero.html">💵 Flujo de Dinero</a></li>
-          <li><a href="facturacion.html">🧾 Facturación</a></li>
-        </ul>
-      </li>
-      <li><a href="#">📦 Operaciones</a>
-        <ul>
-          <li><a href="inventario.html">📦 Inventario</a></li>
-          <li><a href="cotizaciones.html">📝 Cotizaciones</a></li>
-          <li><a href="ver_cotizaciones.html">📄 Ver Cotizaciones</a></li>
-        </ul>
-      </li>
+    <ul class="menu">
+      <li class="submenu-toggle">📁 Gestión General</li>
+      <ul class="submenu">
+        <li><a href="#">👤 Clientes</a></li>
+        <li><a href="#">🧑‍💼 Usuarios</a></li>
+      </ul>
+      <li class="submenu-toggle">📅 Agenda y Visitas</li>
+      <ul class="submenu">
+        <li><a href="#">🗓️ Agendar Visita</a></li>
+        <li><a href="#">📆 Ver Agenda</a></li>
+      </ul>
+      <li class="submenu-toggle">💰 Finanzas</li>
+      <ul class="submenu">
+        <li><a href="#">💳 Flujo de Dinero</a></li>
+        <li><a href="#">🧾 Facturación</a></li>
+      </ul>
+      <li class="submenu-toggle">🛠️ Operaciones</li>
+      <ul class="submenu">
+        <li><a href="#">📦 Inventario</a></li>
+        <li><a href="#">🧾 Cotizaciones</a></li>
+        <li><a href="#">📋 Ver Cotizaciones</a></li>
+      </ul>
     </ul>
     <button class="logout">🔒 Cerrar sesión</button>
-  </nav>
-  <main>
+  </div>
+  <div class="content">
     <h1>Bienvenido al Panel de Control Empresarial</h1>
     <p>Selecciona una opción del menú para comenzar.</p>
-  </main>
+  </div>
+  <script src="menu.js"></script>
 </body>
 </html>
