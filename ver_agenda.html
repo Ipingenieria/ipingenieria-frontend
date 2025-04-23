@@ -62,7 +62,7 @@
     const SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo";
 
     async function cargarAgenda() {
-      const res = await fetch(SUPABASE_URL + "/rest/v1/agenda?select=*,clientes(nombre,direccion)", {
+      const res = await fetch(SUPABASE_URL + "/rest/v1/agenda?select=id,cliente_id,fecha,hora,servicio,tecnico_asignado,estado,prioridad,observaciones,realizada,clientes(nombre,direccion)", {
         method: "GET",
         headers: {
           apikey: SUPABASE_API_KEY,
