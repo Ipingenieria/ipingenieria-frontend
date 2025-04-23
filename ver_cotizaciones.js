@@ -58,15 +58,22 @@ async function actualizarEstado(cotizacionId, nuevoEstado) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const { data: cotizaciones, error } = await supabase
+  const { data: cotizaciones, error: errorCot } = await supabase
     .from('cotizaciones')
     .select('*')
     .order('fecha_creacion', { ascending: false });
 
-  if (error) {
-    console.error('Error cargando cotizaciones:', error);
+  const { data: clientes, error: errorCli } = await supabase
+    .from('clientes')
+    .select('id, nombre');
+
+  if (errorCot || errorCli) {
+    console.error('Error cargando cotizaciones o clientes:', errorCot || errorCli);
     return;
   }
+
+  const mapClientes = {};
+  clientes.forEach(c => { mapClientes[c.id] = c.nombre; });
 
   const tbody = document.getElementById('cotizaciones-body');
   cotizaciones.forEach(cotizacion => {
@@ -74,9 +81,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                        : cotizacion.estado === 'rechazada' ? 'estado-rechazada'
                        : 'estado-pendiente';
 
+    const nombreCliente = mapClientes[cotizacion.cliente_id] || '🔍 No encontrado';
+
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${cotizacion.cliente_id || '-'}</td>
+      <td>${nombreCliente}</td>
       <td>${formatearFecha(cotizacion.fecha_creacion)}</td>
       <td>${cotizacion.encabezado_tipo || '-'}</td>
       <td>${formatearValor(cotizacion.valor_total)}</td>
