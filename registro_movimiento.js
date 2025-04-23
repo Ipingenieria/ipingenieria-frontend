@@ -4,6 +4,30 @@ const supabase = window.supabase.createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
 );
 
+// Cargar productos desde Supabase
+async function cargarProductos() {
+  const { data, error } = await supabase.from('productos').select('id, nombre');
+
+  const select = document.getElementById('producto_id');
+  select.innerHTML = '<option value="">Selecciona un producto</option>';
+
+  if (error) {
+    console.error("Error cargando productos:", error);
+    alert("No se pudieron cargar los productos.");
+    return;
+  }
+
+  data.forEach(producto => {
+    const option = document.createElement('option');
+    option.value = producto.id;
+    option.textContent = producto.nombre;
+    select.appendChild(option);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', cargarProductos);
+
+// Enviar movimiento
 document.getElementById('formMovimiento').addEventListener('submit', async function (e) {
   e.preventDefault();
 
