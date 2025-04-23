@@ -90,7 +90,7 @@
           <td>${cliente?.direccion || "-"}</td>
           <td>${registro.fecha}</td>
           <td>${registro.hora}</td>
-          <td>${registro.servicio?.startsWith('cotizacion') ? 'Cotización relacionada' : registro.servicio}</td>
+          <td>${registro.servicio}</td>
           <td>${registro.tecnico_asignado || "-"}</td>
           <td>${registro.observaciones || "-"}</td>
           <td class="${registro.realizada ? 'realizada' : 'pendiente'}">${estado}</td>
