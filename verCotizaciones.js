@@ -44,23 +44,37 @@ async function cargarCotizaciones() {
       <p><strong>💳 Forma de pago:</strong> ${c.forma_pago}</p>
       <p><strong>📅 Fecha:</strong> ${new Date(c.fecha_creacion).toLocaleDateString()}</p>
       <p><strong>📄 Estado:</strong> ${c.estado || 'pendiente'}</p>
-      <button onclick="verDetalle('${c.id}')">👁 Ver Detalle</button>
-      ${generarBotonesEstado(c.id, c.estado)}
     `;
-    contenedor.appendChild(card);
-  }
-}
 
-function generarBotonesEstado(id, estado) {
-  if (estado === 'aprobada') {
-    return `<button onclick="agendarVisita('${id}')">📅 Agendar Visita</button>`;
-  } else if (estado === 'rechazada') {
-    return `<p style="color: red;"><strong>❌ Cotización Rechazada</strong></p>`;
-  } else {
-    return `
-      <button onclick="actualizarEstado('${id}', 'aprobada')">✅ Aprobar</button>
-      <button onclick="actualizarEstado('${id}', 'rechazada')">❌ Rechazar</button>
-    `;
+    // Botón Detalle
+    const verBtn = document.createElement('button');
+    verBtn.textContent = '👁 Ver Detalle';
+    verBtn.addEventListener('click', () => verDetalle(c.id));
+    card.appendChild(verBtn);
+
+    // Botones según estado
+    if (c.estado === 'aprobada') {
+      const agendarBtn = document.createElement('button');
+      agendarBtn.textContent = '📅 Agendar Visita';
+      agendarBtn.addEventListener('click', () => agendarVisita(c.id));
+      card.appendChild(agendarBtn);
+    } else if (c.estado === 'rechazada') {
+      const rechazadaMsg = document.createElement('p');
+      rechazadaMsg.innerHTML = '<strong style="color: red;">❌ Cotización Rechazada</strong>';
+      card.appendChild(rechazadaMsg);
+    } else {
+      const aprobarBtn = document.createElement('button');
+      aprobarBtn.textContent = '✅ Aprobar';
+      aprobarBtn.addEventListener('click', () => actualizarEstado(c.id, 'aprobada'));
+      card.appendChild(aprobarBtn);
+
+      const rechazarBtn = document.createElement('button');
+      rechazarBtn.textContent = '❌ Rechazar';
+      rechazarBtn.addEventListener('click', () => actualizarEstado(c.id, 'rechazada'));
+      card.appendChild(rechazarBtn);
+    }
+
+    contenedor.appendChild(card);
   }
 }
 
@@ -82,11 +96,11 @@ async function actualizarEstado(id, nuevoEstado) {
 
 async function agendarVisita(cotizacionId) {
   alert('📅 Aquí conectamos con el formulario de agenda, usando ID: ' + cotizacionId);
-  // Aquí puedes redirigir a agenda.html y pasar el ID por URL si lo deseas
+  // Redirigir con datos (opcional)
   // window.location.href = `agenda.html?cotizacion_id=${cotizacionId}`;
 }
 
-window.verDetalle = async function (cotizacionId) {
+async function verDetalle(cotizacionId) {
   const { data: detalles, error } = await supabase
     .from('cotizaciones_detalle')
     .select('*')
@@ -104,11 +118,6 @@ window.verDetalle = async function (cotizacionId) {
   detalleHtml += '</ul>';
 
   alert(`🧾 Detalles:\n\n${detalleHtml.replace(/<[^>]+>/g, '')}`);
-};
+}
 
 document.addEventListener('DOMContentLoaded', cargarCotizaciones);
-
-
-// Exponer funciones al scope global para que funcionen los botones dinámicos
-window.actualizarEstado = actualizarEstado;
-window.agendarVisita = agendarVisita;
