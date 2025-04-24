@@ -1,5 +1,4 @@
 
-const supabase = window.supabase.createClient(URL, KEY);
 document.getElementById('formFinanciero').addEventListener('submit', async e => {
   e.preventDefault();
   const data = {
