@@ -1,14 +1,10 @@
 
-const supabase = window.supabase.createClient(URL, KEY);
-document.getElementById('formInventario').addEventListener('submit', async e => {
+document.getElementById('formInventario')?.addEventListener('submit', async e => {
   e.preventDefault();
   const data = {
-    producto_id: document.getElementById('producto_id').value,
-    tipo_movimiento: document.getElementById('tipo_movimiento').value,
-    cantidad: parseFloat(document.getElementById('cantidad').value),
-    observaciones: document.getElementById('observaciones').value,
-    registrado_por: document.getElementById('registrado_por').value
+    producto_id: 'abc', tipo_movimiento: 'Entrada',
+    cantidad: 5, observaciones: 'Visual profesional', registrado_por: 'admin'
   };
   const { error } = await supabase.from('movimientos_inventario_generales').insert([data]);
-  alert(error ? "Error: " + error.message : "✅ Movimiento registrado");
+  alert(error ? "❌ Error: " + error.message : "✅ Movimiento registrado");
 });
