@@ -15,17 +15,87 @@
   </style>
 </head>
 <body>
-  <form id="formProyecto.html">
+  <form id="formProyecto">
     <h2>🏗️ Movimiento por Proyecto o Actividad</h2>
+
+    <label for="proyecto_id">🏢 ID del Proyecto</label>
+    <input type="text" id="proyecto_id" required>
+
+    <label for="producto_id">🔢 ID del Producto</label>
+    <input type="text" id="producto_id" required>
+
+    <label for="tipo_movimiento">🔄 Tipo de Movimiento</label>
+    <select id="tipo_movimiento" required>
+      <option value="Entrada">Entrada</option>
+      <option value="Salida">Salida</option>
+    </select>
+
+    <label for="tipo_operacion">⚙️ Tipo de Operación</label>
+    <input type="text" id="tipo_operacion" placeholder="Ej: Compra, Uso interno" required>
+
+    <label for="cantidad">📦 Cantidad</label>
+    <input type="number" id="cantidad" required>
+
+    <label for="valor_unitario">💲 Valor Unitario</label>
+    <input type="number" id="valor_unitario" required>
+
+    <label for="tiene_iva">🧾 ¿Tiene IVA?</label>
+    <select id="tiene_iva">
+      <option value="true">Sí</option>
+      <option value="false">No</option>
+    </select>
+
+    <label for="porcentaje_iva">% IVA</label>
+    <input type="number" id="porcentaje_iva" placeholder="Ej: 19">
+
+    <label for="requiere_registro_dinero">💰 ¿Registrar en flujo de dinero?</label>
+    <select id="requiere_registro_dinero">
+      <option value="true">Sí</option>
+      <option value="false">No</option>
+    </select>
+
+    <label for="tipo_registro_dinero">💼 Tipo de Registro Financiero</label>
+    <input type="text" id="tipo_registro_dinero" placeholder="Ej: Gasto, Inversión">
+
+    <label for="subtipo_dinero">📁 Subtipo Financiero</label>
+    <input type="text" id="subtipo_dinero" placeholder="Ej: Producto, Mano de Obra">
+
+    <label for="observaciones">🧾 Observaciones</label>
+    <textarea id="observaciones" rows="3"></textarea>
+
+    <label for="registrado_por">👤 Registrado por</label>
+    <input type="text" id="registrado_por" required>
+
     <button type="submit">Guardar</button>
   </form>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
     const supabase = window.supabase.createClient(
       "https://uyobgstmfukqncebtoli.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo"
     );
+
+    document.getElementById('formProyecto')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = {
+        proyecto_id: document.getElementById('proyecto_id').value,
+        producto_id: document.getElementById('producto_id').value,
+        tipo_movimiento: document.getElementById('tipo_movimiento').value,
+        tipo_operacion: document.getElementById('tipo_operacion').value,
+        cantidad: parseFloat(document.getElementById('cantidad').value),
+        valor_unitario: parseFloat(document.getElementById('valor_unitario').value),
+        tiene_iva: document.getElementById('tiene_iva').value === "true",
+        porcentaje_iva: parseFloat(document.getElementById('porcentaje_iva').value) || 0,
+        requiere_registro_dinero: document.getElementById('requiere_registro_dinero').value === "true",
+        tipo_registro_dinero: document.getElementById('tipo_registro_dinero').value,
+        subtipo_dinero: document.getElementById('subtipo_dinero').value,
+        observaciones: document.getElementById('observaciones').value,
+        registrado_por: document.getElementById('registrado_por').value
+      };
+      const {{ error }} = await supabase.from('movimientos_por_proyecto').insert([data]);
+      alert(error ? "❌ Error: " + error.message : "✅ Movimiento registrado");
+    });
   </script>
-  <script src="registro_proyecto.js"></script>
 </body>
 </html>
