@@ -55,7 +55,7 @@
         observaciones: document.getElementById('observaciones').value,
         registrado_por: document.getElementById('registrado_por').value
       };
-      const {{ error }} = await supabase.from('movimientos_inventario_generales').insert([data]);
+      const { error } = await supabase.from('movimientos_inventario_generales').insert([data]);
       alert(error ? "❌ Error: " + error.message : "✅ Movimiento registrado");
     });
   </script>
