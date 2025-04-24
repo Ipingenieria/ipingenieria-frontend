@@ -6,7 +6,7 @@
   <title>Registro Inventario</title>
   <style>
     body { font-family: 'Segoe UI', sans-serif; background: #f5f8fa; margin: 0; padding: 20px; }
-    form { background: white; padding: 30px; border-radius: 12px; max-width: 600px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    form { background: white; padding: 30px; border-radius: 12px; max-width: 700px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     h2 { text-align: center; color: #1a202c; }
     label { font-weight: bold; display: block; margin-top: 15px; }
     input, select { width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; }
@@ -18,28 +18,15 @@
   <form id="formInventario">
     <h2>📦 Registro de Inventario General</h2>
 
-    <label for="producto_id">🧾 ID del Producto</label>
-    <input type="text" id="producto_id" required>
+    <!-- Aquí iría el contenido del formulario -->
 
-    <label for="tipo_movimiento">🔄 Tipo Movimiento</label>
-    <select id="tipo_movimiento"><option value="Entrada">Entrada</option><option value="Salida">Salida</option></select>
-
-    <label for="cantidad">🔢 Cantidad</label>
-    <input type="number" id="cantidad" required>
-
-    <label for="observaciones">📝 Observaciones</label>
-    <input type="text" id="observaciones">
-
-    <label for="registrado_por">👤 Registrado por</label>
-    <input type="text" id="registrado_por">
-
-    <button type="submit">Registrar Movimiento</button>
-  </form>
-  
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
-const supabase = supabase.createClient("https://uyobgstmfukqncebtoli.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...");
-</script>
-<script src="registro_inventario.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabase = window.supabase.createClient(
+      "https://uyobgstmfukqncebtoli.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo"
+    );
+  </script>
+  <script src="registro_inventario.js"></script>
 </body>
 </html>
