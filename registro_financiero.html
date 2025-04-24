@@ -32,10 +32,13 @@
     <button type="submit">Registrar Movimiento</button>
   </form>
 
-  <!-- Cargar Supabase y luego la instancia -->
+  <!-- Supabase CDN y conexión con nueva anon key -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-    const supabase = window.supabase.createClient("https://uyobgstmfukqncebtoli.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...");
+    const supabase = supabase.createClient(
+      "https://uyobgstmfukqncebtoli.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo"
+    );
   </script>
   <script src="registro_financiero.js"></script>
 </body>
