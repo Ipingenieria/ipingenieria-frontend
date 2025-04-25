@@ -4,33 +4,90 @@
 <head>
   <meta charset="UTF-8">
   <title>Registro Financiero General</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 40px;
+    }
+    h2 {
+      text-align: center;
+      color: #003366;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script defer src="registro_financiero.js"></script>
 </head>
 <body>
-  <h2>Registro Financiero General</h2>
+  <h2>💰 Registro Financiero General</h2>
   <form id="formFinanciero">
-    <label>Tipo de Movimiento:
-      <select id="tipo_movimiento">
-        <option>Ingreso</option>
-        <option>Egreso</option>
-        <option>Anticipo</option>
-        <option>Impuesto</option>
-      </select>
-    </label><br><br>
-    <label>Categoría:<input type="text" id="categoria"></label><br><br>
-    <label>Valor:<input type="number" id="valor"></label><br><br>
-    <label>Fecha:<input type="date" id="fecha"></label><br><br>
-    <label>Usuario:<input type="text" id="usuario"></label><br><br>
-    <label>Descripción:<textarea id="descripcion"></textarea></label><br><br>
-    <label>Tipo de Pago:<input type="text" id="tipo_pago"></label><br><br>
-    <label>Estado del Pago:
-      <select id="estado_pago">
-        <option>Pagado</option>
-        <option>Parcial</option>
-        <option>Pendiente</option>
-      </select>
-    </label><br><br>
+    <label for="tipo_movimiento">Tipo de Movimiento</label>
+    <select id="tipo_movimiento" required>
+      <option>Ingreso</option>
+      <option>Egreso</option>
+      <option>Anticipo</option>
+      <option>Impuesto</option>
+    </select>
+
+    <label for="categoria">Categoría</label>
+    <input type="text" id="categoria" placeholder="Ej: Combustible, Herramientas" required>
+
+    <label for="valor">Valor</label>
+    <input type="number" id="valor" required>
+
+    <label for="fecha">Fecha</label>
+    <input type="date" id="fecha" required>
+
+    <label for="usuario">Usuario</label>
+    <input type="text" id="usuario" required>
+
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" rows="3" placeholder="Detalle del movimiento..."></textarea>
+
+    <label for="tipo_pago">Tipo de Pago</label>
+    <input type="text" id="tipo_pago" placeholder="Ej: Efectivo, Transferencia">
+
+    <label for="estado_pago">Estado del Pago</label>
+    <select id="estado_pago">
+      <option>Pagado</option>
+      <option>Parcial</option>
+      <option>Pendiente</option>
+    </select>
+
     <button type="submit">Registrar</button>
   </form>
 </body>
