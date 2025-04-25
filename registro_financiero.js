@@ -14,7 +14,7 @@ document.getElementById("formFinanciero").addEventListener("submit", async funct
   };
 
   const { error } = await supabase
-    .from("registro_financiero")
+    .from("movimientos_financieros")
     .insert([movimiento]);
 
   if (error) {
