@@ -3,109 +3,45 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Menú Empresarial</title>
+  <title>Menú Principal - IP INGENIERÍA</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-    }
-    .sidebar {
-      width: 260px;
-      background-color: #1e293b;
-      color: #fff;
-      height: 100vh;
-      position: fixed;
-      overflow-y: auto;
-    }
-    .sidebar h2 {
+      background-color: #eaeaea;
+      padding: 40px;
       text-align: center;
-      padding: 20px 0;
-      font-size: 18px;
-      border-bottom: 1px solid #334155;
     }
-    .menu-section {
-      border-bottom: 1px solid #334155;
+    h1 {
+      color: #003366;
+      margin-bottom: 30px;
     }
-    .menu-item {
-      padding: 12px 20px;
-      cursor: pointer;
-      color: #fff;
+    .boton {
       display: block;
+      width: 300px;
+      margin: 15px auto;
+      padding: 15px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
       text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
     }
-    .menu-item:hover {
-      background-color: #334155;
-    }
-    .submenu {
-      display: none;
-      background-color: #2c3e50;
-    }
-    .submenu a {
-      padding: 10px 30px;
-      display: block;
-      color: #ccc;
-      text-decoration: none;
-    }
-    .submenu a:hover {
-      background-color: #3b4b5b;
-    }
-    .menu-item.expand + .submenu {
-      display: block;
-    }
-    .tooltip {
-      font-size: 12px;
-      color: #aaa;
-      padding: 0 20px 10px;
-      font-style: italic;
+    .boton:hover {
+      background-color: #0056b3;
     }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.menu-item.toggle').forEach(item => {
-        item.addEventListener('click', () => {
-          item.classList.toggle('expand');
-        });
-      });
-    });
-  </script>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>📊 Menú Empresarial</h2>
+  <h1>📂 Menú Principal - Sistema Empresarial</h1>
 
-    <div class="menu-section">
-      <div class="menu-item toggle">👥 Clientes y Proyectos</div>
-      <div class="submenu">
-        <a href="clientes.html">Clientes</a>
-        <a href="registro_proyecto.html">Proyectos</a>
-      </div>
-    </div>
+  <a href="clientes.html" class="boton">📇 Gestión de Clientes</a>
+  <a href="cotizaciones.html" class="boton">📝 Generar Cotización</a>
+  <a href="agenda.html" class="boton">📅 Agenda Técnica</a>
+  <a href="inventario.html" class="boton">📦 Inventario</a>
+  <a href="registro_guiado_unificado.html" class="boton">🧠 Registro Guiado Unificado</a>
 
-    <div class="menu-section">
-      <div class="menu-item toggle">🛠 Operaciones</div>
-      <div class="submenu">
-        <a href="agenda.html">📅 Agenda Técnica</a>
-        <a href="registro.html">📄 Registro Guiado</a>
-        <div class="tooltip">Accede al registro financiero, de inventario y movimientos.</div>
-      </div>
-    </div>
-
-    <div class="menu-section">
-      <div class="menu-item toggle">💼 Finanzas</div>
-      <div class="submenu">
-        <a href="cotizaciones.html">💬 Cotizaciones</a>
-        <a href="facturacion.html">🧾 Facturación</a>
-        <a href="flujo.html">💰 Flujo de Dinero</a>
-      </div>
-    </div>
-
-    <div class="menu-section">
-      <div class="menu-item toggle">📈 Visualización</div>
-      <div class="submenu">
-        <a href="dashboard.html">📊 Dashboard</a>
-      </div>
-    </div>
-  </div>
 </body>
 </html>
