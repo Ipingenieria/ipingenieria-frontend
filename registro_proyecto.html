@@ -3,12 +3,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro de Proyectos</title>
+    <title>📁 Registro de Proyectos</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script defer src="registro_proyecto.js"></script>
 </head>
 <body>
-    <h2>📁 Registro de Proyecto</h2>
+    <h1>📁 Registro de Proyecto</h1>
     <form id="formProyecto">
         <label>📌 Nombre del Proyecto:<br><input type="text" id="nombre" required></label><br><br>
         <label>👤 Cliente:<br><select id="cliente_id" required><option>Cargando...</option></select></label><br><br>
@@ -22,9 +23,9 @@
                 <option value="Cancelado">Cancelado</option>
             </select>
         </label><br><br>
-        <label>👷 Responsable Interno:<br><select id="responsable"><option>Cargando...</option></select></label><br><br>
-        <label>🧰 Servicios Incluidos:<br><textarea id="servicios"></textarea></label><br><br>
-        <label>💰 Valor Total:<br><input type="number" id="valor_total" step="0.01"></label><br><br>
+        <label>👷 Responsable:<br><select id="responsable"><option>Cargando...</option></select></label><br><br>
+        <label>🧰 Servicios incluidos:<br><textarea id="servicios"></textarea></label><br><br>
+        <label>💰 Valor total:<br><input type="number" id="valor_total" step="0.01"></label><br><br>
         <label>📝 Observaciones:<br><textarea id="observaciones"></textarea></label><br><br>
         <button type="submit">Registrar Proyecto</button>
     </form>
