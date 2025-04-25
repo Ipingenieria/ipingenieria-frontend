@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro Guiado Unificado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #003366;
+    }
+    .boton-accion {
+      padding: 15px 30px;
+      margin-top: 30px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .boton-accion:hover {
+      background-color: #0056b3;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-contenido {
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .cerrar-modal {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    select {
+      margin-top: 15px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📋 Registro Guiado Unificado</h1>
+
+  <button class="boton-accion" onclick="abrirModal()">➕ Nuevo Movimiento</button>
+
+  <!-- Modal -->
+  <div id="modalRegistro" class="modal">
+    <div class="modal-contenido">
+      <span class="cerrar-modal" onclick="cerrarModal()">✖</span>
+      <h3>Selecciona el tipo de movimiento</h3>
+      <select onchange="redireccionar(this)">
+        <option value="">-- Seleccionar --</option>
+        <option value="registro_financiero.html">💰 Financiero General</option>
+        <option value="registro_inventario.html">📦 Inventario General</option>
+        <option value="registro_movimiento.html">🏗️ Proyecto o Actividad</option>
+      </select>
+    </div>
+  </div>
+
+  <script>
+    function abrirModal() {
+      document.getElementById("modalRegistro").style.display = "flex";
+    }
+    function cerrarModal() {
+      document.getElementById("modalRegistro").style.display = "none";
+    }
+    function redireccionar(select) {
+      const valor = select.value;
+      if (valor) {
+        window.location.href = valor;
+      }
+    }
+  </script>
+</body>
+</html>
