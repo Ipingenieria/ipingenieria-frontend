@@ -49,8 +49,6 @@
       background: #0056b3;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script defer src="registro_financiero.js"></script>
 </head>
 <body>
   <h2>💰 Registro Financiero General</h2>
@@ -90,5 +88,10 @@
 
     <button type="submit">Registrar</button>
   </form>
+
+  <!-- Correct script order -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="registro_financiero.js"></script>
 </body>
 </html>
