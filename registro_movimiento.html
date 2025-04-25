@@ -4,20 +4,59 @@
 <head>
   <meta charset="UTF-8">
   <title>Movimiento por Proyecto o Actividad</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h2 { color: #003366; }
+    form { background: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input, select, textarea {
+      width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px;
+    }
+    button {
+      margin-top: 15px; padding: 10px 15px; background: #0057b7;
+      color: #fff; border: none; border-radius: 4px; cursor: pointer;
+    }
+    button:hover { background: #004095; }
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script defer src="registro_movimiento.js"></script>
 </head>
 <body>
-  <h2>Movimiento por Proyecto o Actividad</h2>
+  <h2>🔁 Movimiento por Proyecto o Actividad</h2>
   <form id="formMovimiento">
-    <label>Producto:<input type="text" id="producto_id"></label><br><br>
-    <label>Cantidad Usada:<input type="number" id="cantidad_usada"></label><br><br>
-    <label>Tipo de Movimiento:<input type="text" id="tipo_movimiento"></label><br><br>
-    <label>Proyecto ID (opcional):<input type="text" id="proyecto_id"></label><br><br>
-    <label>Actividad ID (opcional):<input type="text" id="actividad_id"></label><br><br>
-    <label>Fecha:<input type="date" id="fecha"></label><br><br>
-    <label>Usuario:<input type="text" id="usuario"></label><br><br>
-    <label>Comentario:<textarea id="comentario"></textarea></label><br><br>
+    <label for="producto_id">Producto (ID o nombre)</label>
+    <input type="text" id="producto_id" required>
+
+    <label for="cantidad_usada">Cantidad</label>
+    <input type="number" id="cantidad_usada" required>
+
+    <label for="tipo_movimiento">Tipo de Movimiento</label>
+    <select id="tipo_movimiento" required>
+      <option value="">Seleccionar</option>
+      <option>Entrada</option>
+      <option>Salida</option>
+    </select>
+
+    <label for="proyecto_id">Proyecto</label>
+    <select id="proyecto_id">
+      <option>Cargando proyectos...</option>
+    </select>
+
+    <label for="actividad_id">Actividad ID (opcional)</label>
+    <input type="text" id="actividad_id">
+
+    <label for="costo_unitario">Costo Unitario (opcional)</label>
+    <input type="number" id="costo_unitario">
+
+    <label for="fecha">Fecha</label>
+    <input type="date" id="fecha" required>
+
+    <label for="usuario">Usuario</label>
+    <input type="text" id="usuario" required>
+
+    <label for="comentario">Comentario</label>
+    <textarea id="comentario" rows="3"></textarea>
+
     <button type="submit">Registrar Movimiento</button>
   </form>
 </body>
