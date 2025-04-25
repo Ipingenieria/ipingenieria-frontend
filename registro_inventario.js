@@ -1,10 +1,30 @@
+// registro_inventario.js
 
-document.getElementById('formInventario')?.addEventListener('submit', async e => {
-  e.preventDefault();
-  const data = {
-    producto_id: 'abc', tipo_movimiento: 'Entrada',
-    cantidad: 5, observaciones: 'Visual profesional', registrado_por: 'admin'
-  };
-  const { error } = await supabase.from('movimientos_inventario_generales').insert([data]);
-  alert(error ? "❌ Error: " + error.message : "✅ Movimiento registrado");
-});
+async function guardarProducto() {
+  const nombre = document.getElementById("nombre").value;
+  const descripcion = document.getElementById("descripcion").value;
+  const categoria = document.getElementById("categoria").value;
+
+  const { data, error } = await supabase
+    .from('productos')
+    .insert([
+      {
+        nombre: nombre,
+        descripcion: descripcion,
+        categoria: categoria
+      }
+    ]);
+
+  if (error) {
+    alert("❌ Error creando producto: " + error.message);
+    console.error("Error al insertar:", error);
+  } else {
+    alert("✅ Producto guardado correctamente");
+    document.getElementById("nombre").value = "";
+    document.getElementById("descripcion").value = "";
+    document.getElementById("categoria").value = "";
+  }
+}
+
+// Asegúrate de tener configurado tu cliente de Supabase antes de este script:
+// const supabase = createClient('https://<your-project>.supabase.co', 'public-anon-key');
