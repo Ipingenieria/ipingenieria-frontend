@@ -1,28 +1,29 @@
-// registro_inventario.js
 
-async function guardarProducto() {
-  const nombre = document.getElementById("nombre").value;
-  const descripcion = document.getElementById("descripcion").value;
-  const categoria = document.getElementById("categoria").value;
+const supabaseUrl = "https://uyobgstmfukqncebtoli.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-  const { data, error } = await supabase
-    .from('productos')
-    .insert([
-      {
-        nombre: nombre,
-        descripcion: descripcion,
-        categoria: categoria
-      }
-    ]);
+document.getElementById("formInventario").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const producto = {
+    nombre: document.getElementById("nombre").value,
+    descripcion: document.getElementById("descripcion").value,
+    categoria: document.getElementById("categoria").value,
+    cantidad: parseFloat(document.getElementById("cantidad").value),
+    unidad_medida: document.getElementById("unidad_medida").value,
+    imagen_url: document.getElementById("imagen_url").value || null,
+    observaciones: document.getElementById("observaciones").value
+  };
+
+  const { error } = await supabase
+    .from("inventario")
+    .insert([producto]);
 
   if (error) {
-    alert("❌ Error creando producto: " + error.message);
-    console.error("Error al insertar:", error);
+    alert("❌ Error al guardar producto: " + error.message);
   } else {
-    alert("✅ Producto guardado correctamente");
-    document.getElementById("nombre").value = "";
-    document.getElementById("descripcion").value = "";
-    document.getElementById("categoria").value = "";
-    document.getElementById("modalNuevoProducto").style.display = "none";
+    alert("✅ Producto registrado correctamente.");
+    document.getElementById("formInventario").reset();
   }
-}
+});
