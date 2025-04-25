@@ -1,8 +1,4 @@
 
-const supabaseUrl = "https://uyobgstmfukqncebtoli.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
 document.getElementById("formInventario").addEventListener("submit", async function(e) {
   e.preventDefault();
 
