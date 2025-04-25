@@ -23,6 +23,6 @@ async function guardarProducto() {
     document.getElementById("nombre").value = "";
     document.getElementById("descripcion").value = "";
     document.getElementById("categoria").value = "";
-    document.getElementById("formularioNuevoProducto").style.display = "none";
+    document.getElementById("modalNuevoProducto").style.display = "none";
   }
 }

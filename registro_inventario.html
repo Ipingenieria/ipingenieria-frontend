@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro de Inventario</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inventario Empresarial</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      padding: 30px;
+      margin: 0;
+      background-color: #f5f5f5;
     }
     .container {
-      max-width: 600px;
-      margin: auto;
+      max-width: 700px;
+      margin: 40px auto;
       background: #fff;
       padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
     h2 {
       color: #2a4d9b;
+      display: flex;
+      align-items: center;
+    }
+    h2::before {
+      content: '📦';
+      margin-right: 10px;
     }
     label {
       font-weight: bold;
+      margin-top: 20px;
       display: block;
-      margin-top: 15px;
     }
     input {
       width: 100%;
@@ -33,7 +39,7 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-    button {
+    .btn {
       margin-top: 20px;
       background-color: #004AAD;
       color: white;
@@ -44,56 +50,113 @@
       font-size: 16px;
       width: 100%;
     }
-    .modal-form {
+    .btn:hover {
+      background-color: #003a87;
+    }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    .menu button {
+      flex: 1 1 45%;
+      background: #ddd;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .modal {
       display: none;
-      margin-top: 30px;
-      padding: 20px;
-      border: 2px dashed #ccc;
-      background: #f9f9f9;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 30px;
       border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>Inventario</h2>
 
-<div class="container">
-  <h2>📦 Inventario</h2>
+    <div class="menu">
+      <button>📥 Ingreso</button>
+      <button>📤 Salida</button>
+      <button>📊 Stock</button>
+      <button onclick="mostrarModal()">➕ Crear producto</button>
+    </div>
 
-  <!-- Selección de producto o mensaje -->
-  <label for="producto_existente">Buscar producto existente</label>
-  <input type="text" id="producto_existente" placeholder="Ej: Cámara IP Dahua">
+    <label for="buscar">🔍 Buscar producto existente</label>
+    <input type="text" id="buscar" placeholder="Ej: Cámara IP Dahua" oninput="buscarProducto(this.value)">
 
-  <button type="button" onclick="mostrarFormulario()">➕ Crear nuevo producto</button>
-
-  <!-- Formulario oculto que se despliega -->
-  <div class="modal-form" id="formularioNuevoProducto">
-    <h3>➕ Crear nuevo producto</h3>
-
-    <label for="nombre">📝 Nombre del producto</label>
-    <input type="text" id="nombre" name="nombre" placeholder="Ej: Cámara IP Dahua" required>
-
-    <label for="descripcion">📄 Descripción</label>
-    <input type="text" id="descripcion" name="descripcion" placeholder="Ej: Cámara 4MP con IR y lente fijo">
-
-    <label for="categoria">📁 Categoría (opcional)</label>
-    <input type="text" id="categoria" name="categoria" placeholder="Ej: CCTV">
-
-    <button type="button" onclick="guardarProducto()">Guardar producto</button>
+    <ul id="resultados" style="list-style:none; padding-left: 0; margin-top: 10px;"></ul>
   </div>
-</div>
 
-<!-- Supabase y JS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
-  const supabase = supabase.createClient(
-    'https://uyobgstmfukqncebtoli.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
-  );
+  <!-- Modal -->
+  <div class="modal" id="modalNuevoProducto">
+    <div class="modal-content">
+      <button class="close-btn" onclick="cerrarModal()">✖</button>
+      <h3>➕ Crear nuevo producto</h3>
+      <label>📝 Nombre</label>
+      <input type="text" id="nombre">
+      <label>📄 Descripción</label>
+      <input type="text" id="descripcion">
+      <label>📁 Categoría</label>
+      <input type="text" id="categoria">
+      <button class="btn" onclick="guardarProducto()">Guardar producto</button>
+    </div>
+  </div>
 
-  function mostrarFormulario() {
-    document.getElementById("formularioNuevoProducto").style.display = 'block';
-  }
-</script>
-<script src="registro_inventario.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabase = supabase.createClient(
+      'https://uyobgstmfukqncebtoli.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
+    );
+
+    function mostrarModal() {
+      document.getElementById("modalNuevoProducto").style.display = "flex";
+    }
+
+    function cerrarModal() {
+      document.getElementById("modalNuevoProducto").style.display = "none";
+    }
+
+    async function buscarProducto(valor) {
+      if (!valor) {
+        document.getElementById("resultados").innerHTML = "";
+        return;
+      }
+      const { data, error } = await supabase
+        .from('productos')
+        .select('*')
+        .ilike('nombre', `%${valor}%`);
+      if (data) {
+        const resultados = data.map(p => `<li>📦 ${p.nombre} - ${p.categoria || 'Sin categoría'}</li>`).join('');
+        document.getElementById("resultados").innerHTML = resultados || "<li>❌ Sin resultados</li>";
+      }
+    }
+  </script>
+  <script src="registro_inventario.js"></script>
 </body>
 </html>
