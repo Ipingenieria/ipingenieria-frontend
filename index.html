@@ -2,162 +2,44 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema Empresarial - Panel Principal</title>
+  <meta charset="UTF-8" />
+  <title>Menú Empresarial</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f8;
-    }
-
-    .sidebar {
-      width: 250px;
-      background-color: #1a202c;
-      color: #fff;
-      position: fixed;
-      height: 100vh;
-      overflow-y: auto;
-      transition: all 0.3s ease;
-    }
-
-    .sidebar h2 {
-      text-align: center;
-      padding: 20px;
-      background-color: #2d3748;
-      margin: 0;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar ul li {
-      border-bottom: 1px solid #2d3748;
-    }
-
-    .sidebar ul li a {
-      display: block;
-      padding: 15px 20px;
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .sidebar ul li a:hover {
-      background-color: #4a5568;
-    }
-
-    .submenu {
-      display: none;
-      background-color: #2d3748;
-    }
-
-    .submenu a {
-      padding-left: 40px;
-    }
-
-    .content {
-      margin-left: 250px;
-      padding: 40px;
-    }
-
-    .toggle-btn {
-      display: none;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      font-size: 24px;
-      background-color: #1a202c;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 5px;
-      z-index: 1000;
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        left: -250px;
-      }
-
-      .sidebar.active {
-        left: 0;
-      }
-
-      .content {
-        margin-left: 0;
-        padding: 80px 20px 20px;
-      }
-
-      .toggle-btn {
-        display: block;
-      }
+    body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; }
+    .sidebar { width: 250px; background: #1f2a38; color: white; height: 100vh; padding-top: 20px; float: left; }
+    .sidebar h2 { text-align: center; margin-bottom: 30px; }
+    .menu-item { padding: 12px 20px; cursor: pointer; color: white; text-decoration: none; display: block; }
+    .menu-item:hover { background: #314256; }
+    .submenu { padding-left: 20px; }
+    .tooltip {
+      font-size: 12px; color: #aaa; padding: 5px 20px; font-style: italic;
     }
   </style>
 </head>
 <body>
+  <div class="sidebar">
+    <h2>📊 Menú Empresarial</h2>
 
-<div class="toggle-btn" onclick="toggleMenu()">☰</div>
+    <div class="menu-item">👥 Clientes y Proyectos</div>
 
-<div class="sidebar" id="sidebar">
-  <h2>📊 Menú Empresarial</h2>
-  <ul>
-    <li><a href="#" onclick="toggleSubmenu('clientes')">👥 Clientes y Proyectos ▾</a>
-      <ul class="submenu" id="clientes">
-        <li><a href="clientes.html">👥 Clientes</a></li>
-        <li><a href="proyectos.html">📁 Proyectos</a></li>
-      </ul>
-    </li>
-    <li><a href="#" onclick="toggleSubmenu('operaciones')">🔧 Operaciones ▾</a>
-      <ul class="submenu" id="operaciones">
-        <li><a href="agenda.html">📅 Agenda Técnica</a></li>
-        <li><a href="registro.html">📑 Registro Guiado</a></li>
-      </ul>
-    </li>
-    <li><a href="#" onclick="toggleSubmenu('inventario')">📦 Inventario ▾</a>
-      <ul class="submenu" id="inventario">
-        <li><a href="inventario.html">📦 Inventario General</a></li>
-      </ul>
-    </li>
-    <li><a href="#" onclick="toggleSubmenu('finanzas')">💼 Finanzas ▾</a>
-      <ul class="submenu" id="finanzas">
-        <li><a href="cotizaciones.html">🧾 Cotizaciones</a></li>
-        <li><a href="facturacion.html">💳 Facturación</a></li>
-        <li><a href="flujo_dinero.html">💰 Flujo de Dinero</a></li>
-      </ul>
-    </li>
-    <li><a href="#" onclick="toggleSubmenu('visualizaciones')">📈 Visualización ▾</a>
-      <ul class="submenu" id="visualizaciones">
-        <li><a href="ver_inventario.html">📦 Stock Actual</a></li>
-        <li><a href="ver_flujo_dinero.html">💵 Flujo Detallado</a></li>
-        <li><a href="ver_registros.html">📄 Movimientos Registrados</a></li>
-        <li><a href="ver_cotizaciones.html">🧾 Estado de Cotizaciones</a></li>
-        <li><a href="ver_facturas.html">💳 Estado de Facturación</a></li>
-        <li><a href="ver_agenda.html">📅 Agenda Técnica (Visitas)</a></li>
-        <li><a href="ver_proyectos.html">📁 Estado de Proyectos</a></li>
-      </ul>
-    </li>
-  </ul>
-</div>
+    <div class="menu-item">🔧 Operaciones</div>
+    <div class="submenu">
+      <a href="agenda.html" class="menu-item">📅 Agenda Técnica</a>
+      <a href="registro.html" class="menu-item">📄 Registro Guiado</a>
+      <div class="tooltip">Desde aquí se accede al registro financiero, inventario y movimientos por proyecto.</div>
+    </div>
 
-<div class="content">
-  <h1>Bienvenido al Sistema Empresarial</h1>
-  <p>Usa el menú lateral para navegar entre los módulos.</p>
-</div>
+    <div class="menu-item">💼 Finanzas</div>
+    <div class="submenu">
+      <a href="cotizaciones.html" class="menu-item">💬 Cotizaciones</a>
+      <a href="facturacion.html" class="menu-item">🧾 Facturación</a>
+      <a href="flujo.html" class="menu-item">💰 Flujo de Dinero</a>
+    </div>
 
-<script>
-  function toggleMenu() {
-    document.getElementById('sidebar').classList.toggle('active');
-  }
-
-  function toggleSubmenu(id) {
-    const submenu = document.getElementById(id);
-    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-  }
-</script>
-
+    <div class="menu-item">📈 Visualización</div>
+    <div class="submenu">
+      <a href="dashboard.html" class="menu-item">📊 Dashboard</a>
+    </div>
+  </div>
 </body>
 </html>
