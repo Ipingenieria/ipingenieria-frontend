@@ -2,56 +2,42 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Registro Guiado - Sistema Empresarial</title>
+  <meta charset="UTF-8" />
+  <title>Registro Guiado de Movimientos</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f7f7f7;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
       padding: 40px;
-    }
-
-    h1 {
-      color: #333;
-      margin-bottom: 30px;
-    }
-
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .boton {
-      background-color: #0066cc;
-      color: white;
-      padding: 20px 30px;
-      border-radius: 10px;
-      font-size: 18px;
       text-align: center;
-      font-weight: bold;
-      text-decoration: none;
+    }
+    h1 {
+      color: #003366;
+    }
+    .boton-registro {
+      display: inline-block;
       width: 300px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin: 20px;
+      padding: 20px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 16px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       transition: background-color 0.3s;
     }
-
-    .boton:hover {
-      background-color: #004d99;
+    .boton-registro:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <h1>📑 Registro Guiado de Movimientos</h1>
+  <h1>🧾 Registro Guiado de Movimientos</h1>
 
-  <div class="container">
-    <a href="registro_financiero.html" class="boton">💰 Registro Financiero General</a>
-    <a href="registro_inventario.html" class="boton">📦 Registro de Inventario General</a>
-    <a href="registro_proyecto.html" class="boton">🏗️ Movimiento por Proyecto o Actividad</a>
-  </div>
+  <a class="boton-registro" href="registro_financiero.html">💰 Registro Financiero General</a>
+  <a class="boton-registro" href="registro_inventario.html">📦 Registro de Inventario General</a>
+  <a class="boton-registro" href="registro_movimiento.html">🔁 Movimiento por Proyecto o Actividad</a>
+
 </body>
 </html>
