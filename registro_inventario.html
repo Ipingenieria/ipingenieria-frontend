@@ -7,25 +7,24 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      padding: 20px;
+      background-color: #f4f4f4;
+      padding: 30px;
     }
-    .form-container {
-      background: white;
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 500px;
-      margin: auto;
     }
-    h3 {
-      margin-bottom: 20px;
+    h2 {
       color: #2a4d9b;
     }
     label {
+      font-weight: bold;
       display: block;
       margin-top: 15px;
-      font-weight: bold;
     }
     input {
       width: 100%;
@@ -35,23 +34,39 @@
       border-radius: 5px;
     }
     button {
+      margin-top: 20px;
       background-color: #004AAD;
       color: white;
-      padding: 12px 20px;
+      padding: 12px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin-top: 20px;
-      width: 100%;
       font-size: 16px;
+      width: 100%;
     }
-    button:hover {
-      background-color: #003a87;
+    .modal-form {
+      display: none;
+      margin-top: 30px;
+      padding: 20px;
+      border: 2px dashed #ccc;
+      background: #f9f9f9;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="form-container">
+
+<div class="container">
+  <h2>📦 Inventario</h2>
+
+  <!-- Selección de producto o mensaje -->
+  <label for="producto_existente">Buscar producto existente</label>
+  <input type="text" id="producto_existente" placeholder="Ej: Cámara IP Dahua">
+
+  <button type="button" onclick="mostrarFormulario()">➕ Crear nuevo producto</button>
+
+  <!-- Formulario oculto que se despliega -->
+  <div class="modal-form" id="formularioNuevoProducto">
     <h3>➕ Crear nuevo producto</h3>
 
     <label for="nombre">📝 Nombre del producto</label>
@@ -63,9 +78,22 @@
     <label for="categoria">📁 Categoría (opcional)</label>
     <input type="text" id="categoria" name="categoria" placeholder="Ej: CCTV">
 
-    <button onclick="guardarProducto()">Guardar producto</button>
+    <button type="button" onclick="guardarProducto()">Guardar producto</button>
   </div>
+</div>
 
-  <script src="registro_inventario.js"></script>
+<!-- Supabase y JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabase = supabase.createClient(
+    'https://uyobgstmfukqncebtoli.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
+  );
+
+  function mostrarFormulario() {
+    document.getElementById("formularioNuevoProducto").style.display = 'block';
+  }
+</script>
+<script src="registro_inventario.js"></script>
 </body>
 </html>

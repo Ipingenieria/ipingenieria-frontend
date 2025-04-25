@@ -23,8 +23,6 @@ async function guardarProducto() {
     document.getElementById("nombre").value = "";
     document.getElementById("descripcion").value = "";
     document.getElementById("categoria").value = "";
+    document.getElementById("formularioNuevoProducto").style.display = "none";
   }
 }
-
-// Asegúrate de tener configurado tu cliente de Supabase antes de este script:
-// const supabase = createClient('https://<your-project>.supabase.co', 'public-anon-key');
