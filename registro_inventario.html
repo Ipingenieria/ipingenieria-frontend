@@ -3,25 +3,46 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>📦 Registro de Inventario General</title>
+  <title>📦 Registro de Inventario</title>
   <style>
     body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 30px; }
-    form { background: #fff; padding: 40px; border-radius: 12px; max-width: 700px; margin: auto; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+    form, .modal-content { background: #fff; padding: 30px; border-radius: 12px; max-width: 700px; margin: auto; box-shadow: 0 0 12px rgba(0,0,0,0.1); }
     h2 { text-align: center; color: #333; }
     label { display: block; margin-top: 15px; font-weight: bold; }
     input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; }
+    ul { list-style: none; padding: 0; margin: 0; max-height: 120px; overflow-y: auto; background: #fff; border: 1px solid #ccc; border-radius: 4px; }
+    li { padding: 8px; cursor: pointer; }
+    li:hover { background-color: #eee; }
     button { margin-top: 25px; width: 100%; padding: 12px; background-color: #0066cc; color: white; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; }
     button:hover { background-color: #0051a3; }
+
+    /* Estilo para el modal */
+    .modal {
+      display: none; position: fixed; z-index: 999; left: 0; top: 0;
+      width: 100%; height: 100%; overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      margin-top: 10vh;
+    }
+    .close {
+      color: #aaa; float: right; font-size: 24px; font-weight: bold;
+    }
+    .close:hover, .close:focus {
+      color: black; text-decoration: none; cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <form id="formInventario">
-    <h2>📦 Registro de Inventario General</h2>
 
-    <label for="producto_id">📋 Selecciona el Producto</label>
-    <select id="producto_id" required>
-      <option value="">Cargando productos...</option>
-    </select>
+  <form id="formInventario">
+    <h2>📦 Registro de Inventario</h2>
+
+    <label for="buscador_producto">🔍 Buscar producto</label>
+    <input type="text" id="buscador_producto" placeholder="Escribe parte del nombre..." autocomplete="off">
+    <ul id="resultados_productos"></ul>
+    <input type="hidden" id="producto_id">
+    <button type="button" onclick="abrirModal()">➕ Crear nuevo producto</button>
 
     <label for="tipo_movimiento">🔄 Tipo de Movimiento</label>
     <select id="tipo_movimiento" required>
@@ -38,8 +59,23 @@
     <label for="registrado_por">👤 Registrado por</label>
     <input type="text" id="registrado_por" required>
 
-    <button type="submit">Guardar</button>
+    <button type="submit">Guardar movimiento</button>
   </form>
+
+  <!-- Modal -->
+  <div id="modalProducto" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cerrarModal()">&times;</span>
+      <h3>➕ Crear nuevo producto</h3>
+      <label for="nueva_descripcion">📋 Descripción</label>
+      <input type="text" id="nueva_descripcion" required>
+
+      <label for="nueva_categoria">📁 Categoría (opcional)</label>
+      <input type="text" id="nueva_categoria">
+
+      <button onclick="crearProducto()">Guardar producto</button>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
@@ -48,26 +84,50 @@
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo"
     );
 
-    async function cargarProductos() {
-      const { data, error } = await supabase.from("productos").select("id, descripcion").order("created_at", { ascending: false });
-      const select = document.getElementById("producto_id");
-      select.innerHTML = "<option value=''>Selecciona un producto</option>";
+    async function cargarResultados(query) {
+      const { data, error } = await supabase.from('productos').select('id, descripcion').ilike('descripcion', `%${query}%`).limit(10);
+      const lista = document.getElementById("resultados_productos");
+      lista.innerHTML = '';
       if (data) {
         data.forEach(p => {
-          const option = document.createElement("option");
-          option.value = p.id;
-          option.textContent = p.descripcion;
-          select.appendChild(option);
+          const li = document.createElement('li');
+          li.textContent = p.descripcion;
+          li.onclick = () => {
+            document.getElementById('producto_id').value = p.id;
+            document.getElementById('buscador_producto').value = p.descripcion;
+            lista.innerHTML = '';
+          };
+          lista.appendChild(li);
         });
-      } else {
-        select.innerHTML = "<option value=''>Error cargando productos</option>";
-        console.error(error);
       }
     }
 
-    document.addEventListener("DOMContentLoaded", cargarProductos);
+    document.getElementById('buscador_producto').addEventListener('input', e => {
+      const query = e.target.value.trim();
+      if (query.length >= 2) cargarResultados(query);
+    });
 
-    document.getElementById('formInventario')?.addEventListener('submit', async e => {
+    function abrirModal() {
+      document.getElementById("modalProducto").style.display = "block";
+    }
+
+    function cerrarModal() {
+      document.getElementById("modalProducto").style.display = "none";
+    }
+
+    async function crearProducto() {
+      const descripcion = document.getElementById('nueva_descripcion').value;
+      const categoria = document.getElementById('nueva_categoria').value;
+      if (!descripcion) return alert("Escribe la descripción del producto.");
+      const { data, error } = await supabase.from('productos').insert([{ descripcion, categoria }]).select().single();
+      if (error) return alert("❌ Error creando producto: " + error.message);
+      document.getElementById('producto_id').value = data.id;
+      document.getElementById('buscador_producto').value = data.descripcion;
+      cerrarModal();
+      alert("✅ Producto creado y seleccionado");
+    }
+
+    document.getElementById('formInventario').addEventListener('submit', async e => {
       e.preventDefault();
       const data = {
         producto_id: document.getElementById('producto_id').value,
