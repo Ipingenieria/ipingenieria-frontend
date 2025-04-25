@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>🆕 Registro de Productos</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 30px; }
+    form { background: #fff; padding: 40px; border-radius: 12px; max-width: 600px; margin: auto; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+    h2 { text-align: center; color: #333; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; }
+    button { margin-top: 25px; width: 100%; padding: 12px; background-color: #28a745; color: white; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background-color: #218838; }
+  </style>
+</head>
+<body>
+  <form id="formProducto">
+    <h2>🆕 Registro de Productos</h2>
+
+    <label for="descripcion">📋 Nombre o Descripción</label>
+    <input type="text" id="descripcion" required>
+
+    <label for="categoria">📁 Categoría (opcional)</label>
+    <input type="text" id="categoria">
+
+    <button type="submit">Registrar Producto</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabase = window.supabase.createClient(
+      "https://uyobgstmfukqncebtoli.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo"
+    );
+
+    document.getElementById('formProducto')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = {
+        descripcion: document.getElementById('descripcion').value,
+        categoria: document.getElementById('categoria').value || null
+      };
+      const { error } = await supabase.from('productos').insert([data]);
+      alert(error ? "❌ Error: " + error.message : "✅ Producto registrado correctamente");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>📦 Registro de Inventario con Buscador</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 30px; }
+    form { background: #fff; padding: 40px; border-radius: 12px; max-width: 700px; margin: auto; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+    h2 { text-align: center; color: #333; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; }
+    ul { list-style: none; padding: 0; margin: 0; max-height: 120px; overflow-y: auto; background: #fff; border: 1px solid #ccc; border-radius: 4px; }
+    li { padding: 8px; cursor: pointer; }
+    li:hover { background-color: #eee; }
+    button { margin-top: 25px; width: 100%; padding: 12px; background-color: #0066cc; color: white; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background-color: #0051a3; }
+  </style>
+</head>
+<body>
+  <form id="formInventario">
+    <h2>📦 Registro de Inventario</h2>
+
+    <label for="buscador_producto">🔍 Buscar producto</label>
+    <input type="text" id="buscador_producto" placeholder="Escribe parte del nombre..." autocomplete="off">
+    <ul id="resultados_productos"></ul>
+    <input type="hidden" id="producto_id">
+
+    <label for="tipo_movimiento">🔄 Tipo de Movimiento</label>
+    <select id="tipo_movimiento" required>
+      <option value="Entrada">Entrada</option>
+      <option value="Salida">Salida</option>
+    </select>
+
+    <label for="cantidad">📦 Cantidad</label>
+    <input type="number" id="cantidad" required>
+
+    <label for="observaciones">🧾 Observaciones</label>
+    <textarea id="observaciones" rows="3"></textarea>
+
+    <label for="registrado_por">👤 Registrado por</label>
+    <input type="text" id="registrado_por" required>
+
+    <button type="submit">Guardar</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabase = window.supabase.createClient(
+      "https://uyobgstmfukqncebtoli.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo"
+    );
+
+    document.getElementById('buscador_producto').addEventListener('input', async (e) => {
+      const query = e.target.value.trim();
+      const lista = document.getElementById('resultados_productos');
+      lista.innerHTML = '';
+      if (query.length < 2) return;
+
+      const { data, error } = await supabase
+        .from('productos')
+        .select('id, descripcion')
+        .ilike('descripcion', `%${query}%`)
+        .limit(10);
+
+      if (data) {
+        data.forEach(p => {
+          const li = document.createElement('li');
+          li.textContent = p.descripcion;
+          li.onclick = () => {
+            document.getElementById('producto_id').value = p.id;
+            document.getElementById('buscador_producto').value = p.descripcion;
+            lista.innerHTML = '';
+          };
+          lista.appendChild(li);
+        });
+      }
+    });
+
+    document.getElementById('formInventario')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = {
+        producto_id: document.getElementById('producto_id').value,
+        tipo_movimiento: document.getElementById('tipo_movimiento').value,
+        cantidad: parseFloat(document.getElementById('cantidad').value),
+        observaciones: document.getElementById('observaciones').value,
+        registrado_por: document.getElementById('registrado_por').value
+      };
+      const { error } = await supabase.from('movimientos_inventario_generales').insert([data]);
+      alert(error ? "❌ Error: " + error.message : "✅ Movimiento registrado");
+    });
+  </script>
+</body>
+</html>
