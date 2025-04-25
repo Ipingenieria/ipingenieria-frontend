@@ -3,87 +3,22 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Registro de Movimiento</title>
+  <title>Movimiento por Proyecto o Actividad</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f7f7f7; }
-    form { background: white; padding: 20px; border-radius: 10px; max-width: 700px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    label { display: block; margin-top: 10px; font-weight: bold; }
-    input, select { width: 100%; padding: 8px; margin-top: 5px; }
-    button { margin-top: 20px; padding: 10px 20px; font-weight: bold; }
-  </style>
+  <script defer src="registro_movimiento.js"></script>
 </head>
 <body>
+  <h2>Movimiento por Proyecto o Actividad</h2>
   <form id="formMovimiento">
-    <h2>🔁 Registro Inteligente de Movimiento</h2>
-
-    <label for="producto_id">📦 Producto</label>
-    <select id="producto_id" required>
-      <option value="">Cargando productos...</option>
-    </select>
-
-    <label for="tipo_movimiento">🔄 Tipo de Movimiento</label>
-    <select id="tipo_movimiento" required>
-      <option value="">Selecciona...</option>
-      <option value="Entrada">⬆️ Entrada</option>
-      <option value="Salida">⬇️ Salida</option>
-    </select>
-
-    <label for="tipo_operacion">📋 Tipo de Operación</label>
-    <select id="tipo_operacion" required>
-      <option value="Compra">Compra</option>
-      <option value="Venta">Venta</option>
-      <option value="Uso interno">Uso interno</option>
-      <option value="Gasto técnico">Gasto técnico</option>
-      <option value="Reposición">Reposición</option>
-    </select>
-
-    <label for="cantidad">🔢 Cantidad</label>
-    <input type="number" id="cantidad" required>
-
-    <label for="valor_unitario">💵 Valor Unitario (sin IVA)</label>
-    <input type="number" id="valor_unitario" required>
-
-    <label for="tiene_iva">💡 ¿Tiene IVA?</label>
-    <select id="tiene_iva">
-      <option value="false">❌ No</option>
-      <option value="true">✅ Sí</option>
-    </select>
-
-    <label for="porcentaje_iva">📈 Porcentaje IVA (%)</label>
-    <input type="number" id="porcentaje_iva" placeholder="Ej: 19">
-
-    <label for="requiere_registro_dinero">💰 ¿Genera registro en flujo de dinero?</label>
-    <select id="requiere_registro_dinero">
-      <option value="false">No</option>
-      <option value="true">Sí</option>
-    </select>
-
-    <label for="tipo_registro_dinero">📊 Tipo de Flujo</label>
-    <select id="tipo_registro_dinero">
-      <option value="">Selecciona...</option>
-      <option value="Ingreso">Ingreso</option>
-      <option value="Egreso">Egreso</option>
-    </select>
-
-    <label for="subtipo_dinero">📁 Subtipo contable</label>
-    <input type="text" id="subtipo_dinero" placeholder="Ej: Gasto operativo, Compra inventario">
-
-    <label for="vinculado_a">🔗 Vinculado a</label>
-    <input type="text" id="vinculado_a" placeholder="Proyecto, Venta, Ninguno">
-
-    <label for="referencia_relacionada">🔖 Referencia relacionada (ID)</label>
-    <input type="text" id="referencia_relacionada">
-
-    <label for="observaciones">📝 Observaciones</label>
-    <input type="text" id="observaciones">
-
-    <label for="registrado_por">👤 Registrado por</label>
-    <input type="text" id="registrado_por">
-
+    <label>Producto:<input type="text" id="producto_id"></label><br><br>
+    <label>Cantidad Usada:<input type="number" id="cantidad_usada"></label><br><br>
+    <label>Tipo de Movimiento:<input type="text" id="tipo_movimiento"></label><br><br>
+    <label>Proyecto ID (opcional):<input type="text" id="proyecto_id"></label><br><br>
+    <label>Actividad ID (opcional):<input type="text" id="actividad_id"></label><br><br>
+    <label>Fecha:<input type="date" id="fecha"></label><br><br>
+    <label>Usuario:<input type="text" id="usuario"></label><br><br>
+    <label>Comentario:<textarea id="comentario"></textarea></label><br><br>
     <button type="submit">Registrar Movimiento</button>
   </form>
-
-  <script src="registro_movimiento.js"></script>
 </body>
 </html>

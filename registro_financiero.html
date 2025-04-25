@@ -3,103 +3,35 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>💰 Registro Financiero General</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f2f5;
-      margin: 0;
-      padding: 30px;
-    }
-    form {
-      background: #fff;
-      padding: 40px;
-      border-radius: 12px;
-      max-width: 700px;
-      margin: auto;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    button {
-      margin-top: 25px;
-      width: 100%;
-      padding: 12px;
-      background-color: #0066cc;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0051a3;
-    }
-  </style>
+  <title>Registro Financiero General</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script defer src="registro_financiero.js"></script>
 </head>
 <body>
+  <h2>Registro Financiero General</h2>
   <form id="formFinanciero">
-    <h2>💰 Registro Financiero General</h2>
-
-    <label for="tipo">💼 Tipo</label>
-    <select id="tipo" required>
-      <option value="Ingreso">Ingreso</option>
-      <option value="Egreso">Egreso</option>
-    </select>
-
-    <label for="categoria">📁 Categoría</label>
-    <input type="text" id="categoria" placeholder="Ej: Alimentación, Herramientas, etc." required>
-
-    <label for="descripcion">📝 Descripción</label>
-    <input type="text" id="descripcion" required>
-
-    <label for="valor">💲 Valor</label>
-    <input type="number" id="valor" required>
-
-    <label for="observaciones">🧾 Observaciones</label>
-    <textarea id="observaciones" rows="3"></textarea>
-
-    <label for="registrado_por">👤 Registrado por</label>
-    <input type="text" id="registrado_por" placeholder="Ej: Admin, Técnico, etc." required>
-
-    <button type="submit">Guardar</button>
+    <label>Tipo de Movimiento:
+      <select id="tipo_movimiento">
+        <option>Ingreso</option>
+        <option>Egreso</option>
+        <option>Anticipo</option>
+        <option>Impuesto</option>
+      </select>
+    </label><br><br>
+    <label>Categoría:<input type="text" id="categoria"></label><br><br>
+    <label>Valor:<input type="number" id="valor"></label><br><br>
+    <label>Fecha:<input type="date" id="fecha"></label><br><br>
+    <label>Usuario:<input type="text" id="usuario"></label><br><br>
+    <label>Descripción:<textarea id="descripcion"></textarea></label><br><br>
+    <label>Tipo de Pago:<input type="text" id="tipo_pago"></label><br><br>
+    <label>Estado del Pago:
+      <select id="estado_pago">
+        <option>Pagado</option>
+        <option>Parcial</option>
+        <option>Pendiente</option>
+      </select>
+    </label><br><br>
+    <button type="submit">Registrar</button>
   </form>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    const supabase = window.supabase.createClient(
-      "https://uyobgstmfukqncebtoli.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo"
-    );
-  </script>
-  <script>
-    document.getElementById('formFinanciero')?.addEventListener('submit', async e => {
-      e.preventDefault();
-      const data = {
-        tipo: document.getElementById('tipo').value,
-        categoria: document.getElementById('categoria').value,
-        descripcion: document.getElementById('descripcion').value,
-        valor: parseFloat(document.getElementById('valor').value),
-        observaciones: document.getElementById('observaciones').value,
-        registrado_por: document.getElementById('registrado_por').value
-      };
-      const { error } = await supabase.from('movimientos_financieros').insert([data]);
-      alert(error ? "❌ Error: " + error.message : "✅ Registrado correctamente");
-    });
-  </script>
 </body>
 </html>

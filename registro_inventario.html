@@ -1,162 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inventario Empresarial</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f5f5f5;
-    }
-    .container {
-      max-width: 700px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #2a4d9b;
-      display: flex;
-      align-items: center;
-    }
-    h2::before {
-      content: '📦';
-      margin-right: 10px;
-    }
-    label {
-      font-weight: bold;
-      margin-top: 20px;
-      display: block;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .btn {
-      margin-top: 20px;
-      background-color: #004AAD;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      width: 100%;
-    }
-    .btn:hover {
-      background-color: #003a87;
-    }
-    .menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 30px;
-    }
-    .menu button {
-      flex: 1 1 45%;
-      background: #ddd;
-      border: none;
-      border-radius: 8px;
-      padding: 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
-    .modal-content {
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
-      position: relative;
-    }
-    .close-btn {
-      position: absolute;
-      top: 10px; right: 15px;
-      background: transparent;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Registro de Inventario</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script defer src="registro_inventario.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h2>Inventario</h2>
-
-    <div class="menu">
-      <button>📥 Ingreso</button>
-      <button>📤 Salida</button>
-      <button>📊 Stock</button>
-      <button onclick="mostrarModal()">➕ Crear producto</button>
-    </div>
-
-    <label for="buscar">🔍 Buscar producto existente</label>
-    <input type="text" id="buscar" placeholder="Ej: Cámara IP Dahua" oninput="buscarProducto(this.value)">
-
-    <ul id="resultados" style="list-style:none; padding-left: 0; margin-top: 10px;"></ul>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal" id="modalNuevoProducto">
-    <div class="modal-content">
-      <button class="close-btn" onclick="cerrarModal()">✖</button>
-      <h3>➕ Crear nuevo producto</h3>
-      <label>📝 Nombre</label>
-      <input type="text" id="nombre">
-      <label>📄 Descripción</label>
-      <input type="text" id="descripcion">
-      <label>📁 Categoría</label>
-      <input type="text" id="categoria">
-      <button class="btn" onclick="guardarProducto()">Guardar producto</button>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    const supabase = supabase.createClient(
-      'https://uyobgstmfukqncebtoli.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5b2Jnc3RtZnVrcW5jZWJ0b2xpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUxODEyOTMsImV4cCI6MjA2MDc1NzI5M30.gf06WtYzOlB5oSFP-NSYlSsZS2I71Zl6_h6nLBdWKMo'
-    );
-
-    function mostrarModal() {
-      document.getElementById("modalNuevoProducto").style.display = "flex";
-    }
-
-    function cerrarModal() {
-      document.getElementById("modalNuevoProducto").style.display = "none";
-    }
-
-    async function buscarProducto(valor) {
-      if (!valor) {
-        document.getElementById("resultados").innerHTML = "";
-        return;
-      }
-      const { data, error } = await supabase
-        .from('productos')
-        .select('*')
-        .ilike('nombre', `%${valor}%`);
-      if (data) {
-        const resultados = data.map(p => `<li>📦 ${p.nombre} - ${p.categoria || 'Sin categoría'}</li>`).join('');
-        document.getElementById("resultados").innerHTML = resultados || "<li>❌ Sin resultados</li>";
-      }
-    }
-  </script>
-  <script src="registro_inventario.js"></script>
+  <h2>Registro de Inventario</h2>
+  <form id="formInventario">
+    <label>Nombre:<input type="text" id="nombre"></label><br><br>
+    <label>Descripción:<textarea id="descripcion"></textarea></label><br><br>
+    <label>Categoría:<input type="text" id="categoria"></label><br><br>
+    <label>Cantidad:<input type="number" id="cantidad"></label><br><br>
+    <label>Unidad:<input type="text" id="unidad_medida"></label><br><br>
+    <label>Imagen URL (opcional):<input type="text" id="imagen_url"></label><br><br>
+    <label>Observaciones:<textarea id="observaciones"></textarea></label><br><br>
+    <button type="submit">Guardar Producto</button>
+  </form>
 </body>
 </html>
