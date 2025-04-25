@@ -4,19 +4,78 @@
 <head>
   <meta charset="UTF-8">
   <title>Registro de Inventario</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 40px;
+    }
+    h2 {
+      text-align: center;
+      color: #003366;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script defer src="registro_inventario.js"></script>
 </head>
 <body>
-  <h2>Registro de Inventario</h2>
+  <h2>📦 Registro de Inventario</h2>
   <form id="formInventario">
-    <label>Nombre:<input type="text" id="nombre"></label><br><br>
-    <label>Descripción:<textarea id="descripcion"></textarea></label><br><br>
-    <label>Categoría:<input type="text" id="categoria"></label><br><br>
-    <label>Cantidad:<input type="number" id="cantidad"></label><br><br>
-    <label>Unidad:<input type="text" id="unidad_medida"></label><br><br>
-    <label>Imagen URL (opcional):<input type="text" id="imagen_url"></label><br><br>
-    <label>Observaciones:<textarea id="observaciones"></textarea></label><br><br>
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" placeholder="Ej: Cámara IP Dahua" required>
+
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" rows="3" placeholder="Detalle del producto..." required></textarea>
+
+    <label for="categoria">Categoría</label>
+    <input type="text" id="categoria" placeholder="Ej: CCTV, Mano de obra" required>
+
+    <label for="cantidad">Cantidad</label>
+    <input type="number" id="cantidad" required>
+
+    <label for="unidad_medida">Unidad</label>
+    <input type="text" id="unidad_medida" placeholder="Ej: unidades, metros, litros" required>
+
+    <label for="imagen_url">Imagen URL (opcional)</label>
+    <input type="text" id="imagen_url">
+
+    <label for="observaciones">Observaciones</label>
+    <textarea id="observaciones" rows="3" placeholder="Notas adicionales..."></textarea>
+
     <button type="submit">Guardar Producto</button>
   </form>
 </body>
