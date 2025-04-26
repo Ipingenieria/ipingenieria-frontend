@@ -2,46 +2,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Menú Principal - Sistema Empresarial</title>
-  <style>
-    body {
-      background-color: #e6e6e6;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      padding: 40px;
-    }
-    h1 {
-      color: #003366;
-      font-size: 32px;
-    }
-    .boton {
-      display: block;
-      width: 340px;
-      margin: 15px auto;
-      padding: 15px;
-      font-size: 18px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      text-decoration: none;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-      transition: 0.3s ease;
-    }
-    .boton:hover {
-      background-color: #0056b3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>IP INGENIERÍA Y AUTOMATISMO SAS</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="modales.js" defer></script>
 </head>
 <body>
-  <h1>📁 Menú Principal - Sistema Empresarial</h1>
+    <header>
+        <h1>IP INGENIERÍA Y AUTOMATISMO SAS</h1>
+        <button onclick="mostrarModal('registroMovimiento')">➕ Registrar Movimiento</button>
+    </header>
 
-  <a href="clientes.html" class="boton">🗂️ Gestión de Clientes</a>
-  <a href="cotizaciones.html" class="boton">📝 Generar Cotización</a>
-  <a href="agenda.html" class="boton">📅 Agenda Técnica</a>
-  <a href="inventario.html" class="boton">📦 Inventario</a>
-  <a href="registro_guiado_unificado.html" class="boton">🧠 Registro Guiado Unificado</a>
+    <main>
+        <p>Bienvenido al sistema empresarial. Usa el botón para registrar movimientos o abrir funciones especiales.</p>
+    </main>
 
+    <!-- Modal flotante -->
+    <div id="modal" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+            <div id="contenidoModal">
+                <!-- Aquí se carga dinámicamente el formulario -->
+            </div>
+        </div>
+    </div>
 </body>
 </html>
