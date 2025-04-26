@@ -8,13 +8,26 @@
     <script src="modales.js" defer></script>
 </head>
 <body>
-    <header>
+    <header class="header-principal">
+        <img src="logo.png" alt="Logo Empresa" class="logo">
         <h1>IP INGENIERÍA Y AUTOMATISMO SAS</h1>
-        <button onclick="mostrarModal('registroMovimiento')">➕ Registrar Movimiento</button>
     </header>
 
+    <nav class="menu-principal">
+        <ul>
+            <li><button onclick="mostrarModal('clientes')">👥 Clientes</button></li>
+            <li><button onclick="mostrarModal('cotizaciones')">📝 Cotizaciones</button></li>
+            <li><button onclick="mostrarModal('agenda')">📅 Agenda</button></li>
+            <li><button onclick="mostrarModal('inventario')">📦 Inventario</button></li>
+            <li><button onclick="mostrarModal('proyectos')">🏗️ Proyectos</button></li>
+            <li><button onclick="mostrarModal('flujoDinero')">💰 Flujo de Dinero</button></li>
+            <li><button onclick="mostrarModal('logout')">🔒 Cerrar Sesión</button></li>
+        </ul>
+    </nav>
+
     <main>
-        <p>Bienvenido al sistema empresarial. Usa el botón para registrar movimientos o abrir funciones especiales.</p>
+        <h2>Bienvenido al Sistema Empresarial</h2>
+        <p>Selecciona una opción en el menú para gestionar la información de tu empresa.</p>
     </main>
 
     <!-- Modal flotante -->
@@ -22,7 +35,7 @@
         <div class="modal-contenido">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
             <div id="contenidoModal">
-                <!-- Aquí se carga dinámicamente el formulario -->
+                <!-- Aquí se carga dinámicamente el contenido -->
             </div>
         </div>
     </div>
