@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Guiado Unificado</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="menu-lateral">
+        <h2>📁 Menú Empresarial</h2>
+        <ul>
+            <li><strong>👥 Clientes y Proyectos</strong></li>
+            <li><strong>🛠️ Operaciones</strong></li>
+            <ul>
+                <li>Agenda Técnica</li>
+                <li>Registro Guiado</li>
+            </ul>
+            <li><strong>🗃️ Inventario</strong></li>
+            <ul>
+                <li>Inventario General</li>
+            </ul>
+            <li><strong>💼 Finanzas</strong></li>
+            <li><strong>📊 Visualización</strong></li>
+        </ul>
+    </div>
+
+    <div class="contenido-principal">
+        <h1>🧠 Registro Guiado Unificado</h1>
+
+        <div class="botonera">
+            <button onclick="abrirModal('financiero')">💰 Registro Financiero General</button>
+            <button onclick="abrirModal('inventario')">🗃️ Registro de Inventario General</button>
+            <button onclick="abrirModal('proyecto')">🏛️ Movimiento por Proyecto o Actividad</button>
+        </div>
+
+        <div id="modal" class="modal">
+            <div class="modal-contenido" id="modal-contenido">
+                <span class="cerrar" onclick="cerrarModal()">&times;</span>
+                <div id="formulario-contenido">
+                    <!-- Formulario dinámico --> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="registro_unificado.js"></script>
+</body>
+</html>
