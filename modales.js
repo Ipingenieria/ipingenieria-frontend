@@ -20,23 +20,32 @@ function cerrarSesion() {
     alert('Sesión cerrada exitosamente.');
 }
 
-// Manejar submenús desplegables
+// Mejorar comportamiento de submenús según dispositivo
 document.addEventListener('DOMContentLoaded', function() {
     const titulosMenu = document.querySelectorAll('.menu-titulo');
+
+    function esMovil() {
+        return window.innerWidth <= 768;
+    }
+
+    titulosMenu.forEach(function(titulo) {
+        if (esMovil()) {
+            titulo.addEventListener('click', function() {
+                const submenu = this.querySelector('.submenu');
+                if (submenu) {
+                    submenu.classList.toggle('activo');
+                }
+            });
+        }
+    });
+
+    // Botón hamburguesa
     const botonMenu = document.getElementById('boton-menu');
     const menuLateral = document.querySelector('.menu-lateral');
 
-    titulosMenu.forEach(function(titulo) {
-        titulo.addEventListener('click', function() {
-            const submenu = this.querySelector('.submenu');
-            if (submenu) {
-                submenu.classList.toggle('activo');
-            }
+    if (botonMenu) {
+        botonMenu.addEventListener('click', function() {
+            menuLateral.classList.toggle('mostrar');
         });
-    });
-
-    // Mostrar/ocultar el menú lateral en móviles
-    botonMenu.addEventListener('click', function() {
-        menuLateral.classList.toggle('mostrar');
-    });
+    }
 });

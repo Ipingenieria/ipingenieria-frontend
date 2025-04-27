@@ -61,11 +61,14 @@ body {
     color: white;
     font-weight: bold;
     cursor: pointer;
+    position: relative;
 }
 
 .menu-lateral .submenu {
-    display: none;
+    max-height: 0;
+    overflow: hidden;
     background-color: #0059b3;
+    transition: max-height 0.3s ease-out;
 }
 
 .menu-lateral .submenu li {
@@ -85,6 +88,11 @@ body {
 
 .menu-lateral .submenu li button:hover {
     background-color: #0073e6;
+}
+
+.menu-lateral .submenu.activo {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
 }
 
 /* Contenido principal */
@@ -135,19 +143,14 @@ body {
     color: black;
 }
 
-/* Submenús animados */
-.submenu {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
+/* Responsive */
+@media (min-width: 769px) {
+    .menu-lateral .menu-titulo:hover .submenu {
+        max-height: 500px;
+        transition: max-height 0.5s ease-in;
+    }
 }
 
-.submenu.activo {
-    max-height: 500px;
-    transition: max-height 0.5s ease-in;
-}
-
-/* Responsive móvil */
 @media (max-width: 768px) {
     #boton-menu {
         display: block;
