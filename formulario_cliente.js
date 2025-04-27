@@ -1,5 +1,5 @@
 
-// formulario_cliente.js FINAL optimizado
+// formulario_cliente.js FINAL MEJORADO
 
 // Función para actualizar el placeholder dinámicamente según tipo de cliente
 function actualizarPlaceholderNit() {
@@ -16,6 +16,8 @@ function actualizarPlaceholderNit() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const formulario = document.getElementById('formularioCliente');
+    const mensajeCliente = document.getElementById('mensajeCliente');
+
     if (formulario) {
         formulario.addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -33,7 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Validar campos obligatorios mínimos
             if (!tipo || !nit || !nombre || !telefono || !correo || !direccion || !ciudad) {
-                document.getElementById('mensajeCliente').innerText = '⚠️ Por favor complete todos los campos obligatorios.';
+                mensajeCliente.innerText = '⚠️ Por favor complete todos los campos obligatorios.';
+                mensajeCliente.style.color = 'red';
                 return;
             }
 
@@ -54,14 +57,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (error) {
                     console.error('❌ Error Supabase:', error);
-                    document.getElementById('mensajeCliente').innerText = '❌ Error al registrar cliente: ' + (error.message || 'Error desconocido');
+                    mensajeCliente.innerText = '❌ Error al registrar cliente: ' + (error.message || 'Error desconocido');
+                    mensajeCliente.style.color = 'red';
                 } else {
                     formulario.reset();
-                    document.getElementById('mensajeCliente').innerText = '✅ Cliente registrado exitosamente.';
+                    mensajeCliente.innerText = '✅ Cliente registrado exitosamente.';
+                    mensajeCliente.style.color = 'green';
                 }
             } catch (ex) {
                 console.error('❌ Excepción al insertar:', ex);
-                document.getElementById('mensajeCliente').innerText = '❌ Error inesperado al registrar cliente.';
+                mensajeCliente.innerText = '❌ Error inesperado al registrar cliente.';
+                mensajeCliente.style.color = 'red';
             }
         });
     }
