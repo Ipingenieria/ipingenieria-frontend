@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Empresarial IP Profesional v2</title>
+    <title>Sistema Empresarial IP Profesional v2 - Punto Seguro</title>
     <link rel="stylesheet" href="estilos.css">
-    <script src="modales.js" defer></script>
 </head>
 <body>
 
@@ -21,7 +20,7 @@
         <h1>Sistema Empresarial IP Profesional</h1>
     </header>
 
-    <!-- Menú lateral principal completo -->
+    <!-- Menú lateral profesional -->
     <nav class="menu-lateral">
         <ul>
             <li class="menu-titulo">👤 Usuarios
@@ -99,7 +98,7 @@
         </section>
     </main>
 
-    <!-- Modal flotante para carga dinámica -->
+    <!-- Modal flotante para carga de formularios -->
     <div id="modal" class="modal">
         <div class="modal-contenido">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
@@ -109,10 +108,11 @@
         </div>
     </div>
 
-    <!-- CARGA CORRECTA DE SCRIPTS -->
+    <!-- Scripts en el orden correcto para evitar errores -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="conexion_supabase.js"></script>
-    <!-- Importante: formulario_cliente.js se cargará dinámicamente cuando abra el formulario -->
+    <script src="modales.js" defer></script>
+    <!-- formulario_cliente.js solo se cargará dinámicamente cuando se necesite -->
 
 </body>
 </html>
