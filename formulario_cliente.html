@@ -1,0 +1,45 @@
+
+<h2>Registrar Cliente</h2>
+<form id="formularioCliente">
+    <label>Nombre o Razón Social *</label><br>
+    <input type="text" id="nombre" required><br><br>
+
+    <label>Tipo de Cliente *</label><br>
+    <select id="tipo" required>
+        <option value="">Seleccione...</option>
+        <option value="Persona Natural">Persona Natural</option>
+        <option value="Persona Jurídica">Persona Jurídica</option>
+    </select><br><br>
+
+    <label>Teléfono</label><br>
+    <input type="text" id="telefono"><br><br>
+
+    <label>Correo Electrónico</label><br>
+    <input type="email" id="correo"><br><br>
+
+    <label>Dirección</label><br>
+    <input type="text" id="direccion"><br><br>
+
+    <label>Ciudad</label><br>
+    <select id="ciudad">
+        <option value="">Seleccione...</option>
+        <option value="Bogotá">Bogotá</option>
+        <option value="Medellín">Medellín</option>
+        <option value="Cali">Cali</option>
+        <option value="Barranquilla">Barranquilla</option>
+        <option value="Cartagena">Cartagena</option>
+        <option value="Otra">Otra</option>
+    </select><br><br>
+
+    <label>NIT / Cédula</label><br>
+    <input type="text" id="nit"><br><br>
+
+    <label>Nombre del Contacto</label><br>
+    <input type="text" id="contacto"><br><br>
+
+    <label>Observaciones</label><br>
+    <textarea id="observaciones"></textarea><br><br>
+
+    <button type="submit">Registrar Cliente</button>
+</form>
+<div id="mensajeCliente"></div>
