@@ -21,7 +21,7 @@
         <h1>IP INGENIERÍA Y AUTOMATISMO SAS</h1>
     </header>
 
-    <!-- Menú lateral principal -->
+    <!-- Menú lateral principal completo -->
     <nav class="menu-lateral">
         <ul>
             <li class="menu-titulo">👥 Clientes
@@ -30,7 +30,31 @@
                     <li><button onclick="mostrarModal('verClientes')">📋 Ver Clientes</button></li>
                 </ul>
             </li>
-            <!-- Aquí irían otros menús como Cotizaciones, Agenda, etc. -->
+            <li class="menu-titulo">📝 Cotizaciones
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('crearCotizacion')">➕ Nueva Cotización</button></li>
+                    <li><button onclick="mostrarModal('verCotizaciones')">📋 Ver Cotizaciones</button></li>
+                </ul>
+            </li>
+            <li class="menu-titulo">📅 Agenda
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('agendarVisita')">📌 Agendar Visita</button></li>
+                    <li><button onclick="mostrarModal('verAgenda')">📋 Ver Agenda</button></li>
+                </ul>
+            </li>
+            <li class="menu-titulo">🏗️ Proyectos
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('crearProyecto')">➕ Nuevo Proyecto</button></li>
+                    <li><button onclick="mostrarModal('verProyectos')">📋 Ver Proyectos</button></li>
+                </ul>
+            </li>
+            <li class="menu-titulo">🔄 Registro de Movimientos
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('registrarMovimiento')">➕ Registrar Movimiento</button></li>
+                    <li><button onclick="mostrarModal('verMovimientos')">📋 Ver Movimientos</button></li>
+                </ul>
+            </li>
+            <li><button onclick="cerrarSesion()">🔒 Cerrar Sesión</button></li>
         </ul>
     </nav>
 
@@ -42,7 +66,7 @@
         </section>
     </main>
 
-    <!-- Modal flotante -->
+    <!-- Modal flotante para carga dinámica -->
     <div id="modal" class="modal">
         <div class="modal-contenido">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
@@ -55,7 +79,7 @@
     <!-- CARGA CORRECTA DE SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="conexion_supabase.js"></script>
-    <script src="formulario_cliente.js"></script>
+    <script src="formulario_cliente.js" defer></script>
 
 </body>
 </html>
