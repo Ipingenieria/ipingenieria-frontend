@@ -20,9 +20,11 @@ function cerrarSesion() {
     alert('Sesión cerrada exitosamente.');
 }
 
-// Mejorar submenús con animación
+// Manejar submenús desplegables
 document.addEventListener('DOMContentLoaded', function() {
     const titulosMenu = document.querySelectorAll('.menu-titulo');
+    const botonMenu = document.getElementById('boton-menu');
+    const menuLateral = document.querySelector('.menu-lateral');
 
     titulosMenu.forEach(function(titulo) {
         titulo.addEventListener('click', function() {
@@ -31,5 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 submenu.classList.toggle('activo');
             }
         });
+    });
+
+    // Mostrar/ocultar el menú lateral en móviles
+    botonMenu.addEventListener('click', function() {
+        menuLateral.classList.toggle('mostrar');
     });
 });

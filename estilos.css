@@ -6,6 +6,21 @@ body {
     background-color: #f5f7fa;
 }
 
+/* Botón hamburguesa (visible solo en móviles) */
+#boton-menu {
+    display: none;
+    background-color: #004080;
+    color: white;
+    border: none;
+    font-size: 30px;
+    padding: 10px;
+    cursor: pointer;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 2000;
+}
+
 /* Encabezado principal */
 .encabezado-principal {
     background-color: #003366;
@@ -33,6 +48,7 @@ body {
     background-color: #004080;
     overflow-y: auto;
     padding-top: 20px;
+    transition: transform 0.3s ease;
 }
 
 .menu-lateral ul {
@@ -119,7 +135,7 @@ body {
     color: black;
 }
 
-/* --- Agregado: Submenús con animación suave --- */
+/* Submenús animados */
 .submenu {
     max-height: 0;
     overflow: hidden;
@@ -129,4 +145,21 @@ body {
 .submenu.activo {
     max-height: 500px;
     transition: max-height 0.5s ease-in;
+}
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+    #boton-menu {
+        display: block;
+    }
+    .menu-lateral {
+        transform: translateX(-260px);
+    }
+    .menu-lateral.mostrar {
+        transform: translateX(0);
+    }
+    .contenido-principal {
+        margin-left: 0;
+        padding: 20px;
+    }
 }
