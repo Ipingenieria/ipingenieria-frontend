@@ -1,5 +1,5 @@
 
-// formulario_cliente.js FINAL MEJORADO
+// formulario_cliente.js CORREGIDO FINAL
 
 // Función para actualizar el placeholder dinámicamente según tipo de cliente
 function actualizarPlaceholderNit() {
@@ -14,61 +14,61 @@ function actualizarPlaceholderNit() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const formulario = document.getElementById('formularioCliente');
+// Función para guardar cliente
+async function guardarCliente() {
+    const tipo = document.getElementById('tipo').value.trim();
+    const nit = document.getElementById('nit').value.trim();
+    const nombre = document.getElementById('nombre').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const correo = document.getElementById('correo').value.trim();
+    const direccion = document.getElementById('direccion').value.trim();
+    const ciudad = document.getElementById('ciudad').value.trim();
+    const contacto = document.getElementById('contacto').value.trim();
+    const observaciones = document.getElementById('observaciones').value.trim();
     const mensajeCliente = document.getElementById('mensajeCliente');
 
-    if (formulario) {
-        formulario.addEventListener('submit', async function(event) {
-            event.preventDefault();
+    // Validar campos obligatorios mínimos
+    if (!tipo || !nit || !nombre || !telefono || !correo || !direccion || !ciudad) {
+        mensajeCliente.innerText = '⚠️ Por favor complete todos los campos obligatorios.';
+        mensajeCliente.style.color = 'red';
+        return;
+    }
 
-            // Capturar valores
-            const tipo = document.getElementById('tipo').value.trim();
-            const nit = document.getElementById('nit').value.trim();
-            const nombre = document.getElementById('nombre').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const correo = document.getElementById('correo').value.trim();
-            const direccion = document.getElementById('direccion').value.trim();
-            const ciudad = document.getElementById('ciudad').value.trim();
-            const contacto = document.getElementById('contacto').value.trim();
-            const observaciones = document.getElementById('observaciones').value.trim();
+    try {
+        const { data, error } = await supabaseClient
+            .from('clientes')
+            .insert([{
+                nombre: nombre,
+                tipo: tipo,
+                telefono: telefono,
+                correo: correo,
+                direccion: direccion,
+                ciudad: ciudad,
+                nit: nit,
+                contacto: contacto,
+                observaciones: observaciones || 'Sin observaciones'
+            }]);
 
-            // Validar campos obligatorios mínimos
-            if (!tipo || !nit || !nombre || !telefono || !correo || !direccion || !ciudad) {
-                mensajeCliente.innerText = '⚠️ Por favor complete todos los campos obligatorios.';
-                mensajeCliente.style.color = 'red';
-                return;
-            }
+        if (error) {
+            console.error('❌ Error Supabase:', error);
+            mensajeCliente.innerText = '❌ Error al registrar cliente: ' + (error.message || 'Error desconocido');
+            mensajeCliente.style.color = 'red';
+        } else {
+            document.getElementById('formularioCliente').reset();
+            mensajeCliente.innerText = '✅ Cliente registrado exitosamente.';
+            mensajeCliente.style.color = 'green';
+        }
+    } catch (ex) {
+        console.error('❌ Excepción al insertar:', ex);
+        mensajeCliente.innerText = '❌ Error inesperado al registrar cliente.';
+        mensajeCliente.style.color = 'red';
+    }
+}
 
-            try {
-                const { data, error } = await supabaseClient
-                    .from('clientes')
-                    .insert([{
-                        nombre: nombre,
-                        tipo: tipo,
-                        telefono: telefono,
-                        correo: correo,
-                        direccion: direccion,
-                        ciudad: ciudad,
-                        nit: nit,
-                        contacto: contacto,
-                        observaciones: observaciones || 'Sin observaciones'
-                    }]);
-
-                if (error) {
-                    console.error('❌ Error Supabase:', error);
-                    mensajeCliente.innerText = '❌ Error al registrar cliente: ' + (error.message || 'Error desconocido');
-                    mensajeCliente.style.color = 'red';
-                } else {
-                    formulario.reset();
-                    mensajeCliente.innerText = '✅ Cliente registrado exitosamente.';
-                    mensajeCliente.style.color = 'green';
-                }
-            } catch (ex) {
-                console.error('❌ Excepción al insertar:', ex);
-                mensajeCliente.innerText = '❌ Error inesperado al registrar cliente.';
-                mensajeCliente.style.color = 'red';
-            }
-        });
+// Asociar eventos cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    const botonRegistrarCliente = document.getElementById('botonRegistrarCliente');
+    if (botonRegistrarCliente) {
+        botonRegistrarCliente.addEventListener('click', guardarCliente);
     }
 });
