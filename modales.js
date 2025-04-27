@@ -8,20 +8,32 @@ function mostrarModal(formulario) {
     modal.style.display = 'block';
 
     if (formulario === 'crearCliente') {
-        // Cargar formulario_cliente.html real
+        // Cargar formulario_cliente.html
         fetch('formulario_cliente.html')
             .then(response => response.text())
             .then(html => {
                 contenido.innerHTML = html;
-                cargarScriptFormularioCliente(); // Cargar el JS después del HTML
+                cargarFormularioClienteJS();
             })
             .catch(error => {
-                contenido.innerHTML = '<p>Error al cargar el formulario.</p>';
+                contenido.innerHTML = '<p>Error al cargar el formulario de cliente.</p>';
             });
     } else {
-        // Otros formularios (pendiente para futuras versiones)
         contenido.innerHTML = '<h2>' + formulario.replace(/([A-Z])/g, ' $1') + '</h2><p>(Aquí irá el formulario de ' + formulario + ')</p>';
     }
+}
+
+// Función para cargar dinámicamente el JS del formulario de cliente
+function cargarFormularioClienteJS() {
+    const scriptExistente = document.getElementById('scriptFormularioCliente');
+    if (scriptExistente) {
+        scriptExistente.remove(); // Eliminar si ya existe uno viejo
+    }
+    const script = document.createElement('script');
+    script.src = 'formulario_cliente.js';
+    script.id = 'scriptFormularioCliente';
+    script.defer = true;
+    document.body.appendChild(script);
 }
 
 // Función para cerrar el modal
@@ -33,14 +45,6 @@ function cerrarModal() {
 // Función de ejemplo para cerrar sesión
 function cerrarSesion() {
     alert('Sesión cerrada exitosamente.');
-}
-
-// Cargar dinámicamente el formulario_cliente.js después de insertar el HTML
-function cargarScriptFormularioCliente() {
-    const script = document.createElement('script');
-    script.src = 'formulario_cliente.js';
-    script.defer = true;
-    document.body.appendChild(script);
 }
 
 // Mejorar comportamiento de submenús según dispositivo
