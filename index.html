@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Empresarial IP Profesional </title>
+    <title>Sistema Empresarial IP Profesional</title>
     <link rel="stylesheet" href="estilos.css">
     <script src="modales.js" defer></script>
 </head>
@@ -24,84 +24,20 @@
     <!-- Menú lateral principal -->
     <nav class="menu-lateral">
         <ul>
-            <li class="menu-titulo">👤 Usuarios
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('crearUsuario')">➕ Crear Usuario</button></li>
-                    <li><button onclick="mostrarModal('verUsuarios')">📋 Ver Usuarios</button></li>
-                </ul>
-            </li>
             <li class="menu-titulo">👥 Clientes
                 <ul class="submenu">
                     <li><button onclick="mostrarModal('crearCliente')">➕ Registrar Cliente</button></li>
                     <li><button onclick="mostrarModal('verClientes')">📋 Ver Clientes</button></li>
                 </ul>
             </li>
-            <li class="menu-titulo">📝 Cotizaciones
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('crearCotizacion')">➕ Crear Cotización</button></li>
-                    <li><button onclick="mostrarModal('verCotizaciones')">📋 Ver Cotizaciones</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">📅 Agenda
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('agendarVisita')">➕ Agendar Visita</button></li>
-                    <li><button onclick="mostrarModal('verAgenda')">📋 Ver Agenda</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">🏗️ Proyectos
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('crearProyecto')">➕ Crear Proyecto</button></li>
-                    <li><button onclick="mostrarModal('verProyectos')">📋 Ver Proyectos</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">🔄 Registro de Movimientos
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('registroInventarioGeneral')">📦 Registro Inventario General</button></li>
-                    <li><button onclick="mostrarModal('registroFinancieroGeneral')">💵 Registro Financiero General</button></li>
-                    <li><button onclick="mostrarModal('registroProyectoActividad')">🏗️ Registro por Proyecto/Actividad</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">🧾 Facturación
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('crearFactura')">➕ Crear Factura</button></li>
-                    <li><button onclick="mostrarModal('verFacturas')">📋 Ver Facturación</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">🛡️ Garantías
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('registrarGarantia')">➕ Registrar Garantía</button></li>
-                    <li><button onclick="mostrarModal('verGarantias')">📋 Ver Garantías</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">🏛️ Impuestos
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('registroImpuestos')">➕ Registrar Impuestos</button></li>
-                    <li><button onclick="mostrarModal('verImpuestos')">📋 Ver Impuestos</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">📊 Visualización
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('visualizarInventario')">📦 Ver Inventario</button></li>
-                    <li><button onclick="mostrarModal('verReportesMovimientos')">📈 Ver Reportes</button></li>
-                    <li><button onclick="mostrarModal('verEstadosFinancieros')">💰 Ver Estados Financieros</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">⚙️ Configuración
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('parametrosGenerales')">⚙️ Parámetros Generales</button></li>
-                    <li><button onclick="mostrarModal('rolesSeguridad')">🛡️ Roles y Seguridad</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo cerrar-sesion">
-                <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
-            </li>
+            <!-- Aquí irían otros menús como Cotizaciones, Agenda, etc. -->
         </ul>
     </nav>
 
     <!-- Contenido principal -->
     <main class="contenido-principal">
         <section class="bienvenida">
-            <h2>Bienvenido al Sistema Empresarial IP Profesional v2</h2>
+            <h2>Bienvenido al Sistema Empresarial IP Profesional</h2>
             <p>Utiliza el menú lateral para navegar entre las diferentes funciones de gestión empresarial.</p>
         </section>
     </main>
@@ -115,6 +51,11 @@
             </div>
         </div>
     </div>
+
+    <!-- CARGA CORRECTA DE SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="conexion_supabase.js"></script>
+    <script src="formulario_cliente.js"></script>
 
 </body>
 </html>
