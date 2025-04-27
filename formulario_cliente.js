@@ -1,7 +1,7 @@
 
-// formulario_cliente.js corregido
+// formulario_cliente.js FINAL optimizado
 
-// Función para actualizar placeholder dinámicamente
+// Función para actualizar el placeholder dinámicamente según tipo de cliente
 function actualizarPlaceholderNit() {
     const tipo = document.getElementById('tipo').value;
     const campoNit = document.getElementById('nit');
@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formulario.addEventListener('submit', async function(event) {
             event.preventDefault();
 
+            // Capturar valores
             const tipo = document.getElementById('tipo').value.trim();
             const nit = document.getElementById('nit').value.trim();
             const nombre = document.getElementById('nombre').value.trim();
@@ -30,28 +31,37 @@ document.addEventListener('DOMContentLoaded', function() {
             const contacto = document.getElementById('contacto').value.trim();
             const observaciones = document.getElementById('observaciones').value.trim();
 
-            if (!tipo || !nit || !nombre) {
-                document.getElementById('mensajeCliente').innerText = 'Por favor complete los campos obligatorios.';
+            // Validar campos obligatorios mínimos
+            if (!tipo || !nit || !nombre || !telefono || !correo || !direccion || !ciudad) {
+                document.getElementById('mensajeCliente').innerText = '⚠️ Por favor complete todos los campos obligatorios.';
                 return;
             }
 
-            const { data, error } = await supabaseClient.from('clientes').insert([{
-                tipo: tipo,
-                nit: nit,
-                nombre: nombre,
-                telefono: telefono,
-                correo: correo,
-                direccion: direccion,
-                ciudad: ciudad,
-                contacto: contacto,
-                observaciones: observaciones
-            }]);
+            try {
+                const { data, error } = await supabaseClient
+                    .from('clientes')
+                    .insert([{
+                        nombre: nombre,
+                        tipo: tipo,
+                        telefono: telefono,
+                        correo: correo,
+                        direccion: direccion,
+                        ciudad: ciudad,
+                        nit: nit,
+                        contacto: contacto,
+                        observaciones: observaciones || 'Sin observaciones'
+                    }]);
 
-            if (error) {
-                document.getElementById('mensajeCliente').innerText = '❌ Error al registrar: ' + error.message;
-            } else {
-                formulario.reset();
-                document.getElementById('mensajeCliente').innerText = '✅ Cliente registrado exitosamente.';
+                if (error) {
+                    console.error('❌ Error Supabase:', error);
+                    document.getElementById('mensajeCliente').innerText = '❌ Error al registrar cliente: ' + (error.message || 'Error desconocido');
+                } else {
+                    formulario.reset();
+                    document.getElementById('mensajeCliente').innerText = '✅ Cliente registrado exitosamente.';
+                }
+            } catch (ex) {
+                console.error('❌ Excepción al insertar:', ex);
+                document.getElementById('mensajeCliente').innerText = '❌ Error inesperado al registrar cliente.';
             }
         });
     }
