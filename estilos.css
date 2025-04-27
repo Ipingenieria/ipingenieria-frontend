@@ -71,11 +71,6 @@ body {
     background-color: #0073e6;
 }
 
-/* Mostrar submenús al hacer hover */
-.menu-lateral .menu-titulo:hover .submenu {
-    display: block;
-}
-
 /* Contenido principal */
 .contenido-principal {
     margin-left: 270px;
@@ -122,4 +117,16 @@ body {
 
 .cerrar:hover, .cerrar:focus {
     color: black;
+}
+
+/* --- Agregado: Submenús con animación suave --- */
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.submenu.activo {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
 }
