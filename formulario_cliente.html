@@ -1,60 +1,45 @@
 
-<h2>Registrar Cliente</h2>
-<form id="formularioCliente" style="max-width: 600px; margin: auto;">
+<form id="formularioCliente">
+    <h2>Registrar Cliente</h2>
 
-    <label>Tipo de Cliente *</label><br>
-    <select id="tipo" required onchange="actualizarPlaceholderNit()" style="width:100%; padding:8px; margin-bottom:10px;">
+    <label>Tipo de Cliente *</label>
+    <select id="tipo" onchange="actualizarPlaceholderNit()">
         <option value="">Seleccione...</option>
         <option value="Persona Natural">Persona Natural</option>
         <option value="Persona Jurídica">Persona Jurídica</option>
     </select>
 
-    <label>NIT o Cédula *</label><br>
-    <input type="text" id="nit" required placeholder="Ingrese número de identificación..." style="width:100%; padding:8px; margin-bottom:10px;">
+    <label>NIT / Cédula *</label>
+    <input type="text" id="nit" placeholder="Seleccione tipo de cliente..." />
 
-    <label>Nombre o Razón Social *</label><br>
-    <input type="text" id="nombre" required placeholder="Ingrese nombre completo o razón social..." style="width:100%; padding:8px; margin-bottom:10px;">
+    <label>Nombre o Razón Social *</label>
+    <input type="text" id="nombre" placeholder="Ingrese nombre o razón social..." />
 
-    <label>Teléfono</label><br>
-    <input type="text" id="telefono" placeholder="Ingrese número de contacto..." style="width:100%; padding:8px; margin-bottom:10px;">
+    <label>Teléfono *</label>
+    <input type="text" id="telefono" placeholder="Ingrese teléfono..." />
 
-    <label>Correo Electrónico</label><br>
-    <input type="email" id="correo" placeholder="Ingrese correo electrónico..." style="width:100%; padding:8px; margin-bottom:10px;">
+    <label>Correo Electrónico *</label>
+    <input type="email" id="correo" placeholder="Ingrese correo electrónico..." />
 
-    <label>Dirección</label><br>
-    <input type="text" id="direccion" placeholder="Ingrese dirección de residencia o sede..." style="width:100%; padding:8px; margin-bottom:10px;">
+    <label>Dirección *</label>
+    <input type="text" id="direccion" placeholder="Ingrese dirección..." />
 
-    <label>Ciudad</label><br>
-    <select id="ciudad" style="width:100%; padding:8px; margin-bottom:10px;">
+    <label>Ciudad *</label>
+    <select id="ciudad">
         <option value="">Seleccione ciudad...</option>
-        <option value="Bogotá">Bogotá</option>
+        <option value="Bogotá D.C.">Bogotá D.C.</option>
         <option value="Medellín">Medellín</option>
         <option value="Cali">Cali</option>
         <option value="Barranquilla">Barranquilla</option>
-        <option value="Cartagena">Cartagena</option>
-        <option value="Otra">Otra</option>
     </select>
 
-    <label>Nombre del Contacto</label><br>
-    <input type="text" id="contacto" placeholder="Ingrese nombre del contacto..." style="width:100%; padding:8px; margin-bottom:10px;">
+    <label>Nombre del Contacto</label>
+    <input type="text" id="contacto" placeholder="Nombre del contacto (opcional)..." />
 
-    <label>Observaciones</label><br>
-    <textarea id="observaciones" placeholder="Ingrese observaciones adicionales..." style="width:100%; padding:8px; margin-bottom:10px;"></textarea>
+    <label>Observaciones</label>
+    <textarea id="observaciones" placeholder="Observaciones adicionales..."></textarea>
 
-    <button type="submit" style="width:100%; padding:10px; background-color:#004080; color:white; border:none; border-radius:5px; font-size:16px; cursor:pointer;">Registrar Cliente</button>
+    <div id="mensajeCliente" style="margin-top:10px; font-weight: bold;"></div>
+
+    <button type="button" id="botonRegistrarCliente">Registrar Cliente</button>
 </form>
-<div id="mensajeCliente" style="text-align:center; margin-top:10px;"></div>
-
-<script>
-function actualizarPlaceholderNit() {
-    const tipo = document.getElementById('tipo').value;
-    const campoNit = document.getElementById('nit');
-    if (tipo === 'Persona Natural') {
-        campoNit.placeholder = 'Ingrese número de cédula...';
-    } else if (tipo === 'Persona Jurídica') {
-        campoNit.placeholder = 'Ingrese número de NIT...';
-    } else {
-        campoNit.placeholder = 'Ingrese número de identificación...';
-    }
-}
-</script>
