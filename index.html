@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Empresarial IP Profesional</title>
+    <title>Sistema Empresarial IP Profesional v2</title>
     <link rel="stylesheet" href="estilos.css">
     <script src="modales.js" defer></script>
 </head>
@@ -18,12 +18,18 @@
         <div class="logo">
             <img src="logo.jpg" alt="IP Ingeniería y Automatismo SAS" />
         </div>
-        <h1>IP INGENIERÍA Y AUTOMATISMO SAS</h1>
+        <h1>Sistema Empresarial IP Profesional</h1>
     </header>
 
     <!-- Menú lateral principal completo -->
     <nav class="menu-lateral">
         <ul>
+            <li class="menu-titulo">👤 Usuarios
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('crearUsuario')">➕ Crear Usuario</button></li>
+                    <li><button onclick="mostrarModal('verUsuarios')">📋 Ver Usuarios</button></li>
+                </ul>
+            </li>
             <li class="menu-titulo">👥 Clientes
                 <ul class="submenu">
                     <li><button onclick="mostrarModal('crearCliente')">➕ Registrar Cliente</button></li>
@@ -54,6 +60,33 @@
                     <li><button onclick="mostrarModal('verMovimientos')">📋 Ver Movimientos</button></li>
                 </ul>
             </li>
+            <li class="menu-titulo">💰 Facturación
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('crearFactura')">➕ Nueva Factura</button></li>
+                    <li><button onclick="mostrarModal('verFacturas')">📋 Ver Facturas</button></li>
+                </ul>
+            </li>
+            <li class="menu-titulo">🛡️ Garantías
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('registrarGarantia')">➕ Registrar Garantía</button></li>
+                    <li><button onclick="mostrarModal('verGarantias')">📋 Ver Garantías</button></li>
+                </ul>
+            </li>
+            <li class="menu-titulo">📊 Impuestos
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('verImpuestos')">📋 Ver Impuestos</button></li>
+                </ul>
+            </li>
+            <li class="menu-titulo">📈 Visualización
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('verReportes')">📊 Ver Reportes</button></li>
+                </ul>
+            </li>
+            <li class="menu-titulo">⚙️ Configuración
+                <ul class="submenu">
+                    <li><button onclick="mostrarModal('configuracionSistema')">⚙️ Configuración General</button></li>
+                </ul>
+            </li>
             <li><button onclick="cerrarSesion()">🔒 Cerrar Sesión</button></li>
         </ul>
     </nav>
@@ -62,7 +95,7 @@
     <main class="contenido-principal">
         <section class="bienvenida">
             <h2>Bienvenido al Sistema Empresarial IP Profesional</h2>
-            <p>Utiliza el menú lateral para navegar entre las diferentes funciones de gestión empresarial.</p>
+            <p>Utiliza el menú lateral para gestionar tu empresa de manera eficiente.</p>
         </section>
     </main>
 
@@ -71,7 +104,7 @@
         <div class="modal-contenido">
             <span class="cerrar" onclick="cerrarModal()">&times;</span>
             <div id="contenidoModal">
-                <!-- Aquí se cargará dinámicamente el contenido de los formularios -->
+                <!-- Aquí se cargarán dinámicamente los formularios -->
             </div>
         </div>
     </div>
@@ -79,7 +112,7 @@
     <!-- CARGA CORRECTA DE SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="conexion_supabase.js"></script>
-    <script src="formulario_cliente.js" defer></script>
+    <!-- Importante: formulario_cliente.js se cargará dinámicamente cuando abra el formulario -->
 
 </body>
 </html>
