@@ -2,117 +2,139 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Empresarial IP Profesional v2 - Punto Seguro</title>
-    <link rel="stylesheet" href="estilos.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Empresarial IP Profesional</title>
+  <!-- —— ESTILOS BÁSICOS —— -->
+  <style>
+    :root {
+      --azul: #003e79;
+      --azul-oscuro: #002b55;
+      --blanco: #ffffff;
+      --gris-claro: #f4f6fa;
+      --gris-hover: #e9eff6;
+      --trans: 0.25s ease;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Roboto, sans-serif; }
+    body { display: flex; height: 100vh; background: var(--gris-claro); color: #1f2937; }
+
+    /* —— SIDEBAR —— */
+    #sidebar { width: 260px; background: var(--azul); color: var(--blanco); overflow-y: auto; }
+    #sidebar h1 { padding: 1.2rem 1rem; font-size: 1rem; background: var(--azul-oscuro); }
+    .grupo { border-top: 1px solid rgba(255,255,255,0.08); }
+    .grupo > button { width: 100%; background: none; border: none; color: inherit; padding: 0.8rem 1rem; text-align: left; cursor: pointer; transition: var(--trans); }
+    .grupo > button:hover { background: rgba(0,0,0,0.12); }
+    .grupo ul { list-style: none; display: none; background: rgba(0,0,0,0.05); }
+    .grupo ul li a { display: block; padding: 0.6rem 2rem; font-size: 0.85rem; color: inherit; text-decoration: none; transition: var(--trans); }
+    .grupo ul li a:hover { background: var(--gris-hover); color: #111; }
+
+    /* —— MAIN —— */
+    #main { flex: 1; display: flex; flex-direction: column; }
+    header { padding: 0.9rem 1.5rem; background: var(--blanco); display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 4px rgba(0,0,0,0.05); }
+    header .titulo { font-weight:600; font-size:1.1rem; }
+    header .logout { background:none; border:1px solid #ef4444; color:#ef4444; padding:0.4rem 0.8rem; border-radius:4px; cursor:pointer; transition:var(--trans); }
+    header .logout:hover { background:#ef4444; color:#fff; }
+    #contenido { padding:1.5rem; overflow-y:auto; }
+    .card { background:var(--blanco); padding:1.5rem; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+
+    /* —— MODAL —— */
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000; justify-content:center; align-items:center; }
+    .modal .contenido-modal { width:90%; max-width:500px; background:#fff; padding:1.2rem 1.5rem; border-radius:6px; position:relative; }
+    .modal .cerrar { position:absolute; top:8px; right:12px; font-size:22px; cursor:pointer; }
+    .modal.mostrar { display:flex; }
+  </style>
 </head>
 <body>
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar">
+    <h1>Sistema Empresarial</h1>
 
-    <!-- Botón hamburguesa para móviles -->
-    <button id="boton-menu">☰</button>
-
-    <!-- Encabezado principal -->
-    <header class="encabezado-principal">
-        <div class="logo">
-            <img src="logo.jpg" alt="IP Ingeniería y Automatismo SAS" />
-        </div>
-        <h1>Sistema Empresarial IP Profesional</h1>
-    </header>
-
-    <!-- Menú lateral profesional -->
-    <nav class="menu-lateral">
-        <ul>
-            <li class="menu-titulo">👤 Usuarios
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('crearUsuario')">➕ Crear Usuario</button></li>
-                    <li><button onclick="mostrarModal('verUsuarios')">📋 Ver Usuarios</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">👥 Clientes
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('crearCliente')">➕ Registrar Cliente</button></li>
-                    <li><button onclick="mostrarModal('verClientes')">📋 Ver Clientes</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">📝 Cotizaciones
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('crearCotizacion')">➕ Nueva Cotización</button></li>
-                    <li><button onclick="mostrarModal('verCotizaciones')">📋 Ver Cotizaciones</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">📅 Agenda
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('agendarVisita')">📌 Agendar Visita</button></li>
-                    <li><button onclick="mostrarModal('verAgenda')">📋 Ver Agenda</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">🏗️ Proyectos
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('crearProyecto')">➕ Nuevo Proyecto</button></li>
-                    <li><button onclick="mostrarModal('verProyectos')">📋 Ver Proyectos</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">🔄 Registro de Movimientos
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('registrarMovimiento')">➕ Registrar Movimiento</button></li>
-                    <li><button onclick="mostrarModal('verMovimientos')">📋 Ver Movimientos</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">💰 Facturación
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('crearFactura')">➕ Nueva Factura</button></li>
-                    <li><button onclick="mostrarModal('verFacturas')">📋 Ver Facturas</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">🛡️ Garantías
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('registrarGarantia')">➕ Registrar Garantía</button></li>
-                    <li><button onclick="mostrarModal('verGarantias')">📋 Ver Garantías</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">📊 Impuestos
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('verImpuestos')">📋 Ver Impuestos</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">📈 Visualización
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('verReportes')">📊 Ver Reportes</button></li>
-                </ul>
-            </li>
-            <li class="menu-titulo">⚙️ Configuración
-                <ul class="submenu">
-                    <li><button onclick="mostrarModal('configuracionSistema')">⚙️ Configuración General</button></li>
-                </ul>
-            </li>
-            <li><button onclick="cerrarSesion()">🔒 Cerrar Sesión</button></li>
-        </ul>
-    </nav>
-
-    <!-- Contenido principal -->
-    <main class="contenido-principal">
-        <section class="bienvenida">
-            <h2>Bienvenido al Sistema Empresarial IP Profesional</h2>
-            <p>Utiliza el menú lateral para gestionar tu empresa de manera eficiente.</p>
-        </section>
-    </main>
-
-    <!-- Modal flotante para carga de formularios -->
-    <div id="modal" class="modal">
-        <div class="modal-contenido">
-            <span class="cerrar" onclick="cerrarModal()">&times;</span>
-            <div id="contenidoModal">
-                <!-- Aquí se cargarán dinámicamente los formularios -->
-            </div>
-        </div>
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Usuarios ▸</button>
+      <ul>
+        <li><a href="#" onclick="alert('Crear usuario')">Crear usuario</a></li>
+        <li><a href="#" onclick="alert('Ver usuarios')">Ver usuarios</a></li>
+      </ul>
     </div>
 
-    <!-- Scripts en el orden correcto para evitar errores -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script src="conexion_supabase.js"></script>
-    <script src="modales.js" defer></script>
-    <!-- formulario_cliente.js solo se cargará dinámicamente cuando se necesite -->
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Clientes ▸</button>
+      <ul>
+        <li><a href="#" onclick="mostrarModal('modalRegistrarCliente')">Registrar cliente</a></li>
+        <li><a href="#" onclick="alert('Ver clientes')">Ver clientes</a></li>
+      </ul>
+    </div>
 
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Cotizaciones ▸</button>
+      <ul>
+        <li><a href="#" onclick="mostrarModal('modalGenerarCotizacion')">Generar cotización</a></li>
+        <li><a href="#" onclick="alert('Ver cotizaciones')">Ver cotizaciones</a></li>
+        <li><a href="#" onclick="mostrarModal('modalVisitaCotizacion')">Visita para cotización</a></li>
+      </ul>
+    </div>
+
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Agenda ▸</button>
+      <ul>
+        <li><a href="#" onclick="mostrarModal('modalProgramarVisita')">Programar visita</a></li>
+        <li><a href="#" onclick="alert('Ver agenda')">Ver agenda</a></li>
+      </ul>
+    </div>
+
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Registro de Movimientos ▸</button>
+      <ul>
+        <li><a href="#" onclick="mostrarModal('modalMovimientoInventario')">Movimiento inventario</a></li>
+        <li><a href="#" onclick="mostrarModal('modalMovimientoFinanciero')">Movimiento financiero</a></li>
+        <li><a href="#" onclick="mostrarModal('modalMovimientoProyecto')">Movimiento proyecto</a></li>
+        <li><a href="#" onclick="alert('Ver inventario')">Ver inventario</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <section id="main">
+    <header>
+      <span class="titulo">Bienvenido al Sistema Empresarial IP Profesional</span>
+      <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </header>
+
+    <div id="contenido">
+      <div class="card">
+        <h2>¡Comienza seleccionando un módulo!</h2>
+        <p>Haz clic en cualquier módulo del menú para ver sus opciones.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MODALES DEMO ===== -->
+  <div id="modalRegistrarCliente" class="modal">
+    <div class="contenido-modal">
+      <span class="cerrar" onclick="cerrarModal('modalRegistrarCliente')">&times;</span>
+      <h3>Registrar cliente</h3>
+      ...formulario aquí...
+    </div>
+  </div>
+
+  <div id="modalGenerarCotizacion" class="modal">
+    <div class="contenido-modal">
+      <span class="cerrar" onclick="cerrarModal('modalGenerarCotizacion')">&times;</span>
+      <h3>Generar cotización</h3>
+      ...formulario...
+    </div>
+  </div>
+
+  <!-- más modales -->
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    function toggleSubmenu(btn){
+      const ul = btn.nextElementSibling;
+      ul.style.display = ul.style.display==='block'? 'none':'block';
+    }
+    function cerrarSesion(){ alert('Sesión cerrada'); }
+  </script>
+  <script src="js/modales.js"></script>
 </body>
 </html>
