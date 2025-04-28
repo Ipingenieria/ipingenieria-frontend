@@ -1,140 +1,174 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sistema Empresarial IP Profesional</title>
-  <!-- —— ESTILOS BÁSICOS —— -->
+
+  <!-- ==------ ESTILOS BÁSICOS  ------== -->
   <style>
-    :root {
-      --azul: #003e79;
-      --azul-oscuro: #002b55;
-      --blanco: #ffffff;
-      --gris-claro: #f4f6fa;
-      --gris-hover: #e9eff6;
-      --trans: 0.25s ease;
+    :root{
+      --azul:#003e79;--azulOsc:#002b55;--blanco:#fff;--grisClaro:#f4f6fa;--grisHover:#e9eff6;--t:0.25s;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Roboto, sans-serif; }
-    body { display: flex; height: 100vh; background: var(--gris-claro); color: #1f2937; }
-
-    /* —— SIDEBAR —— */
-    #sidebar { width: 260px; background: var(--azul); color: var(--blanco); overflow-y: auto; }
-    #sidebar h1 { padding: 1.2rem 1rem; font-size: 1rem; background: var(--azul-oscuro); }
-    .grupo { border-top: 1px solid rgba(255,255,255,0.08); }
-    .grupo > button { width: 100%; background: none; border: none; color: inherit; padding: 0.8rem 1rem; text-align: left; cursor: pointer; transition: var(--trans); }
-    .grupo > button:hover { background: rgba(0,0,0,0.12); }
-    .grupo ul { list-style: none; display: none; background: rgba(0,0,0,0.05); }
-    .grupo ul li a { display: block; padding: 0.6rem 2rem; font-size: 0.85rem; color: inherit; text-decoration: none; transition: var(--trans); }
-    .grupo ul li a:hover { background: var(--gris-hover); color: #111; }
-
-    /* —— MAIN —— */
-    #main { flex: 1; display: flex; flex-direction: column; }
-    header { padding: 0.9rem 1.5rem; background: var(--blanco); display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 4px rgba(0,0,0,0.05); }
-    header .titulo { font-weight:600; font-size:1.1rem; }
-    header .logout { background:none; border:1px solid #ef4444; color:#ef4444; padding:0.4rem 0.8rem; border-radius:4px; cursor:pointer; transition:var(--trans); }
-    header .logout:hover { background:#ef4444; color:#fff; }
-    #contenido { padding:1.5rem; overflow-y:auto; }
-    .card { background:var(--blanco); padding:1.5rem; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
-
-    /* —— MODAL —— */
-    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000; justify-content:center; align-items:center; }
-    .modal .contenido-modal { width:90%; max-width:500px; background:#fff; padding:1.2rem 1.5rem; border-radius:6px; position:relative; }
-    .modal .cerrar { position:absolute; top:8px; right:12px; font-size:22px; cursor:pointer; }
-    .modal.mostrar { display:flex; }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI",Arial,sans-serif;}
+    body{display:flex;min-height:100vh;background:var(--grisClaro);color:#1f2937;}
+    /* — Sidebar — */
+    #sidebar{width:260px;background:var(--azul);color:var(--blanco);overflow-y:auto;}
+    #sidebar h1{padding:1rem;font-size:1rem;background:var(--azulOsc);text-align:center;}
+    .grupo{border-top:1px solid rgba(255,255,255,.08);}
+    .grupo>button{width:100%;background:none;border:none;color:inherit;padding:.85rem 1rem;text-align:left;cursor:pointer;transition:var(--t);}
+    .grupo>button:hover{background:rgba(0,0,0,.15);}
+    .grupo ul{display:none;list-style:none;background:rgba(0,0,0,.05);}
+    .grupo ul li a{display:block;padding:.55rem 2rem;font-size:.85rem;color:inherit;text-decoration:none;transition:var(--t);}
+    .grupo ul li a:hover{background:var(--grisHover);color:#111;}
+    /* — Main — */
+    #main{flex:1;display:flex;flex-direction:column;}
+    header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;background:var(--blanco);box-shadow:0 2px 4px rgba(0,0,0,.05);}
+    header .titulo{font-weight:600;font-size:1.05rem;}
+    header .logout{background:none;border:1px solid #ef4444;color:#ef4444;padding:.35rem .8rem;border-radius:4px;cursor:pointer;transition:var(--t);}
+    header .logout:hover{background:#ef4444;color:#fff;}
+    #contenido{padding:1.4rem;}
+    .card{background:var(--blanco);padding:1.4rem;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
   </style>
 </head>
 <body>
-  <!-- ===== SIDEBAR ===== -->
+
+  <!-- ==== SIDEBAR ==== -->
   <aside id="sidebar">
     <h1>Sistema Empresarial</h1>
 
+    <!-- 1. Usuarios -->
     <div class="grupo">
       <button onclick="toggleSubmenu(this)">Usuarios ▸</button>
       <ul>
-        <li><a href="#" onclick="alert('Crear usuario')">Crear usuario</a></li>
-        <li><a href="#" onclick="alert('Ver usuarios')">Ver usuarios</a></li>
+        <li><a href="/pages/usuarios/crear.html">Crear usuario</a></li>
+        <li><a href="/pages/usuarios/lista.html">Ver usuarios</a></li>
+        <li><a href="/pages/usuarios/roles.html">Roles y permisos</a></li>
       </ul>
     </div>
 
+    <!-- 2. Clientes -->
     <div class="grupo">
       <button onclick="toggleSubmenu(this)">Clientes ▸</button>
       <ul>
-        <li><a href="#" onclick="mostrarModal('modalRegistrarCliente')">Registrar cliente</a></li>
-        <li><a href="#" onclick="alert('Ver clientes')">Ver clientes</a></li>
+        <li><a href="/pages/clientes/registrar.html">Registrar cliente</a></li>
+        <li><a href="/pages/clientes/lista.html">Ver clientes</a></li>
+        <li><a href="/pages/clientes/importar.html">Importar clientes (CSV)</a></li>
       </ul>
     </div>
 
+    <!-- 3. Cotizaciones -->
     <div class="grupo">
       <button onclick="toggleSubmenu(this)">Cotizaciones ▸</button>
       <ul>
-        <li><a href="#" onclick="mostrarModal('modalGenerarCotizacion')">Generar cotización</a></li>
-        <li><a href="#" onclick="alert('Ver cotizaciones')">Ver cotizaciones</a></li>
-        <li><a href="#" onclick="mostrarModal('modalVisitaCotizacion')">Visita para cotización</a></li>
+        <li><a href="/pages/cotizaciones/generar.html">Generar cotización</a></li>
+        <li><a href="/pages/cotizaciones/lista.html">Ver cotizaciones</a></li>
+        <li><a href="/pages/cotizaciones/visita.html">Visita para cotización</a></li>
       </ul>
     </div>
 
+    <!-- 4. Agenda -->
     <div class="grupo">
       <button onclick="toggleSubmenu(this)">Agenda ▸</button>
       <ul>
-        <li><a href="#" onclick="mostrarModal('modalProgramarVisita')">Programar visita</a></li>
-        <li><a href="#" onclick="alert('Ver agenda')">Ver agenda</a></li>
+        <li><a href="/pages/agenda/programar.html">Programar visita</a></li>
+        <li><a href="/pages/agenda/calendario.html">Ver agenda</a></li>
       </ul>
     </div>
 
+    <!-- 5. Proyectos -->
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Proyectos ▸</button>
+      <ul>
+        <li><a href="/pages/proyectos/nuevo.html">Nuevo proyecto</a></li>
+        <li><a href="/pages/proyectos/activos.html">Proyectos activos</a></li>
+        <li><a href="/pages/proyectos/cerrados.html">Proyectos cerrados</a></li>
+      </ul>
+    </div>
+
+    <!-- 6. Registro de Movimientos -->
     <div class="grupo">
       <button onclick="toggleSubmenu(this)">Registro de Movimientos ▸</button>
       <ul>
-        <li><a href="#" onclick="mostrarModal('modalMovimientoInventario')">Movimiento inventario</a></li>
-        <li><a href="#" onclick="mostrarModal('modalMovimientoFinanciero')">Movimiento financiero</a></li>
-        <li><a href="#" onclick="mostrarModal('modalMovimientoProyecto')">Movimiento proyecto</a></li>
-        <li><a href="#" onclick="alert('Ver inventario')">Ver inventario</a></li>
+        <li><a href="/pages/movimientos/inventario.html">Movimiento inventario</a></li>
+        <li><a href="/pages/movimientos/financiero.html">Movimiento financiero</a></li>
+        <li><a href="/pages/movimientos/proyecto.html">Movimiento proyecto</a></li>
+        <li><a href="/pages/movimientos/inventario-ver.html">Ver inventario</a></li>
+      </ul>
+    </div>
+
+    <!-- 7. Facturación -->
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Facturación ▸</button>
+      <ul>
+        <li><a href="/pages/facturacion/crear.html">Crear factura</a></li>
+        <li><a href="/pages/facturacion/pendientes.html">Facturas pendientes</a></li>
+        <li><a href="/pages/facturacion/pagadas.html">Facturas pagadas</a></li>
+      </ul>
+    </div>
+
+    <!-- 8. Garantías -->
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Garantías ▸</button>
+      <ul>
+        <li><a href="/pages/garantias/registrar.html">Registrar garantía</a></li>
+        <li><a href="/pages/garantias/vigentes.html">Garantías vigentes</a></li>
+        <li><a href="/pages/garantias/vencidas.html">Garantías vencidas</a></li>
+      </ul>
+    </div>
+
+    <!-- 9. Impuestos -->
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Impuestos ▸</button>
+      <ul>
+        <li><a href="/pages/impuestos/declaraciones.html">Declaraciones</a></li>
+        <li><a href="/pages/impuestos/retenciones.html">Retenciones</a></li>
+        <li><a href="/pages/impuestos/reportes.html">Reportes IVA</a></li>
+      </ul>
+    </div>
+
+    <!-- 10. Visualización -->
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Visualización ▸</button>
+      <ul>
+        <li><a href="/pages/visualizacion/dashboard.html">Dashboards</a></li>
+        <li><a href="/pages/visualizacion/reportes.html">Reportes PDF/Excel</a></li>
+      </ul>
+    </div>
+
+    <!-- 11. Configuración -->
+    <div class="grupo">
+      <button onclick="toggleSubmenu(this)">Configuración ▸</button>
+      <ul>
+        <li><a href="/pages/config/empresa.html">Datos empresa</a></li>
+        <li><a href="/pages/config/impuestos.html">Impuestos</a></li>
+        <li><a href="/pages/config/parametros.html">Parámetros sistema</a></li>
       </ul>
     </div>
   </aside>
 
-  <!-- ===== MAIN ===== -->
+  <!-- ==== MAIN ==== -->
   <section id="main">
     <header>
-      <span class="titulo">Bienvenido al Sistema Empresarial IP Profesional</span>
-      <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
+      <span class="titulo">Dashboard – Bienvenido</span>
+      <button class="logout" onclick="alert('Sesión cerrada')">Cerrar sesión</button>
     </header>
 
     <div id="contenido">
       <div class="card">
-        <h2>¡Comienza seleccionando un módulo!</h2>
-        <p>Haz clic en cualquier módulo del menú para ver sus opciones.</p>
+        <h2>Panel principal</h2>
+        <p>Selecciona un sub-módulo en el menú de la izquierda.</p>
       </div>
     </div>
   </section>
 
-  <!-- ===== MODALES DEMO ===== -->
-  <div id="modalRegistrarCliente" class="modal">
-    <div class="contenido-modal">
-      <span class="cerrar" onclick="cerrarModal('modalRegistrarCliente')">&times;</span>
-      <h3>Registrar cliente</h3>
-      ...formulario aquí...
-    </div>
-  </div>
-
-  <div id="modalGenerarCotizacion" class="modal">
-    <div class="contenido-modal">
-      <span class="cerrar" onclick="cerrarModal('modalGenerarCotizacion')">&times;</span>
-      <h3>Generar cotización</h3>
-      ...formulario...
-    </div>
-  </div>
-
-  <!-- más modales -->
-
-  <!-- ===== SCRIPTS ===== -->
+  <!-- ==== JS BÁSICO ==== -->
   <script>
+    /* Despliega / oculta los sub-menús */
     function toggleSubmenu(btn){
       const ul = btn.nextElementSibling;
-      ul.style.display = ul.style.display==='block'? 'none':'block';
+      ul.style.display = ul.style.display==='block' ? 'none' : 'block';
     }
-    function cerrarSesion(){ alert('Sesión cerrada'); }
   </script>
- <script type="module" src="modales.js"></script>
 </body>
 </html>
