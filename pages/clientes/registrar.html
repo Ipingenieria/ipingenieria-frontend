@@ -2,14 +2,66 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Registrar cliente</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrar Cliente</title>
+  <link rel="stylesheet" href="/css/estilos_clientes.css" />
 </head>
 <body>
-  <h2>Registrar cliente</h2>
+  <div class="container">
+    <h2>📋 Registro de Cliente</h2>
 
-  <!-- Aquí irá el formulario real – por ahora aviso de construcción -->
-  <p>Esta página está en construcción…</p>
+    <form id="formCliente">
+      <div class="form-group">
+        <label for="nombre">Nombre o Razón Social *</label>
+        <input type="text" id="nombre" required />
+      </div>
 
-  <a href="../../index.html">← Volver al panel</a>
+      <div class="form-group">
+        <label for="tipo">Tipo de Cliente *</label>
+        <select id="tipo" required>
+          <option value="">Selecciona...</option>
+          <option value="Persona Natural">Persona Natural</option>
+          <option value="Persona Jurídica">Persona Jurídica</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="documento">NIT o CC *</label>
+        <input type="text" id="documento" required />
+      </div>
+
+      <div class="form-group">
+        <label for="ciudad">Ciudad *</label>
+        <input type="text" id="ciudad" required />
+      </div>
+
+      <div class="form-group">
+        <label for="direccion">Dirección</label>
+        <input type="text" id="direccion" />
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="text" id="telefono" />
+      </div>
+
+      <div class="form-group">
+        <label for="correo">Correo Electrónico</label>
+        <input type="email" id="correo" />
+      </div>
+
+      <div class="form-group">
+        <label for="responsable">Nombre del Responsable</label>
+        <input type="text" id="responsable" />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit">Guardar</button>
+        <a href="/index.html" class="btn-cancelar">Volver al panel</a>
+      </div>
+    </form>
+  </div>
+
+  <script src="/js/registrar_cliente.js"></script>
 </body>
 </html>
